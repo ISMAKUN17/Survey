@@ -216,13 +216,13 @@ new Vue({
                     '¿Cómo considera la actitud del mayordomo?',
                     '¿El mayordomo le ofreció ayuda y apoyo según sus necesidades?',
                     '¿El mayordomo atendió sus solicitudes de manera rápida?',
-                    '¿El mayordomo le ofreció sugerencias para mejorar su experiencia en Live Aqua?',
+                    '¿El mayordomo le ofreció sugerencias para mejorar su experiencia en Secrets Royal Beach?',
                     '¿La actitud del mayordomo fue amable y cordial?',
                     '¿Cómo reaccionó el mayordomo ante situaciones inesperadas?',
                     '¿El mayordomo cumplió con sus expectativas?',
                     '¿Cómo calificaría el nivel general del servicio proporcionado?',
                     '¿Recomendaría este hotel a su familia y amigos?',
-                    '¿Cómo calificaría su experiencia como huésped del Aqua Club?'
+                    '¿Cómo calificaría su experiencia como huésped del Preferred Club?'
                 ],
                 personalInfo: 'Información Personal',
                 roomNumber: 'Número de Habitación',
@@ -237,13 +237,13 @@ new Vue({
                     'How do you consider the butler\'s attitude?',
                     'Did the butler offer help and support according to your needs?',
                     'Did the butler attend to your requests quickly?',
-                    'Did the butler offer suggestions to improve your experience at Live Aqua?',
+                    'Did the butler offer suggestions to improve your experience at Secrets Royal Beach?',
                     'Was the butler\'s attitude friendly and cordial?',
                     'How did the butler react to unexpected situations?',
                     'Did the butler meet your expectations?',
                     'How would you rate the overall level of service provided?',
                     'Would you recommend this hotel to your family and friends?',
-                    'How would you rate your experience as an Aqua Club guest?'
+                    'How would you rate your experience as an Preferred Club guest?'
                 ],
                 personalInfo: 'Personal Information',
                 roomNumber: 'Room Number',
@@ -258,13 +258,13 @@ new Vue({
                     'Comment considérez-vous l\'attitude du majordome?',
                     'Le majordome vous a-t-il offert de l\'aide selon vos besoins?',
                     'Le majordome a-t-il répondu rapidement à vos demandes?',
-                    'Le majordome vous a-t-il offert des suggestions pour améliorer votre expérience à Live Aqua?',
+                    'Le majordome vous a-t-il offert des suggestions pour améliorer votre expérience à Secrets Royal Beach?',
                     'L\'attitude du majordome était-elle aimable et cordiale?',
                     'Comment le majordome a-t-il réagi aux situations inattendues?',
                     'Le majordome a-t-il répondu à vos attentes?',
                     'Comment évalueriez-vous le niveau général du service fourni?',
                     'Recommanderiez-vous cet hôtel à votre famille et à vos amis?',
-                    'Comment évalueriez-vous votre expérience en tant qu\'invité Aqua Club?'
+                    'Comment évalueriez-vous votre expérience en tant qu\'invité Preferred Club?'
                 ],
                 personalInfo: 'Informations Personnelles',
                 roomNumber: 'Numéro de Chambre',
@@ -283,11 +283,52 @@ new Vue({
         setRating(questionIndex, rating) {
             this.$set(this.ratings, questionIndex, rating);
         },
-        submitSurvey() {
-            // Aquí puedes implementar la lógica para enviar los datos
-            console.log('Ratings:', this.ratings);
-            console.log('Personal Info:', this.personalInfo);
-            alert('¡Gracias por completar la encuesta!');
+        async submitSurvey() {
+            try {
+                // Create a timestamp for the survey
+                const timestamp = new Date().toISOString();
+                
+                // Create the survey data object
+                const surveyData = {
+                    timestamp: timestamp,
+                    ratings: this.ratings,
+                    personalInfo: this.personalInfo,
+                    language: this.currentLanguage
+                };
+
+                // Save to Firebase
+                await database.ref('surveys').push(surveyData);
+
+                // Show success message based on language
+                const successMessages = {
+                    es: '¡Gracias por completar la encuesta!',
+                    en: 'Thank you for completing the survey!',
+                    fr: 'Merci d\'avoir rempli le questionnaire!'
+                };
+
+                alert(successMessages[this.currentLanguage]);
+
+                // Reset form after successful submission
+                this.ratings = Array(11).fill(0);
+                this.personalInfo = {
+                    roomNumber: '',
+                    name: '',
+                    email: '',
+                    butlerName: ''
+                };
+
+            } catch (error) {
+                console.error('Error submitting survey:', error);
+                
+                // Show error message based on language
+                const errorMessages = {
+                    es: 'Error al enviar la encuesta. Por favor, inténtelo de nuevo.',
+                    en: 'Error submitting survey. Please try again.',
+                    fr: 'Erreur lors de l\'envoi de l\'enquête. Veuillez réessayer.'
+                };
+
+                alert(errorMessages[this.currentLanguage]);
+            }
         }
     }
 });
