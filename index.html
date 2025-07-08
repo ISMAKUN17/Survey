@@ -87,7 +87,7 @@
 
         .form-group {
             margin-bottom: 30px; /* More space between groups */
-            text-align: left;
+            text-align: left; /* Alinea los labels y los inputs que son block o tienen un ancho definido a la izquierda */
         }
 
         .form-group label {
@@ -115,14 +115,14 @@
             box-sizing: border-box;
         }
 
-        /* --- CAMBIOS AQUÍ: Reduciendo y centrando los campos de texto --- */
+        /* --- CAMBIOS AQUÍ: Alineando a la izquierda y redefiniendo el tamaño --- */
         #roomNumber,
         #butlerName {
-            max-width: 150px; /* Tamaño mucho más pequeño */
-            width: 100%; /* Asegura que se adapte si la pantalla es más pequeña que el max-width */
-            display: block; /* Para que margin: auto funcione */
-            margin: 0 auto; /* Centra el campo dentro de su contenedor de texto-alineado-izquierda */
-            text-align: left; /* Centra el texto dentro del campo */
+            max-width: 150px; /* Mantener el tamaño compacto */
+            width: 100%; /* Asegura responsividad */
+            display: block; /* Sigue siendo block para que max-width funcione */
+            margin: 0; /* ¡Remueve el margen auto para des-centrar! */
+            text-align: left; /* ¡Alinea el texto dentro del campo a la izquierda! */
         }
         /* --- FIN DE CAMBIOS --- */
 
@@ -326,8 +326,8 @@
             /* --- CAMBIOS AQUÍ: Ajuste en móviles --- */
             #roomNumber,
             #butlerName {
-                max-width: 120px; /* Aún más pequeño en móviles */
-                margin: 0 auto;
+                max-width: 120px;
+                margin: 0; /* Alineado a la izquierda */
             }
             /* --- FIN DE CAMBIOS --- */
             .rating-faces {
@@ -371,8 +371,8 @@
             /* --- CAMBIOS AQUÍ: Ajuste en móviles muy pequeños --- */
             #roomNumber,
             #butlerName {
-                max-width: 100px; /* Para pantallas muy pequeñas */
-                margin: 0 auto;
+                max-width: 100px;
+                margin: 0; /* Alineado a la izquierda */
             }
             /* --- FIN DE CAMBIOS --- */
             .rating-faces label {
@@ -423,7 +423,7 @@
             </div>
 
             <div class="form-group">
-                <label><strong>How is the quality of the food?</strong></label>
+                <label><strong>How was the quality of the food?</strong></label>
                 <div class="rating-faces" data-question="food_quality">
                     <input type="radio" id="food-quality-5" name="food_quality" value="Excellent" required><label for="food-quality-5"><span class="face-icon">😄</span><small>Excellent</small></label>
                     <input type="radio" id="food-quality-4" name="food_quality" value="Good"><label for="food-quality-4"><span class="face-icon">🙂</span><small>Good</small></label>
@@ -445,7 +445,7 @@
             </div>
 
             <div class="form-group">
-                <label><strong>How is the Preferred Club service?</strong></label>
+                <label><strong>How was the Preferred Club service?</strong></label>
                 <div class="rating-faces" data-question="preferred_club_service">
                     <input type="radio" id="preferred-club-5" name="preferred_club_service" value="Excellent" required><label for="preferred-club-5"><span class="face-icon">😄</span><small>Excellent</small></label>
                     <input type="radio" id="preferred-club-4" name="preferred_club_service" value="Good"><label for="preferred-club-4"><span class="face-icon">🙂</span><small>Good</small></label>
