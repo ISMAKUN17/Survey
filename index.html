@@ -99,7 +99,8 @@
         }
 
         .form-group input[type="text"],
-        .form-group input[type="email"] {
+        .form-group input[type="email"],
+        .form-group textarea { /* Added textarea to styling */
             width: calc(100% - 24px); /* Adjust for padding */
             padding: 12px;
             border: 1px solid var(--border-color);
@@ -109,10 +110,13 @@
             -webkit-appearance: none; /* Remove default iOS styles */
             -moz-appearance: none;
             appearance: none;
+            resize: vertical; /* Allow vertical resizing for textarea */
+            min-height: 80px; /* Minimum height for textarea */
         }
 
         .form-group input[type="text"]:focus,
-        .form-group input[type="email"]:focus {
+        .form-group input[type="email"]:focus,
+        .form-group textarea:focus { /* Added textarea to focus styling */
             border-color: var(--primary-color);
             box-shadow: 0 0 0 4px rgba(0, 123, 255, 0.2); /* Softer shadow */
             outline: none;
@@ -396,7 +400,7 @@
             </div>
 
             <div class="form-group">
-                <label><strong>How was the quality of the food?</strong></label>
+                <label><strong>How is the quality of the food?</strong></label>
                 <div class="rating-faces" data-question="food_quality">
                     <input type="radio" id="food-quality-5" name="food_quality" value="Excellent" required><label for="food-quality-5"><span class="face-icon">😄</span><small>Excellent</small></label>
                     <input type="radio" id="food-quality-4" name="food_quality" value="Good"><label for="food-quality-4"><span class="face-icon">🙂</span><small>Good</small></label>
@@ -418,7 +422,7 @@
             </div>
 
             <div class="form-group">
-                <label><strong>How was the Preferred Club service?</strong></label>
+                <label><strong>How are the Preferred Club service?</strong></label>
                 <div class="rating-faces" data-question="preferred_club_service">
                     <input type="radio" id="preferred-club-5" name="preferred_club_service" value="Excellent" required><label for="preferred-club-5"><span class="face-icon">😄</span><small>Excellent</small></label>
                     <input type="radio" id="preferred-club-4" name="preferred_club_service" value="Good"><label for="preferred-club-4"><span class="face-icon">🙂</span><small>Good</small></label>
@@ -437,6 +441,11 @@
                     <input type="radio" id="butler-service-2" name="butler_service_rating" value="Poor"><label for="butler-service-2"><span class="face-icon">🙁</span><small>Poor</small></label>
                     <input type="radio" id="butler-service-1" name="butler_service_rating" value="Bad"><label for="butler-service-1"><span class="face-icon">😡</span><small>Bad</small></label>
                 </div>
+            </div>
+
+            <div class="form-group">
+                <label for="comments"><strong>Any additional comments or suggestions? (Optional)</strong></label>
+                <textarea id="comments" name="comments" rows="4" placeholder="Share your thoughts here..."></textarea>
             </div>
 
             <button type="submit" id="submitBtn">Submit Feedback</button>
@@ -474,7 +483,6 @@
         const satisfactionForm = document.getElementById('satisfactionForm');
         const messageDiv = document.getElementById('message');
         const submitBtn = document.getElementById('submitBtn');
-        // Get references to the new containers
         const surveyFormContainer = document.getElementById('surveyFormContainer');
         const thankYouMessage = document.getElementById('thankYouMessage');
         const newSurveyBtn = document.getElementById('newSurveyBtn');
@@ -523,6 +531,7 @@
                 room_condition: formData.get('room_condition') || '',
                 preferred_club_service: formData.get('preferred_club_service') || '',
                 butler_service_rating: formData.get('butler_service_rating') || '',
+                comments: formData.get('comments') ? formData.get('comments').trim() : '', // New: Get comments data
                 timestamp: Timestamp.now() // Add server timestamp
             };
 
