@@ -93,7 +93,7 @@
             margin-bottom: 12px; /* Más espacio para la etiqueta */
             font-weight: 600;
             color: var(--text-color);
-            font-size: 1.1em;
+            font-size: 1.25em; /* AUMENTADO: Tamaño de la pregunta */
         }
 
         .form-group input[type="text"],
@@ -127,7 +127,7 @@
         .rating-faces label {
             cursor: pointer;
             position: relative;
-            font-size: 3em; /* Tamaño de las caritas */
+            font-size: 2.5em; /* REDUCIDO: Tamaño de las caritas */
             transition: transform 0.2s ease, color 0.2s ease;
             color: var(--face-default); /* Color por defecto gris */
             display: flex;
@@ -157,20 +157,22 @@
         .rating-faces input[type="radio"]:checked + label[for*="-5"] { color: var(--face-excellent); }
         .rating-faces input[type="radio"]:checked + label[for*="-na"] { color: var(--face-na); }
 
+        /* Estilo para el texto de calificación debajo de la carita */
+        .rating-faces small {
+            font-size: 0.7em; /* Pequeño y legible */
+            display: block;
+            margin-top: 5px; /* Espacio entre la carita y el texto */
+        }
+
         /* Estilo para el input "No aplica" */
         .rating-faces .nps-na-option {
-            font-size: 1.2em; /* Texto un poco más grande */
+            font-size: 1em; /* REDUCIDO: Tamaño del texto para "N/A" */
             font-weight: 500;
             color: var(--face-default);
         }
         .rating-faces .nps-na-option .face-icon {
-            font-size: 2.8em; /* Tamaño del icono */
+            font-size: 2.2em; /* REDUCIDO: Tamaño del icono N/A */
             margin-bottom: 2px; /* Espacio entre icono y texto */
-        }
-        .rating-faces .nps-na-option small {
-            font-size: 0.7em; /* Texto "N/A" más pequeño */
-            display: block;
-            margin-top: 5px; /* Espacio con la carita */
         }
 
         button[type="submit"] {
@@ -294,7 +296,7 @@
                 font-size: 1em;
             }
             .form-group label {
-                font-size: 1em;
+                font-size: 1.1em; /* Ajuste en móvil */
                 margin-bottom: 10px;
             }
             .rating-faces {
@@ -302,19 +304,19 @@
                 gap: 8px; /* Menor espacio entre caritas */
             }
             .rating-faces label {
-                font-size: 2.5em; /* Reducir tamaño de caritas */
+                font-size: 2.2em; /* Ajuste para caritas en móvil */
                 flex-basis: calc(20% - 8px);
                 max-width: calc(20% - 8px);
                 min-width: 55px;
             }
             .rating-faces .nps-na-option {
-                font-size: 1.1em;
+                font-size: 0.9em; /* Ajuste para N/A en móvil */
                 flex-basis: calc(20% - 8px);
                 max-width: calc(20% - 8px);
                 min-width: 55px;
             }
             .rating-faces .nps-na-option .face-icon {
-                font-size: 2.2em;
+                font-size: 1.8em; /* Ajuste del icono N/A en móvil */
             }
             button[type="submit"] {
                 font-size: 1.1em;
@@ -340,16 +342,17 @@
                 font-size: 1.8em;
             }
             .rating-faces label {
-                font-size: 2em;
+                font-size: 1.8em; /* Ajuste aún más pequeño para caritas en móvil muy pequeño */
                 flex-basis: calc(33.33% - 8px); /* 3 caritas por fila */
                 max-width: calc(33.33% - 8px);
             }
              .rating-faces .nps-na-option {
+                font-size: 0.8em;
                 flex-basis: calc(33.33% - 8px);
                 max-width: calc(33.33% - 8px);
             }
             .rating-faces .nps-na-option .face-icon {
-                font-size: 1.8em;
+                font-size: 1.6em;
             }
             button[type="submit"] {
                 font-size: 1em;
