@@ -120,52 +120,51 @@
 
         .rating-faces {
             display: flex;
-            flex-direction: column; /* Stack vertically */
-            /* justify-content: space-between; REMOVIDO */
-            flex-wrap: nowrap; /* Prevent wrapping for single column */
+            flex-direction: row; /* Back to horizontal */
+            justify-content: space-between; /* Distribute horizontally */
+            flex-wrap: wrap; /* Allow wrapping on smaller screens */
             margin-top: 15px;
-            gap: 15px; /* Space between each rating option */
+            gap: 10px; /* Space between each rating option */
         }
 
         .rating-faces label {
             cursor: pointer;
             position: relative;
-            transition: transform 0.2s ease, color 0.2s ease, border 0.3s ease, box-shadow 0.3s ease; /* Added for border/shadow */
+            transition: transform 0.2s ease, color 0.2s ease, border 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
             color: var(--face-default); /* Default gray color */
             display: flex;
-            flex-direction: row; /* Emoji and text side-by-side */
-            align-items: center; /* Vertically align items in the row */
-            justify-content: flex-start; /* Align content to the left */
-            text-align: left; /* Text alignment */
-            width: 100%; /* Take full width of the column */
-            /* flex-basis: calc(20% - 10px); REMOVIDO */
-            /* max-width: calc(20% - 10px); REMOVIDO */
-            /* min-width: 60px; REMOVIDO */
-            padding: 12px 15px; /* Larger padding for click area */
+            flex-direction: column; /* Emoji above text */
+            align-items: center; /* Center horizontally in column */
+            justify-content: center;
+            text-align: center;
+            flex-basis: calc(20% - 10px); /* Approx. 5 faces per row, adjusted for gap */
+            max-width: calc(20% - 10px);
+            min-width: 60px; /* Ensure minimum size */
+            padding: 10px 5px; /* Padding inside the clickable area */
             border: 2px solid transparent; /* Transparent border by default */
             border-radius: 10px; /* Rounded corners for selection */
-            box-sizing: border-box; /* Include padding and border in the element's total width and height */
+            box-sizing: border-box;
         }
 
         /* Emoji size within the label */
         .rating-faces label .face-icon {
             font-size: 1.4em; /* Emoji size */
-            margin-right: 10px; /* Space between emoji and text */
+            margin-bottom: 5px; /* Space between emoji and text */
+            margin-right: 0; /* Remove right margin for vertical alignment */
         }
-
 
         .rating-faces input[type="radio"] {
             display: none; /* Hide radio buttons */
         }
 
         .rating-faces label:hover {
-            transform: scale(1.02); /* More subtle hover effect for column layout */
+            transform: scale(1.1); /* Effect on hover */
             background-color: rgba(0, 123, 255, 0.05); /* Light blue background on hover */
         }
 
         /* Colors and HIGHLIGHT on selection */
         .rating-faces input[type="radio"]:checked + label {
-            transform: scale(1.02); /* Maintain size on selection */
+            transform: scale(1.1); /* Maintain size on selection */
             border: var(--selected-border); /* Highlight border */
             box-shadow: var(--selected-shadow); /* Highlight shadow */
             background-color: rgba(0, 123, 255, 0.1); /* Slightly darker blue background when selected */
@@ -178,10 +177,10 @@
 
         /* Style for rating text below the face */
         .rating-faces small {
-            font-size: 1em; /* Larger text for better readability in column */
+            font-size: 0.85em; /* Adjusted text size for horizontal layout */
             font-weight: 600; /* Bolder text */
             display: block;
-            margin-top: 0; /* No top margin as items are row-aligned */
+            margin-top: 0; /* Aligned vertically, so no top margin needed from column layout */
             color: var(--text-color); /* Text color for contrast */
         }
 
@@ -312,18 +311,19 @@
                 margin-bottom: 10px;
             }
             .rating-faces {
-                gap: 10px; /* Smaller gap on mobile */
+                justify-content: center; /* Center faces on mobile */
+                gap: 8px; /* Smaller space between faces */
             }
             .rating-faces label {
-                padding: 10px 12px; /* Adjusted padding on mobile */
-                min-width: unset; /* Remove min-width to allow better scaling */
+                padding: 8px 4px; /* Adjusted padding on mobile */
+                min-width: 50px;
             }
             .rating-faces label .face-icon {
                 font-size: 1.2em; /* Adjusted for faces on mobile */
-                margin-right: 8px;
+                margin-bottom: 3px; /* Smaller margin for vertical alignment */
             }
             .rating-faces small {
-                font-size: 0.9em; /* Adjusted face text on mobile */
+                font-size: 0.8em; /* Adjusted face text on mobile */
             }
             button[type="submit"] {
                 font-size: 1.1em;
@@ -349,14 +349,16 @@
                 font-size: 1.8em;
             }
             .rating-faces label {
-                padding: 8px 10px;
+                flex-basis: calc(33.33% - 8px); /* 3 faces per row */
+                max-width: calc(33.33% - 8px);
+                padding: 6px 3px;
             }
             .rating-faces label .face-icon {
                 font-size: 1em; /* FURTHER REDUCED for very small mobile */
-                margin-right: 6px;
+                margin-bottom: 2px;
             }
             .rating-faces small {
-                font-size: 0.85em;
+                font-size: 0.75em;
             }
             button[type="submit"] {
                 font-size: 1em;
@@ -386,9 +388,9 @@
                 <label><strong>How would you rate the overall service level of our staff?</strong></label>
                 <div class="rating-faces" data-question="overall_staff_service">
                     <input type="radio" id="overall-service-5" name="overall_staff_service" value="Excellent" required><label for="overall-service-5"><span class="face-icon">😄</span><small>Excellent</small></label>
-                    <input type="radio" id="overall-service-4" name="overall_service_4" value="Good"><label for="overall-service-4"><span class="face-icon">🙂</span><small>Good</small></label>
-                    <input type="radio" id="overall-service-3" name="overall_service_3" value="Regular"><label for="overall-service-3"><span class="face-icon">😐</span><small>Regular</small></label>
-                    <input type="radio" id="overall-service-2" name="overall_service_2" value="Poor"><label for="overall-service-2"><span class="face-icon">🙁</span><small>Poor</small></label>
+                    <input type="radio" id="overall-service-4" name="overall_staff_service" value="Good"><label for="overall-service-4"><span class="face-icon">🙂</span><small>Good</small></label>
+                    <input type="radio" id="overall-service-3" name="overall_staff_service" value="Regular"><label for="overall-service-3"><span class="face-icon">😐</span><small>Regular</small></label>
+                    <input type="radio" id="overall-service-2" name="overall_staff_service" value="Poor"><label for="overall-service-2"><span class="face-icon">🙁</span><small>Poor</small></label>
                     <input type="radio" id="overall-service-1" name="overall_staff_service" value="Bad"><label for="overall-service-1"><span class="face-icon">😡</span><small>Bad</small></label>
                 </div>
             </div>
