@@ -112,6 +112,17 @@
             appearance: none;
             resize: vertical; /* Allow vertical resizing for textarea */
             min-height: 80px; /* Minimum height for textarea */
+            box-sizing: border-box; /* Include padding/border in width */
+        }
+
+        /* Specific styling for room number and butler name fields */
+        #roomNumber,
+        #butlerName {
+            max-width: 250px; /* Make these fields smaller */
+            width: 100%; /* Ensure it's responsive down to smaller widths */
+            display: block; /* Ensures it starts on a new line and applies max-width correctly */
+            margin-left: 0; /* Align to the left */
+            margin-right: auto; /* Align to the left */
         }
 
         .form-group input[type="text"]:focus,
@@ -314,6 +325,11 @@
                 font-size: 1.1em; /* Adjusted on mobile */
                 margin-bottom: 10px;
             }
+            /* Adjust max-width for smaller fields on mobile */
+            #roomNumber,
+            #butlerName {
+                max-width: 200px; /* Even smaller on mobile */
+            }
             .rating-faces {
                 justify-content: center; /* Center faces on mobile */
                 gap: 8px; /* Smaller space between faces */
@@ -351,6 +367,11 @@
             }
             h1 {
                 font-size: 1.8em;
+            }
+            /* Adjust max-width for smaller fields on very small mobile */
+            #roomNumber,
+            #butlerName {
+                max-width: 180px; /* Even smaller for tiny screens */
             }
             .rating-faces label {
                 flex-basis: calc(33.33% - 8px); /* 3 faces per row */
@@ -395,12 +416,12 @@
                     <input type="radio" id="overall-service-4" name="overall_staff_service" value="Good"><label for="overall-service-4"><span class="face-icon">🙂</span><small>Good</small></label>
                     <input type="radio" id="overall-service-3" name="overall_staff_service" value="Regular"><label for="overall-service-3"><span class="face-icon">😐</span><small>Regular</small></label>
                     <input type="radio" id="overall-service-2" name="overall_staff_service" value="Poor"><label for="overall-service-2"><span class="face-icon">🙁</span><small>Poor</small></label>
-                    <input type="radio" id="overall-service-1" name="overall_staff_service" value="Bad"><label for="overall-service-1"><span class="face-icon">😡</span><small>Bad</small></label>
+                    <input type="radio" id="overall-service-1" name="overall_service_rating" value="Bad"><label for="overall-service-1"><span class="face-icon">😡</span><small>Bad</small></label>
                 </div>
             </div>
 
             <div class="form-group">
-                <label><strong>How is the quality of the food?</strong></label>
+                <label><strong>How was the quality of the food?</strong></label>
                 <div class="rating-faces" data-question="food_quality">
                     <input type="radio" id="food-quality-5" name="food_quality" value="Excellent" required><label for="food-quality-5"><span class="face-icon">😄</span><small>Excellent</small></label>
                     <input type="radio" id="food-quality-4" name="food_quality" value="Good"><label for="food-quality-4"><span class="face-icon">🙂</span><small>Good</small></label>
@@ -422,7 +443,7 @@
             </div>
 
             <div class="form-group">
-                <label><strong>How are the Preferred Club service?</strong></label>
+                <label><strong>How was the Preferred Club service?</strong></label>
                 <div class="rating-faces" data-question="preferred_club_service">
                     <input type="radio" id="preferred-club-5" name="preferred_club_service" value="Excellent" required><label for="preferred-club-5"><span class="face-icon">😄</span><small>Excellent</small></label>
                     <input type="radio" id="preferred-club-4" name="preferred_club_service" value="Good"><label for="preferred-club-4"><span class="face-icon">🙂</span><small>Good</small></label>
@@ -531,7 +552,7 @@
                 room_condition: formData.get('room_condition') || '',
                 preferred_club_service: formData.get('preferred_club_service') || '',
                 butler_service_rating: formData.get('butler_service_rating') || '',
-                comments: formData.get('comments') ? formData.get('comments').trim() : '', // New: Get comments data
+                comments: formData.get('comments') ? formData.get('comments').trim() : '',
                 timestamp: Timestamp.now() // Add server timestamp
             };
 
@@ -564,9 +585,11 @@
                 // Remove selected styles from all labels in the same group
                 const groupName = radio.name;
                 document.querySelectorAll(`.rating-faces input[name="${groupName}"] + label`).forEach(label => {
-                    label.style.border = '2px solid transparent';
-                    label.style.boxShadow = 'none';
-                    label.style.backgroundColor = ''; // Clear background color
+                    label.style.color = ''; // Remove inline style (reverts to CSS default)
+                    label.style.border = ''; // Remove inline border style
+                    label.style.boxShadow = ''; // Remove inline box-shadow style
+                    label.classList.remove('selected'); // Remove any 'selected' class if added
+                    label.style.backgroundColor = ''; // Remove inline background color
                 });
 
                 // Apply selected styles to the checked label
