@@ -31,7 +31,6 @@
             --face-good: #17a2b8; /* Turquesa */
             --face-excellent: #28a745; /* Verde */
             --face-default: #ced4da; /* Gris claro para caritas no seleccionadas */
-            --face-na: #6c757d; /* Gris para N/A */
         }
 
         body {
@@ -127,7 +126,6 @@
         .rating-faces label {
             cursor: pointer;
             position: relative;
-            /* font-size: 2.5em; REMOVIDO */
             transition: transform 0.2s ease, color 0.2s ease;
             color: var(--face-default); /* Color por defecto gris */
             display: flex;
@@ -142,7 +140,7 @@
 
         /* Tamaño del emoji dentro de la etiqueta */
         .rating-faces label .face-icon {
-            font-size: 2em; /* REDUCIDO: Tamaño del emoji */
+            font-size: 1.6em; /* AÚN MÁS REDUCIDO: Tamaño del emoji */
         }
 
 
@@ -161,30 +159,14 @@
         .rating-faces input[type="radio"]:checked + label[for*="-3"] { color: var(--face-regular); }
         .rating-faces input[type="radio"]:checked + label[for*="-4"] { color: var(--face-good); }
         .rating-faces input[type="radio"]:checked + label[for*="-5"] { color: var(--face-excellent); }
-        .rating-faces input[type="radio"]:checked + label[for*="-na"] { color: var(--face-na); }
 
         /* Estilo para el texto de calificación debajo de la carita */
         .rating-faces small {
-            font-size: 0.85em; /* AUMENTADO: Texto de descripción de la carita */
+            font-size: 0.85em; /* Texto de descripción de la carita */
             font-weight: 600; /* Más negrita para el texto */
             display: block;
             margin-top: 5px; /* Espacio entre la carita y el texto */
             color: var(--text-color); /* Color del texto para que contraste */
-        }
-
-        /* Estilo para el input "No aplica" */
-        .rating-faces .nps-na-option {
-            font-size: 1em;
-            font-weight: 500;
-            color: var(--face-default);
-        }
-        .rating-faces .nps-na-option .face-icon {
-            font-size: 1.8em; /* REDUCIDO: Tamaño del icono N/A */
-            margin-bottom: 2px; /* Espacio entre icono y texto */
-        }
-        .rating-faces .nps-na-option small {
-            font-size: 0.75em; /* Ajuste para el texto 'N/A' */
-            color: var(--secondary-color); /* Un gris más claro para N/A */
         }
 
         button[type="submit"] {
@@ -316,16 +298,10 @@
                 gap: 8px; /* Menor espacio entre caritas */
             }
             .rating-faces label .face-icon {
-                font-size: 1.8em; /* Ajuste para caritas en móvil */
-            }
-            .rating-faces .nps-na-option .face-icon {
-                font-size: 1.6em; /* Ajuste del icono N/A en móvil */
+                font-size: 1.4em; /* Ajuste para caritas en móvil */
             }
             .rating-faces small {
                 font-size: 0.8em; /* Ajuste del texto de la carita en móvil */
-            }
-            .rating-faces .nps-na-option small {
-                font-size: 0.7em; /* Ajuste para el texto 'N/A' en móvil */
             }
             button[type="submit"] {
                 font-size: 1.1em;
@@ -351,16 +327,10 @@
                 font-size: 1.8em;
             }
             .rating-faces label .face-icon {
-                font-size: 1.6em; /* Ajuste aún más pequeño para caritas en móvil muy pequeño */
-            }
-             .rating-faces .nps-na-option .face-icon {
-                font-size: 1.4em;
+                font-size: 1.2em; /* Ajuste aún más pequeño para caritas en móvil muy pequeño */
             }
             .rating-faces small {
                 font-size: 0.75em;
-            }
-            .rating-faces .nps-na-option small {
-                font-size: 0.65em;
             }
             button[type="submit"] {
                 font-size: 1em;
@@ -427,7 +397,6 @@
                     <input type="radio" id="preferred-club-3" name="preferred_club_service" value="Regular"><label for="preferred-club-3"><span class="face-icon">😐</span><small>Regular</small></label>
                     <input type="radio" id="preferred-club-2" name="preferred_club_service" value="Pobre"><label for="preferred-club-2"><span class="face-icon">🙁</span><small>Pobre</small></label>
                     <input type="radio" id="preferred-club-1" name="preferred_club_service" value="Mala"><label for="preferred-club-1"><span class="face-icon">😡</span><small>Mala</small></label>
-                    <input type="radio" id="preferred-club-na" name="preferred_club_service" value="N/A"><label for="preferred-club-na" class="nps-na-option"><span class="face-icon">➖</span><small>N/A</small></label>
                 </div>
             </div>
 
@@ -439,7 +408,6 @@
                     <input type="radio" id="butler-service-3" name="butler_service_rating" value="Regular"><label for="butler-service-3"><span class="face-icon">😐</span><small>Regular</small></label>
                     <input type="radio" id="butler-service-2" name="butler_service_rating" value="Pobre"><label for="butler-service-2"><span class="face-icon">🙁</span><small>Pobre</small></label>
                     <input type="radio" id="butler-service-1" name="butler_service_rating" value="Mala"><label for="butler-service-1"><span class="face-icon">😡</span><small>Mala</small></label>
-                    <input type="radio" id="butler-service-na" name="butler_service_rating" value="N/A"><label for="butler-service-na" class="nps-na-option"><span class="face-icon">➖</span><small>N/A</small></label>
                 </div>
             </div>
 
