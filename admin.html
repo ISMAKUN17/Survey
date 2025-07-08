@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Surveys - Secrets Royal Beach</title>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            /* Base Colors */
+            --primary-color: #007bff; /* Vibrant Blue */
+            --secondary-color: #6c757d; /* Gray for secondary text */
+            --background-color: #f8f9fa; /* Light background */
+            --card-background: #fff; /* Card/form background */
+            --text-color: #343a40; /* Main text color */
+            --border-color: #dee2e6; /* Border color */
+            --shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1); /* Soft shadow */
+        }
+
+        body {
+            font-family: 'Nunito', sans-serif;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            box-sizing: border-box;
+            line-height: 1.6;
+        }
+
+        .container {
+            background-color: var(--card-background);
+            border-radius: 15px;
+            box-shadow: var(--shadow);
+            padding: 30px;
+            width: 100%;
+            max-width: 90%; /* Wider container for table */
+            margin-bottom: 20px;
+            text-align: center;
+            animation: fadeIn 0.8s ease-out;
+            overflow-x: auto; /* Enable horizontal scroll for table on small screens */
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .logo {
+            max-width: 150px;
+            margin-bottom: 15px;
+        }
+
+        h1 {
+            color: var(--primary-color);
+            font-size: 2.2em;
+            margin-bottom: 25px;
+            font-weight: 700;
+        }
+
+        .controls {
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap; /* Allow buttons to wrap */
+        }
+
+        button {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+            transform: translateY(-2px);
+        }
+
+        button:disabled {
+            background-color: var(--secondary-color);
+            cursor: not-allowed;
+            opacity: 0.7;
+            transform: none;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            font-size: 0.95em;
+        }
+
+        th, td {
+            border: 1px solid var(--border-color);
+            padding: 12px;
+            text-align: left;
+        }
+
+        th {
+            background-color: var(--primary-color);
+            color: white;
+            font-weight: 700;
+            position: sticky; /* Sticky header for scrolling tables */
+            top: 0;
+            z-index: 1;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        tr:hover {
+            background-color: #e9e9e9;
+        }
+
+        .loading-message {
+            text-align: center;
+            font-style: italic;
+            color: var(--secondary-color);
+            margin-top: 20px;
+        }
+
+        .error-message {
+            color: #dc3545;
+            font-weight: 600;
+            margin-top: 20px;
+        }
+
+        /* Media Queries for responsiveness */
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+            .container {
+                padding: 20px;
+                max-width: 100%; /* Full width on smaller screens */
+            }
+            h1 {
+                font-size: 1.8em;
+                margin-bottom: 20px;
+            }
+            th, td {
+                padding: 8px; /* Smaller padding for table cells */
+                font-size: 0.85em; /* Smaller font for table content */
+            }
+            .controls {
+                flex-direction: column; /* Stack buttons vertically */
+                align-items: center;
+                gap: 10px;
+            }
+            button {
+                width: 80%; /* Make buttons wider */
+            }
+        }
+
+        @media (max-width: 480px) {
+            .logo {
+                max-width: 120px;
+            }
+            h1 {
+                font-size: 1.5em;
+            }
+            table {
+                font-size: 0.8em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <img src="https://images.seeklogo.com/logo-png/34/1/secrets-resorts-spas-logo-png_seeklogo-344670.png" alt="Secrets Royal Beach Logo" class="logo">
+        <h1>Customer Survey Results</h1>
+
+        <div class="controls">
+            <button id="refreshBtn">Refresh Data</button>
+        </div>
+
+        <div id="loading" class="loading-message">Loading surveys...</div>
+        <div id="error" class="error-message" style="display: none;"></div>
+
+        <table id="surveysTable">
+            <thead>
+                <tr>
+                    <th>Timestamp</th>
+                    <th>Room Number</th>
+                    <th>Butler</th>
+                    <th>Overall Staff Service</th>
+                    <th>Food Quality</th>
+                    <th>Room Condition</th>
+                    <th>Preferred Club Service</th>
+                    <th>Butler Service Rating</th>
+                </tr>
+            </thead>
+            <tbody>
+                </tbody>
+        </table>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+        import { getFirestore, collection, getDocs, query, orderBy } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+        // Firebase Configuration (MAKE SURE THIS IS YOUR ACTUAL CONFIG)
+        const firebaseConfig = {
+            apiKey: "AIzaSyALR-b68phh_u92V3rw9B9Ei7FcexU2xc8",
+            authDomain: "proyectos17-98695.firebaseapp.com",
+            databaseURL: "https://proyectos17-98695-default-rtdb.firebaseio.com",
+            projectId: "proyectos17-98695",
+            storageBucket: "proyectos17-98695.firebasestorage.app",
+            messagingSenderId: "951673973410",
+            appId: "1:951673973410:web:4bc355e825cf86308645fb",
+            measurementId: "G-6YK06W16FZ"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        const surveysTableBody = document.querySelector('#surveysTable tbody');
+        const loadingMessage = document.getElementById('loading');
+        const errorMessage = document.getElementById('error');
+        const refreshBtn = document.getElementById('refreshBtn');
+
+        async function fetchSurveys() {
+            loadingMessage.style.display = 'block';
+            errorMessage.style.display = 'none';
+            surveysTableBody.innerHTML = ''; // Clear existing table data
+            refreshBtn.disabled = true;
+
+            try {
+                // Create a query to get documents from 'customer_satisfaction' collection
+                // Order by timestamp in descending order (latest first)
+                const q = query(collection(db, "customer_satisfaction"), orderBy("timestamp", "desc"));
+                const querySnapshot = await getDocs(q);
+
+                if (querySnapshot.empty) {
+                    surveysTableBody.innerHTML = '<tr><td colspan="8" style="text-align: center;">No surveys found yet.</td></tr>';
+                    return;
+                }
+
+                querySnapshot.forEach((doc) => {
+                    const data = doc.data();
+                    const row = surveysTableBody.insertRow();
+
+                    // Format timestamp
+                    const date = data.timestamp ? new Date(data.timestamp.toDate()) : new Date(); // Convert Firebase Timestamp to JS Date
+                    const formattedDate = date.toLocaleString('en-US', {
+                        year: 'numeric',
+                        month: 'short',
+                        day: 'numeric',
+                        hour: '2-digit',
+                        minute: '2-digit'
+                    });
+
+                    row.insertCell().textContent = formattedDate;
+                    row.insertCell().textContent = data.room_number || 'N/A';
+                    row.insertCell().textContent = data.butler || 'N/A';
+                    row.insertCell().textContent = data.overall_staff_service || 'N/A';
+                    row.insertCell().textContent = data.food_quality || 'N/A';
+                    row.insertCell().textContent = data.room_condition || 'N/A';
+                    row.insertCell().textContent = data.preferred_club_service || 'N/A';
+                    row.insertCell().textContent = data.butler_service_rating || 'N/A';
+                });
+
+            } catch (error) {
+                console.error("Error fetching surveys: ", error);
+                errorMessage.textContent = `Error loading data: ${error.message}. Please check your internet connection and Firebase rules.`;
+                errorMessage.style.display = 'block';
+                surveysTableBody.innerHTML = '<tr><td colspan="8" style="text-align: center; color: red;">Failed to load data.</td></tr>';
+            } finally {
+                loadingMessage.style.display = 'none';
+                refreshBtn.disabled = false;
+            }
+        }
+
+        // Fetch surveys when the page loads
+        document.addEventListener('DOMContentLoaded', fetchSurveys);
+
+        // Add event listener for the refresh button
+        refreshBtn.addEventListener('click', fetchSurveys);
+    </script>
+</body>
+</html>
