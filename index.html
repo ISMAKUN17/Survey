@@ -1,22 +1,22 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Encuesta de Satisfacción - Secrets Royal Beach</title>
+    <title>Satisfaction Survey - Secrets Royal Beach</title>
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            /* Colores Base */
-            --primary-color: #007bff; /* Azul vibrante */
-            --secondary-color: #6c757d; /* Gris para texto secundario */
-            --background-color: #f8f9fa; /* Fondo claro */
-            --card-background: #fff; /* Fondo de tarjetas/formularios */
-            --text-color: #343a40; /* Color principal del texto */
-            --border-color: #dee2e6; /* Color de borde */
-            --shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1); /* Sombra suave */
+            /* Base Colors */
+            --primary-color: #007bff; /* Vibrant Blue */
+            --secondary-color: #6c757d; /* Gray for secondary text */
+            --background-color: #f8f9fa; /* Light background */
+            --card-background: #fff; /* Card/form background */
+            --text-color: #343a40; /* Main text color */
+            --border-color: #dee2e6; /* Border color */
+            --shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1); /* Soft shadow */
 
-            /* Colores de Mensajes */
+            /* Message Colors */
             --success-bg: #d4edda;
             --success-text: #155724;
             --success-border: #c3e6cb;
@@ -24,15 +24,15 @@
             --error-text: #721c24;
             --error-border: #f5c6cb;
 
-            /* Colores para las caritas (gradiente de rojo a verde) */
-            --face-bad: #dc3545; /* Rojo */
-            --face-poor: #fd7e14; /* Naranja */
-            --face-regular: #ffc107; /* Amarillo */
-            --face-good: #17a2b8; /* Turquesa */
-            --face-excellent: #28a745; /* Verde */
-            --face-default: #ced4da; /* Gris claro para caritas no seleccionadas */
-            --selected-border: 2px solid var(--primary-color); /* Borde de selección */
-            --selected-shadow: 0 0 0 3px rgba(0, 123, 255, 0.3); /* Sombra de selección */
+            /* Face Colors (red to green gradient) */
+            --face-bad: #dc3545; /* Red */
+            --face-poor: #fd7e14; /* Orange */
+            --face-regular: #ffc107; /* Yellow */
+            --face-good: #17a2b8; /* Turquoise */
+            --face-excellent: #28a745; /* Green */
+            --face-default: #ced4da; /* Light gray for unselected faces */
+            --selected-border: 2px solid var(--primary-color); /* Selection border */
+            --selected-shadow: 0 0 0 3px rgba(0, 123, 255, 0.3); /* Selection shadow */
         }
 
         body {
@@ -47,7 +47,7 @@
             min-height: 100vh;
             box-sizing: border-box;
             line-height: 1.6;
-            overflow-x: hidden; /* Evita scroll horizontal en móviles */
+            overflow-x: hidden; /* Prevent horizontal scroll on mobile */
         }
 
         .container {
@@ -56,7 +56,7 @@
             box-shadow: var(--shadow);
             padding: 40px;
             width: 100%;
-            max-width: 650px; /* Ancho máximo ligeramente mayor para el formulario */
+            max-width: 650px; /* Slightly wider max width for the form */
             text-align: center;
             animation: fadeIn 0.8s ease-out;
         }
@@ -68,13 +68,13 @@
 
         .logo {
             max-width: 180px;
-            margin-bottom: 5px; /* ESPACIO REDUCIDO */
+            margin-bottom: 5px; /* Reduced space */
         }
 
         h1 {
             color: var(--primary-color);
             font-size: 2.4em;
-            margin-top: 15px; /* ESPACIO REDUCIDO */
+            margin-top: 15px; /* Reduced space */
             margin-bottom: 15px;
             font-weight: 700;
         }
@@ -86,27 +86,27 @@
         }
 
         .form-group {
-            margin-bottom: 30px; /* Más espacio entre grupos */
+            margin-bottom: 30px; /* More space between groups */
             text-align: left;
         }
 
         .form-group label {
             display: block;
-            margin-bottom: 12px; /* Más espacio para la etiqueta */
+            margin-bottom: 12px; /* More space for label */
             font-weight: 600;
             color: var(--text-color);
-            font-size: 1.25em; /* Tamaño de la pregunta */
+            font-size: 1.25em; /* Question size */
         }
 
         .form-group input[type="text"],
         .form-group input[type="email"] {
-            width: calc(100% - 24px); /* Ajuste para padding */
+            width: calc(100% - 24px); /* Adjust for padding */
             padding: 12px;
             border: 1px solid var(--border-color);
             border-radius: 8px;
             font-size: 1em;
             transition: border-color 0.3s ease, box-shadow 0.3s ease;
-            -webkit-appearance: none; /* Elimina estilos por defecto en iOS */
+            -webkit-appearance: none; /* Remove default iOS styles */
             -moz-appearance: none;
             appearance: none;
         }
@@ -114,55 +114,55 @@
         .form-group input[type="text"]:focus,
         .form-group input[type="email"]:focus {
             border-color: var(--primary-color);
-            box-shadow: 0 0 0 4px rgba(0, 123, 255, 0.2); /* Sombra más suave */
+            box-shadow: 0 0 0 4px rgba(0, 123, 255, 0.2); /* Softer shadow */
             outline: none;
         }
 
         .rating-faces {
             display: flex;
-            justify-content: space-between; /* Espaciado uniforme */
-            flex-wrap: wrap; /* Permite que las caritas se envuelvan */
+            justify-content: space-between; /* Uniform spacing */
+            flex-wrap: wrap; /* Allow faces to wrap */
             margin-top: 15px;
-            gap: 10px; /* Espacio entre elementos en la fila */
+            gap: 10px; /* Space between items in a row */
         }
 
         .rating-faces label {
             cursor: pointer;
             position: relative;
-            transition: transform 0.2s ease, color 0.2s ease, border 0.3s ease, box-shadow 0.3s ease; /* Añadido para el borde/sombra */
-            color: var(--face-default); /* Color por defecto gris */
+            transition: transform 0.2s ease, color 0.2s ease, border 0.3s ease, box-shadow 0.3s ease; /* Added for border/shadow */
+            color: var(--face-default); /* Default gray color */
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
             text-align: center;
-            flex-basis: calc(20% - 10px); /* Aproximadamente 5 caritas por fila */
+            flex-basis: calc(20% - 10px); /* Approx. 5 faces per row */
             max-width: calc(20% - 10px);
-            min-width: 60px; /* Asegura un tamaño mínimo */
-            padding: 10px 5px; /* Padding interno para que el borde no se junte con el contenido */
-            border: 2px solid transparent; /* Borde transparente por defecto */
-            border-radius: 10px; /* Bordes redondeados para la selección */
+            min-width: 60px; /* Ensure minimum size */
+            padding: 10px 5px; /* Internal padding so border doesn't touch content */
+            border: 2px solid transparent; /* Transparent border by default */
+            border-radius: 10px; /* Rounded corners for selection */
         }
 
-        /* Tamaño del emoji dentro de la etiqueta */
+        /* Emoji size within the label */
         .rating-faces label .face-icon {
-            font-size: 1.6em; /* Tamaño del emoji */
+            font-size: 1.4em; /* FURTHER REDUCED: Emoji size */
         }
 
 
         .rating-faces input[type="radio"] {
-            display: none; /* Oculta los radio buttons */
+            display: none; /* Hide radio buttons */
         }
 
         .rating-faces label:hover {
-            transform: scale(1.1); /* Efecto hover más sutil */
+            transform: scale(1.1); /* More subtle hover effect */
         }
 
-        /* Colores y RESALTADO al seleccionar */
+        /* Colors and HIGHLIGHT on selection */
         .rating-faces input[type="radio"]:checked + label {
-            transform: scale(1.1); /* Mantener tamaño al seleccionar */
-            border: var(--selected-border); /* Borde de resaltado */
-            box-shadow: var(--selected-shadow); /* Sombra de resaltado */
+            transform: scale(1.1); /* Maintain size on selection */
+            border: var(--selected-border); /* Highlight border */
+            box-shadow: var(--selected-shadow); /* Highlight shadow */
         }
         .rating-faces input[type="radio"]:checked + label[for*="-1"] { color: var(--face-bad); }
         .rating-faces input[type="radio"]:checked + label[for*="-2"] { color: var(--face-poor); }
@@ -170,13 +170,13 @@
         .rating-faces input[type="radio"]:checked + label[for*="-4"] { color: var(--face-good); }
         .rating-faces input[type="radio"]:checked + label[for*="-5"] { color: var(--face-excellent); }
 
-        /* Estilo para el texto de calificación debajo de la carita */
+        /* Style for rating text below the face */
         .rating-faces small {
-            font-size: 0.85em; /* Texto de descripción de la carita */
-            font-weight: 600; /* Más negrita para el texto */
+            font-size: 0.85em; /* Face description text */
+            font-weight: 600; /* Bolder text */
             display: block;
-            margin-top: 5px; /* Espacio entre la carita y el texto */
-            color: var(--text-color); /* Color del texto para que contraste */
+            margin-top: 5px; /* Space between face and text */
+            color: var(--text-color); /* Text color for contrast */
         }
 
         button[type="submit"] {
@@ -184,13 +184,13 @@
             color: white;
             padding: 16px 35px;
             border: none;
-            border-radius: 10px; /* Bordes más redondeados */
-            font-size: 1.3em; /* Texto más grande en el botón */
+            border-radius: 10px; /* More rounded corners */
+            font-size: 1.3em; /* Larger button text */
             font-weight: 700;
             cursor: pointer;
             transition: background-color 0.3s ease, transform 0.2s ease;
             width: 100%;
-            margin-top: 40px; /* Más espacio arriba */
+            margin-top: 40px; /* More space above */
             box-shadow: var(--shadow);
             -webkit-appearance: none;
             -moz-appearance: none;
@@ -199,7 +199,7 @@
 
         button[type="submit"]:hover {
             background-color: #0056b3;
-            transform: translateY(-3px); /* Efecto 3D al pasar el ratón */
+            transform: translateY(-3px); /* 3D effect on hover */
         }
 
         .message {
@@ -209,7 +209,7 @@
             font-weight: 600;
             font-size: 1.1em;
             animation: slideIn 0.5s ease-out;
-            text-align: left; /* Mensaje de éxito/error alineado a la izquierda */
+            text-align: left; /* Success/error message aligned left */
         }
 
         .message.success {
@@ -229,27 +229,27 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* Estilos para el estado de carga del botón */
+        /* Button loading state styles */
         button[type="submit"].loading {
             background-color: var(--secondary-color);
             cursor: not-allowed;
             opacity: 0.8;
-            transform: none; /* Elimina transformación de hover */
+            transform: none; /* Remove hover transform */
         }
 
-        /* Mensaje de gracias después de enviar */
+        /* Thank you message after submission */
         .thank-you-message {
             display: none;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            min-height: 350px; /* Altura mínima para centrar contenido */
+            min-height: 350px; /* Minimum height to center content */
             text-align: center;
             animation: fadeIn 0.8s ease-out;
         }
 
         .thank-you-message h2 {
-            color: var(--success-text); /* Verde de éxito para el título */
+            color: var(--success-text); /* Success green for title */
             font-size: 2.8em;
             margin-bottom: 20px;
         }
@@ -258,7 +258,7 @@
             font-size: 1.4em;
             color: var(--text-color);
             margin-bottom: 40px;
-            max-width: 80%; /* Ancho limitado para texto más legible */
+            max-width: 80%; /* Limited width for more readable text */
         }
 
         .new-survey-button {
@@ -282,7 +282,7 @@
             transform: translateY(-2px);
         }
 
-        /* Media Queries para responsividad */
+        /* Media Queries for responsiveness */
         @media (max-width: 768px) {
             body {
                 padding: 15px;
@@ -292,32 +292,32 @@
             }
             .logo {
                 max-width: 150px;
-                margin-bottom: 2px; /* Ajuste en móvil */
+                margin-bottom: 2px; /* Adjusted on mobile */
             }
             h1 {
                 font-size: 2em;
-                margin-top: 10px; /* Ajuste en móvil */
+                margin-top: 10px; /* Adjusted on mobile */
             }
             p.description {
                 font-size: 1em;
             }
             .form-group label {
-                font-size: 1.1em; /* Ajuste en móvil */
+                font-size: 1.1em; /* Adjusted on mobile */
                 margin-bottom: 10px;
             }
             .rating-faces {
-                justify-content: center; /* Centrar caritas en móvil */
-                gap: 8px; /* Menor espacio entre caritas */
+                justify-content: center; /* Center faces on mobile */
+                gap: 8px; /* Smaller space between faces */
             }
             .rating-faces label {
-                padding: 8px 4px; /* Ajuste del padding en móvil */
+                padding: 8px 4px; /* Adjusted padding on mobile */
                 min-width: 50px;
             }
             .rating-faces label .face-icon {
-                font-size: 1.4em; /* Ajuste para caritas en móvil */
+                font-size: 1.2em; /* Adjusted for faces on mobile */
             }
             .rating-faces small {
-                font-size: 0.8em; /* Ajuste del texto de la carita en móvil */
+                font-size: 0.8em; /* Adjusted face text on mobile */
             }
             button[type="submit"] {
                 font-size: 1.1em;
@@ -343,12 +343,12 @@
                 font-size: 1.8em;
             }
             .rating-faces label {
-                flex-basis: calc(33.33% - 8px); /* 3 caritas por fila */
+                flex-basis: calc(33.33% - 8px); /* 3 faces per row */
                 max-width: calc(33.33% - 8px);
                 padding: 6px 3px;
             }
             .rating-faces label .face-icon {
-                font-size: 1.2em; /* Ajuste aún más pequeño para caritas en móvil muy pequeño */
+                font-size: 1em; /* FURTHER REDUCED for very small mobile */
             }
             .rating-faces small {
                 font-size: 0.75em;
@@ -363,85 +363,85 @@
 <body>
     <div class="container" id="surveyFormContainer">
         <img src="https://images.seeklogo.com/logo-png/34/1/secrets-resorts-spas-logo-png_seeklogo-344670.png" alt="Secrets Royal Beach Logo" class="logo">
-        <h1>¡Queremos Mejorar tu Experiencia!</h1>
-        <p class="description">Ayúdanos con tu valiosa opinión sobre tu estancia en Secrets Royal Beach.</p>
+        <h1>We Want to Improve Your Experience!</h1>
+        <p class="description">Help us with your valuable feedback about your stay at Secrets Royal Beach.</p>
 
         <form id="satisfactionForm">
             <div class="form-group">
-                <label for="roomNumber">No. de Habitación:</label>
-                <input type="text" id="roomNumber" name="roomNumber" placeholder="Ej. 1234" required autocomplete="off">
+                <label for="roomNumber"><strong>Room Number:</strong></label>
+                <input type="text" id="roomNumber" name="roomNumber" placeholder="Ex. 1234" required autocomplete="off">
             </div>
 
             <div class="form-group">
-                <label for="butlerName">Nombre del Butler (Opcional):</label>
-                <input type="text" id="butlerName" name="butlerName" placeholder="Ej. Juan Pérez" autocomplete="off">
+                <label for="butlerName"><strong>Butler's Name (Optional):</strong></label>
+                <input type="text" id="butlerName" name="butlerName" placeholder="Ex. John Doe" autocomplete="off">
             </div>
 
             <div class="form-group">
-                <label>¿Cómo calificaría el **nivel general de servicio** de nuestro personal?</label>
+                <label><strong>How would you rate the overall service level of our staff?</strong></label>
                 <div class="rating-faces" data-question="overall_staff_service">
-                    <input type="radio" id="overall-service-5" name="overall_staff_service" value="Excelente" required><label for="overall-service-5"><span class="face-icon">😄</span><small>Excelente</small></label>
-                    <input type="radio" id="overall-service-4" name="overall_staff_service" value="Buena"><label for="overall-service-4"><span class="face-icon">🙂</span><small>Buena</small></label>
+                    <input type="radio" id="overall-service-5" name="overall_staff_service" value="Excellent" required><label for="overall-service-5"><span class="face-icon">😄</span><small>Excellent</small></label>
+                    <input type="radio" id="overall-service-4" name="overall_staff_service" value="Good"><label for="overall-service-4"><span class="face-icon">🙂</span><small>Good</small></label>
                     <input type="radio" id="overall-service-3" name="overall_staff_service" value="Regular"><label for="overall-service-3"><span class="face-icon">😐</span><small>Regular</small></label>
-                    <input type="radio" id="overall-service-2" name="overall_staff_service" value="Pobre"><label for="overall-service-2"><span class="face-icon">🙁</span><small>Pobre</small></label>
-                    <input type="radio" id="overall-service-1" name="overall_staff_service" value="Mala"><label for="overall-service-1"><span class="face-icon">😡</span><small>Mala</small></label>
+                    <input type="radio" id="overall-service-2" name="overall_staff_service" value="Poor"><label for="overall-service-2"><span class="face-icon">🙁</span><small>Poor</small></label>
+                    <input type="radio" id="overall-service-1" name="overall_staff_service" value="Bad"><label for="overall-service-1"><span class="face-icon">😡</span><small>Bad</small></label>
                 </div>
             </div>
 
             <div class="form-group">
-                <label>¿Cómo ha sido la **calidad de la comida**?</label>
+                <label><strong>How was the quality of the food?</strong></label>
                 <div class="rating-faces" data-question="food_quality">
-                    <input type="radio" id="food-quality-5" name="food_quality" value="Excelente" required><label for="food-quality-5"><span class="face-icon">😄</span><small>Excelente</small></label>
-                    <input type="radio" id="food-quality-4" name="food_quality" value="Buena"><label for="food-quality-4"><span class="face-icon">🙂</span><small>Buena</small></label>
+                    <input type="radio" id="food-quality-5" name="food_quality" value="Excellent" required><label for="food-quality-5"><span class="face-icon">😄</span><small>Excellent</small></label>
+                    <input type="radio" id="food-quality-4" name="food_quality" value="Good"><label for="food-quality-4"><span class="face-icon">🙂</span><small>Good</small></label>
                     <input type="radio" id="food-quality-3" name="food_quality" value="Regular"><label for="food-quality-3"><span class="face-icon">😐</span><small>Regular</small></label>
-                    <input type="radio" id="food-quality-2" name="food_quality" value="Pobre"><label for="food-quality-2"><span class="face-icon">🙁</span><small>Pobre</small></label>
-                    <input type="radio" id="food-quality-1" name="food_quality" value="Mala"><label for="food-quality-1"><span class="face-icon">😡</span><small>Mala</small></label>
+                    <input type="radio" id="food-quality-2" name="food_quality" value="Poor"><label for="food-quality-2"><span class="face-icon">🙁</span><small>Poor</small></label>
+                    <input type="radio" id="food-quality-1" name="food_quality" value="Bad"><label for="food-quality-1"><span class="face-icon">😡</span><small>Bad</small></label>
                 </div>
             </div>
 
             <div class="form-group">
-                <label>¿Cómo está todo en la habitación (**limpieza / minibar**, etc.)?</label>
+                <label><strong>How is everything in the room (cleanliness / minibar, etc.)?</strong></label>
                 <div class="rating-faces" data-question="room_condition">
-                    <input type="radio" id="room-condition-5" name="room_condition" value="Excelente" required><label for="room-condition-5"><span class="face-icon">😄</span><small>Excelente</small></label>
-                    <input type="radio" id="room-condition-4" name="room_condition" value="Buena"><label for="room-condition-4"><span class="face-icon">🙂</span><small>Buena</small></label>
+                    <input type="radio" id="room-condition-5" name="room_condition" value="Excellent" required><label for="room-condition-5"><span class="face-icon">😄</span><small>Excellent</small></label>
+                    <input type="radio" id="room-condition-4" name="room_condition" value="Good"><label for="room-condition-4"><span class="face-icon">🙂</span><small>Good</small></label>
                     <input type="radio" id="room-condition-3" name="room_condition" value="Regular"><label for="room-condition-3"><span class="face-icon">😐</span><small>Regular</small></label>
-                    <input type="radio" id="room-condition-2" name="room_condition" value="Pobre"><label for="room-condition-2"><span class="face-icon">🙁</span><small>Pobre</small></label>
-                    <input type="radio" id="room-condition-1" name="room_condition" value="Mala"><label for="room-condition-1"><span class="face-icon">😡</span><small>Mala</small></label>
+                    <input type="radio" id="room-condition-2" name="room_condition" value="Poor"><label for="room-condition-2"><span class="face-icon">🙁</span><small>Poor</small></label>
+                    <input type="radio" id="room-condition-1" name="room_condition" value="Bad"><label for="room-condition-1"><span class="face-icon">😡</span><small>Bad</small></label>
                 </div>
             </div>
 
             <div class="form-group">
-                <label>¿Cómo ha sido el **servicio Preferred Club**?</label>
+                <label><strong>How was the Preferred Club service?</strong></label>
                 <div class="rating-faces" data-question="preferred_club_service">
-                    <input type="radio" id="preferred-club-5" name="preferred_club_service" value="Excelente" required><label for="preferred-club-5"><span class="face-icon">😄</span><small>Excelente</small></label>
-                    <input type="radio" id="preferred-club-4" name="preferred_club_service" value="Buena"><label for="preferred-club-4"><span class="face-icon">🙂</span><small>Buena</small></label>
+                    <input type="radio" id="preferred-club-5" name="preferred_club_service" value="Excellent" required><label for="preferred-club-5"><span class="face-icon">😄</span><small>Excellent</small></label>
+                    <input type="radio" id="preferred-club-4" name="preferred_club_service" value="Good"><label for="preferred-club-4"><span class="face-icon">🙂</span><small>Good</small></label>
                     <input type="radio" id="preferred-club-3" name="preferred_club_service" value="Regular"><label for="preferred-club-3"><span class="face-icon">😐</span><small>Regular</small></label>
-                    <input type="radio" id="preferred-club-2" name="preferred_club_service" value="Pobre"><label for="preferred-club-2"><span class="face-icon">🙁</span><small>Pobre</small></label>
-                    <input type="radio" id="preferred-club-1" name="preferred_club_service" value="Mala"><label for="preferred-club-1"><span class="face-icon">😡</span><small>Mala</small></label>
+                    <input type="radio" id="preferred-club-2" name="preferred_club_service" value="Poor"><label for="preferred-club-2"><span class="face-icon">🙁</span><small>Poor</small></label>
+                    <input type="radio" id="preferred-club-1" name="preferred_club_service" value="Bad"><label for="preferred-club-1"><span class="face-icon">😡</span><small>Bad</small></label>
                 </div>
             </div>
 
             <div class="form-group">
-                <label>¿Cómo califica el **servicio de su Butler**?</label>
+                <label><strong>How would you rate your Butler's service?</strong></label>
                 <div class="rating-faces" data-question="butler_service_rating">
-                    <input type="radio" id="butler-service-5" name="butler_service_rating" value="Excelente" required><label for="butler-service-5"><span class="face-icon">😄</span><small>Excelente</small></label>
-                    <input type="radio" id="butler-service-4" name="butler_service_rating" value="Buena"><label for="butler-service-4"><span class="face-icon">🙂</span><small>Buena</small></label>
+                    <input type="radio" id="butler-service-5" name="butler_service_rating" value="Excellent" required><label for="butler-service-5"><span class="face-icon">😄</span><small>Excellent</small></label>
+                    <input type="radio" id="butler-service-4" name="butler_service_rating" value="Good"><label for="butler-service-4"><span class="face-icon">🙂</span><small>Good</small></label>
                     <input type="radio" id="butler-service-3" name="butler_service_rating" value="Regular"><label for="butler-service-3"><span class="face-icon">😐</span><small>Regular</small></label>
-                    <input type="radio" id="butler-service-2" name="butler_service_rating" value="Pobre"><label for="butler-service-2"><span class="face-icon">🙁</span><small>Pobre</small></label>
-                    <input type="radio" id="butler-service-1" name="butler_service_rating" value="Mala"><label for="butler-service-1"><span class="face-icon">😡</span><small>Mala</small></label>
+                    <input type="radio" id="butler-service-2" name="butler_service_rating" value="Poor"><label for="butler-service-2"><span class="face-icon">🙁</span><small>Poor</small></label>
+                    <input type="radio" id="butler-service-1" name="butler_service_rating" value="Bad"><label for="butler-service-1"><span class="face-icon">😡</span><small>Bad</small></label>
                 </div>
             </div>
 
-            <button type="submit" id="submitBtn">Enviar Opinión</button>
+            <button type="submit" id="submitBtn">Submit Feedback</button>
             <div id="message" class="message" style="display: none;"></div>
         </form>
     </div>
 
     <div class="container thank-you-message" id="thankYouMessage">
         <img src="https://images.seeklogo.com/logo-png/34/1/secrets-resorts-spas-logo-png_seeklogo-344670.png" alt="Secrets Royal Beach Logo" class="logo">
-        <h2>¡Gracias por tu Opinión!</h2>
-        <p>Tu feedback es invaluable para nosotros y nos ayuda a mejorar continuamente tu experiencia en Secrets Royal Beach. ¡Esperamos verte pronto de nuevo!</p>
-        <button id="newSurveyBtn" class="new-survey-button">Realizar Otra Encuesta</button>
+        <h2>Thank You for Your Feedback!</h2>
+        <p>Your feedback is invaluable to us and helps us continuously improve your experience at Secrets Royal Beach. We hope to see you again soon!</p>
+        <button id="newSurveyBtn" class="new-survey-button">Take Another Survey</button>
     </div>
 
     <script type="module">
@@ -500,7 +500,7 @@
 
             submitBtn.disabled = true;
             submitBtn.classList.add('loading');
-            submitBtn.textContent = 'Enviando...';
+            submitBtn.textContent = 'Sending...';
             showMessage('', 'info'); // Clear previous messages
 
             const formData = new FormData(satisfactionForm);
@@ -518,16 +518,16 @@
             try {
                 // Add a new document with a generated ID to the "customer_satisfaction" collection
                 await addDoc(collection(db, "customer_satisfaction"), data);
-                showMessage('¡Gracias! Tu opinión ha sido enviada con éxito.', 'success');
+                showMessage('Thank you! Your feedback has been successfully submitted.', 'success');
                 satisfactionForm.style.display = 'none'; // Hide the form
                 thankYouMessage.style.display = 'flex'; // Show thank you message
             } catch (error) {
-                console.error("Error al enviar la encuesta:", error);
-                showMessage(`Error al enviar: ${error.message}. Por favor, inténtalo de nuevo.`, 'error');
+                console.error("Error submitting survey:", error);
+                showMessage(`Submission error: ${error.message}. Please try again.`, 'error');
             } finally {
                 submitBtn.disabled = false;
                 submitBtn.classList.remove('loading');
-                submitBtn.textContent = 'Enviar Opinión';
+                submitBtn.textContent = 'Submit Feedback';
             }
         });
 
