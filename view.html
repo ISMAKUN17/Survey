@@ -149,16 +149,17 @@
             font-size: 0.9em;
         }
 
-        .loading-message {
-            font-size: 1.5em;
+        .loading-message, .no-data-message, .error-message {
+            text-align: center;
+            font-style: italic;
             color: var(--secondary-color);
             margin-top: 50px;
+            font-size: 1.5em; /* Larger for visibility */
         }
 
-        .no-data-message {
-            font-size: 1.5em;
-            color: var(--secondary-color);
-            margin-top: 50px;
+        .error-message {
+            color: #dc3545; /* Red for errors */
+            font-weight: 600;
         }
 
         /* Responsive adjustments */
@@ -221,6 +222,8 @@
 
         <div id="loading" class="loading-message">Loading data...</div>
         <div id="noData" class="no-data-message" style="display:none;">No survey data available yet.</div>
+        <div id="error" class="error-message" style="display: none;"></div>
+
 
         <div id="dashboardContent" style="display:none;">
             <h2>Overall Summary</h2>
@@ -231,23 +234,23 @@
                 </div>
                 <div class="summary-card">
                     <h3>Average Overall Staff Rating</h3>
-                    <p class="value" id="avgStaffRating">N/A</p>
+                    <p class="value" id="avgOverallStaffServiceRating">N/A</p>
                 </div>
                 <div class="summary-card">
                     <h3>Average Food Quality Rating</h3>
-                    <p class="value" id="avgFoodQuality">N/A</p>
+                    <p class="value" id="avgFoodQualityRating">N/A</p>
                 </div>
                 <div class="summary-card">
                     <h3>Average Room Condition Rating</h3>
-                    <p class="value" id="avgRoomCondition">N/A</p>
+                    <p class="value" id="avgRoomConditionRating">N/A</p>
                 </div>
                 <div class="summary-card">
                     <h3>Average Preferred Club Rating</h3>
-                    <p class="value" id="avgPreferredClub">N/A</p>
+                    <p class="value" id="avgPreferredClubServiceRating">N/A</p>
                 </div>
                 <div class="summary-card">
                     <h3>Average Butler Service Rating</h3>
-                    <p class="value" id="avgButlerService">N/A</p>
+                    <p class="value" id="avgButlerServiceRating">N/A</p>
                 </div>
             </div>
 
@@ -258,22 +261,25 @@
 
             <h2>Recent Comments</h2>
             <div class="comments-section" id="commentsSection">
-                </div>
+                <!-- Comments will be loaded here -->
+            </div>
         </div>
     </div>
 
+    <!-- Chart.js library -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0/dist/chartjs-plugin-datalabels.min.js"></script>
 
+    <!-- Firebase SDK (make sure these versions match your survey form) -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
         import { getFirestore, collection, getDocs, orderBy, query, limit } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
-        // Firebase Configuration (MAKE SURE THIS IS YOUR ACTUAL CONFIG - MUST MATCH THE SURVEY FORM)
+        // Firebase Configuration (MUST MATCH THE SURVEY FORM EXACTLY)
         const firebaseConfig = {
             apiKey: "AIzaSyALR-b68phh_u92V3rw9B9Ei7FcexU2xc8",
             authDomain: "proyectos17-98695.firebaseapp.com",
-            databaseURL: "https://proyectos17-98695-default-rtdb.firebaseio.com",
+            databaseURL: "https://proyectos17-98695-default-rtdb.firebaseio.com", // Note: This is for Realtime Database, Firestore is used here.
             projectId: "proyectos17-98695",
             storageBucket: "proyectos17-98695.firebasestorage.app",
             messagingSenderId: "951673973410",
@@ -330,13 +336,19 @@
             return "var(--face-bad)";
         }
 
+        // Variable to hold the chart instance
+        let ratingsChartInstance = null;
+
         async function loadDashboard() {
             const loadingDiv = document.getElementById('loading');
             const noDataDiv = document.getElementById('noData');
+            const errorDiv = document.getElementById('error'); // Get error div
             const dashboardContent = document.getElementById('dashboardContent');
+
             loadingDiv.style.display = 'block';
             dashboardContent.style.display = 'none';
             noDataDiv.style.display = 'none';
+            errorDiv.style.display = 'none'; // Hide error message initially
 
             try {
                 const q = query(collection(db, "customer_satisfaction"), orderBy("timestamp", "desc"));
@@ -369,7 +381,14 @@
                     avgRatings[field] = avg;
                     const emoji = getFaceEmoji(avg);
                     const color = getRatingColor(avg);
-                    document.getElementById(`avg${field.replace(/_([a-z])/g, (g) => g[1].toUpperCase()).replace('overall', 'Overall').replace('food', 'Food').replace('room', 'Room').replace('preferred', 'Preferred').replace('butler', 'Butler')}Rating`).innerHTML = `<span style="color: ${color};">${emoji} ${avg}</span>`;
+                    // Dynamically construct ID based on field name
+                    const elementId = `avg${field.split('_').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join('')}Rating`;
+                    const targetElement = document.getElementById(elementId);
+                    if (targetElement) {
+                        targetElement.innerHTML = `<span style="color: ${color};">${emoji} ${avg}</span>`;
+                    } else {
+                        console.warn(`Element with ID ${elementId} not found.`);
+                    }
                 });
 
                 // Prepare data for chart
@@ -393,11 +412,11 @@
                 });
 
                 const ctx = document.getElementById('ratingsChart').getContext('2d');
-                if (window.ratingsChartInstance) {
-                    window.ratingsChartInstance.destroy(); // Destroy previous chart if exists
+                if (ratingsChartInstance) { // Use the variable to check
+                    ratingsChartInstance.destroy(); // Destroy previous chart if exists
                 }
 
-                window.ratingsChartInstance = new Chart(ctx, {
+                ratingsChartInstance = new Chart(ctx, { // Assign to the variable
                     type: 'bar', // Bar chart for distribution
                     data: {
                         labels: chartLabels,
@@ -469,7 +488,7 @@
                                     weight: 'bold',
                                     size: 12
                                 },
-                                color: var(--text-color) // Use your text color variable
+                                color: 'var(--text-color)' // Use your text color variable (ensure it's a string)
                             }
                         },
                         scales: {
@@ -524,7 +543,8 @@
                     comments.forEach(comment => {
                         const commentCard = document.createElement('div');
                         commentCard.classList.add('comment-card');
-                        const formattedTimestamp = comment.timestamp ? new Date(comment.timestamp.toDate()).toLocaleString() : 'N/A';
+                        // Ensure timestamp exists before converting
+                        const formattedTimestamp = comment.timestamp && comment.timestamp.toDate ? new Date(comment.timestamp.toDate()).toLocaleString() : 'N/A';
                         commentCard.innerHTML = `
                             <p>${comment.comments}</p>
                             <small>Room: ${comment.room_number || 'N/A'} - Butler: ${comment.butler || 'N/A'} - Submitted: ${formattedTimestamp}</small>
@@ -540,10 +560,11 @@
                 dashboardContent.style.display = 'block';
 
             } catch (error) {
-                console.error("Error loading dashboard data:", error);
+                console.error("Error loading dashboard data: ", error);
                 loadingDiv.style.display = 'none';
-                noDataDiv.textContent = `Error loading data: ${error.message}. Please check your Firebase connection.`;
-                noDataDiv.style.display = 'block';
+                errorDiv.textContent = `Error loading data: ${error.message}. Please check your Firebase connection and Firestore Security Rules.`;
+                errorDiv.style.display = 'block';
+                noDataDiv.style.display = 'none'; // Ensure no data message is hidden if there's an error
             }
         }
 
