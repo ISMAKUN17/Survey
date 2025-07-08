@@ -100,89 +100,88 @@
 
         .form-group input[type="text"],
         .form-group input[type="email"],
-        .form-group textarea { /* Added textarea to styling */
+        .form-group textarea {
             width: calc(100% - 24px); /* Adjust for padding */
             padding: 12px;
             border: 1px solid var(--border-color);
             border-radius: 8px;
             font-size: 1em;
             transition: border-color 0.3s ease, box-shadow 0.3s ease;
-            -webkit-appearance: none; /* Remove default iOS styles */
+            -webkit-appearance: none;
             -moz-appearance: none;
             appearance: none;
-            resize: vertical; /* Allow vertical resizing for textarea */
-            min-height: 80px; /* Minimum height for textarea */
-            box-sizing: border-box; /* Include padding/border in width */
+            resize: vertical;
+            min-height: 80px;
+            box-sizing: border-box;
         }
 
-        /* Specific styling for room number and butler name fields */
+        /* --- CAMBIOS AQUÍ: Reduciendo y centrando los campos de texto --- */
         #roomNumber,
         #butlerName {
-            max-width: 250px; /* Make these fields smaller */
-            width: 100%; /* Ensure it's responsive down to smaller widths */
-            display: block; /* Ensures it starts on a new line and applies max-width correctly */
-            margin-left: 0; /* Align to the left */
-            margin-right: auto; /* Align to the left */
+            max-width: 150px; /* Tamaño mucho más pequeño */
+            width: 100%; /* Asegura que se adapte si la pantalla es más pequeña que el max-width */
+            display: block; /* Para que margin: auto funcione */
+            margin: 0 auto; /* Centra el campo dentro de su contenedor de texto-alineado-izquierda */
+            text-align: center; /* Centra el texto dentro del campo */
         }
+        /* --- FIN DE CAMBIOS --- */
 
         .form-group input[type="text"]:focus,
         .form-group input[type="email"]:focus,
-        .form-group textarea:focus { /* Added textarea to focus styling */
+        .form-group textarea:focus {
             border-color: var(--primary-color);
-            box-shadow: 0 0 0 4px rgba(0, 123, 255, 0.2); /* Softer shadow */
+            box-shadow: 0 0 0 4px rgba(0, 123, 255, 0.2);
             outline: none;
         }
 
         .rating-faces {
             display: flex;
-            flex-direction: row; /* Back to horizontal */
-            justify-content: space-between; /* Distribute horizontally */
-            flex-wrap: wrap; /* Allow wrapping on smaller screens */
+            flex-direction: row;
+            justify-content: space-between;
+            flex-wrap: wrap;
             margin-top: 15px;
-            gap: 10px; /* Space between each rating option */
+            gap: 10px;
         }
 
         .rating-faces label {
             cursor: pointer;
             position: relative;
             transition: transform 0.2s ease, color 0.2s ease, border 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
-            color: var(--face-default); /* Default gray color */
+            color: var(--face-default);
             display: flex;
-            flex-direction: column; /* Emoji above text */
-            align-items: center; /* Center horizontally in column */
+            flex-direction: column;
+            align-items: center;
             justify-content: center;
             text-align: center;
-            flex-basis: calc(20% - 10px); /* Approx. 5 faces per row, adjusted for gap */
+            flex-basis: calc(20% - 10px);
             max-width: calc(20% - 10px);
-            min-width: 60px; /* Ensure minimum size */
-            padding: 10px 5px; /* Padding inside the clickable area */
-            border: 2px solid transparent; /* Transparent border by default */
-            border-radius: 10px; /* Rounded corners for selection */
+            min-width: 60px;
+            padding: 10px 5px;
+            border: 2px solid transparent;
+            border-radius: 10px;
             box-sizing: border-box;
         }
 
-        /* Emoji size within the label */
         .rating-faces label .face-icon {
-            font-size: 1.4em; /* Emoji size */
-            margin-bottom: 5px; /* Space between emoji and text */
-            margin-right: 0; /* Remove right margin for vertical alignment */
+            font-size: 1.4em;
+            margin-bottom: 5px;
+            margin-right: 0;
         }
 
         .rating-faces input[type="radio"] {
-            display: none; /* Hide radio buttons */
+            display: none;
         }
 
         .rating-faces label:hover {
-            transform: scale(1.1); /* Effect on hover */
-            background-color: rgba(0, 123, 255, 0.05); /* Light blue background on hover */
+            transform: scale(1.1);
+            background-color: rgba(0, 123, 255, 0.05);
         }
 
-        /* Colors and HIGHLIGHT on selection */
         .rating-faces input[type="radio"]:checked + label {
-            transform: scale(1.1); /* Maintain size on selection */
-            border: var(--selected-border); /* Highlight border */
-            box-shadow: var(--selected-shadow); /* Highlight shadow */
-            background-color: rgba(0, 123, 255, 0.1); /* Slightly darker blue background when selected */
+            transform: scale(1.1);
+            border: var(--selected-border);
+            box-shadow: var(--selected-shadow);
+            background-color: rgba(0, 123, 255, 0.1);
         }
         .rating-faces input[type="radio"]:checked + label[for*="-1"] { color: var(--face-bad); }
         .rating-faces input[type="radio"]:checked + label[for*="-2"] { color: var(--face-poor); }
@@ -190,13 +189,12 @@
         .rating-faces input[type="radio"]:checked + label[for*="-4"] { color: var(--face-good); }
         .rating-faces input[type="radio"]:checked + label[for*="-5"] { color: var(--face-excellent); }
 
-        /* Style for rating text below the face */
         .rating-faces small {
-            font-size: 0.85em; /* Adjusted text size for horizontal layout */
-            font-weight: 600; /* Bolder text */
+            font-size: 0.85em;
+            font-weight: 600;
             display: block;
-            margin-top: 0; /* Aligned vertically, so no top margin needed from column layout */
-            color: var(--text-color); /* Text color for contrast */
+            margin-top: 0;
+            color: var(--text-color);
         }
 
         button[type="submit"] {
@@ -204,13 +202,13 @@
             color: white;
             padding: 16px 35px;
             border: none;
-            border-radius: 10px; /* More rounded corners */
-            font-size: 1.3em; /* Larger button text */
+            border-radius: 10px;
+            font-size: 1.3em;
             font-weight: 700;
             cursor: pointer;
             transition: background-color 0.3s ease, transform 0.2s ease;
             width: 100%;
-            margin-top: 40px; /* More space above */
+            margin-top: 40px;
             box-shadow: var(--shadow);
             -webkit-appearance: none;
             -moz-appearance: none;
@@ -219,7 +217,7 @@
 
         button[type="submit"]:hover {
             background-color: #0056b3;
-            transform: translateY(-3px); /* 3D effect on hover */
+            transform: translateY(-3px);
         }
 
         .message {
@@ -229,7 +227,7 @@
             font-weight: 600;
             font-size: 1.1em;
             animation: slideIn 0.5s ease-out;
-            text-align: left; /* Success/error message aligned left */
+            text-align: left;
         }
 
         .message.success {
@@ -254,22 +252,22 @@
             background-color: var(--secondary-color);
             cursor: not-allowed;
             opacity: 0.8;
-            transform: none; /* Remove hover transform */
+            transform: none;
         }
 
         /* Thank you message after submission */
         .thank-you-message {
-            display: none; /* Hidden by default */
+            display: none;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            min-height: 350px; /* Minimum height to center content */
+            min-height: 350px;
             text-align: center;
             animation: fadeIn 0.8s ease-out;
         }
 
         .thank-you-message h2 {
-            color: var(--success-text); /* Success green for title */
+            color: var(--success-text);
             font-size: 2.8em;
             margin-bottom: 20px;
         }
@@ -278,7 +276,7 @@
             font-size: 1.4em;
             color: var(--text-color);
             margin-bottom: 40px;
-            max-width: 80%; /* Limited width for more readable text */
+            max-width: 80%;
         }
 
         .new-survey-button {
@@ -312,38 +310,40 @@
             }
             .logo {
                 max-width: 150px;
-                margin-bottom: 2px; /* Adjusted on mobile */
+                margin-bottom: 2px;
             }
             h1 {
                 font-size: 2em;
-                margin-top: 10px; /* Adjusted on mobile */
+                margin-top: 10px;
             }
             p.description {
                 font-size: 1em;
             }
             .form-group label {
-                font-size: 1.1em; /* Adjusted on mobile */
+                font-size: 1.1em;
                 margin-bottom: 10px;
             }
-            /* Adjust max-width for smaller fields on mobile */
+            /* --- CAMBIOS AQUÍ: Ajuste en móviles --- */
             #roomNumber,
             #butlerName {
-                max-width: 200px; /* Even smaller on mobile */
+                max-width: 120px; /* Aún más pequeño en móviles */
+                margin: 0 auto;
             }
+            /* --- FIN DE CAMBIOS --- */
             .rating-faces {
-                justify-content: center; /* Center faces on mobile */
-                gap: 8px; /* Smaller space between faces */
+                justify-content: center;
+                gap: 8px;
             }
             .rating-faces label {
-                padding: 8px 4px; /* Adjusted padding on mobile */
+                padding: 8px 4px;
                 min-width: 50px;
             }
             .rating-faces label .face-icon {
-                font-size: 1.2em; /* Adjusted for faces on mobile */
-                margin-bottom: 3px; /* Smaller margin for vertical alignment */
+                font-size: 1.2em;
+                margin-bottom: 3px;
             }
             .rating-faces small {
-                font-size: 0.8em; /* Adjusted face text on mobile */
+                font-size: 0.8em;
             }
             button[type="submit"] {
                 font-size: 1.1em;
@@ -368,18 +368,20 @@
             h1 {
                 font-size: 1.8em;
             }
-            /* Adjust max-width for smaller fields on very small mobile */
+            /* --- CAMBIOS AQUÍ: Ajuste en móviles muy pequeños --- */
             #roomNumber,
             #butlerName {
-                max-width: 180px; /* Even smaller for tiny screens */
+                max-width: 100px; /* Para pantallas muy pequeñas */
+                margin: 0 auto;
             }
+            /* --- FIN DE CAMBIOS --- */
             .rating-faces label {
-                flex-basis: calc(33.33% - 8px); /* 3 faces per row */
+                flex-basis: calc(33.33% - 8px);
                 max-width: calc(33.33% - 8px);
                 padding: 6px 3px;
             }
             .rating-faces label .face-icon {
-                font-size: 1em; /* FURTHER REDUCED for very small mobile */
+                font-size: 1em;
                 margin-bottom: 2px;
             }
             .rating-faces small {
@@ -416,7 +418,7 @@
                     <input type="radio" id="overall-service-4" name="overall_staff_service" value="Good"><label for="overall-service-4"><span class="face-icon">🙂</span><small>Good</small></label>
                     <input type="radio" id="overall-service-3" name="overall_staff_service" value="Regular"><label for="overall-service-3"><span class="face-icon">😐</span><small>Regular</small></label>
                     <input type="radio" id="overall-service-2" name="overall_staff_service" value="Poor"><label for="overall-service-2"><span class="face-icon">🙁</span><small>Poor</small></label>
-                    <input type="radio" id="overall-service-1" name="overall_service_rating" value="Bad"><label for="overall-service-1"><span class="face-icon">😡</span><small>Bad</small></label>
+                    <input type="radio" id="overall-service-1" name="overall_staff_service" value="Bad"><label for="overall-service-1"><span class="face-icon">😡</span><small>Bad</small></label>
                 </div>
             </div>
 
@@ -525,23 +527,23 @@
             document.querySelectorAll('.rating-faces input[type="radio"]').forEach(input => {
                 const label = document.querySelector(`label[for="${input.id}"]`);
                 if(label) {
-                    label.style.color = ''; // Remove inline style (reverts to CSS default)
-                    label.style.border = ''; // Remove inline border style
-                    label.style.boxShadow = ''; // Remove inline box-shadow style
-                    label.classList.remove('selected'); // Remove any 'selected' class if added
-                    label.style.backgroundColor = ''; // Remove inline background color
+                    label.style.color = '';
+                    label.style.border = '';
+                    label.style.boxShadow = '';
+                    label.classList.remove('selected');
+                    label.style.backgroundColor = '';
                 }
             });
         }
 
         // Handle form submission
         satisfactionForm.addEventListener('submit', async (e) => {
-            e.preventDefault(); // Prevent default form submission
+            e.preventDefault();
 
             submitBtn.disabled = true;
             submitBtn.classList.add('loading');
             submitBtn.textContent = 'Sending...';
-            showMessage('', 'info'); // Clear previous messages
+            showMessage('', 'info');
 
             const formData = new FormData(satisfactionForm);
             const data = {
@@ -553,16 +555,14 @@
                 preferred_club_service: formData.get('preferred_club_service') || '',
                 butler_service_rating: formData.get('butler_service_rating') || '',
                 comments: formData.get('comments') ? formData.get('comments').trim() : '',
-                timestamp: Timestamp.now() // Add server timestamp
+                timestamp: Timestamp.now()
             };
 
             try {
-                // Add a new document with a generated ID to the "customer_satisfaction" collection
                 await addDoc(collection(db, "customer_satisfaction"), data);
                 showMessage('Thank you! Your feedback has been successfully submitted.', 'success');
-                // Hide the form and show the thank you message
                 surveyFormContainer.style.display = 'none';
-                thankYouMessage.style.display = 'flex'; // Use 'flex' to center its content
+                thankYouMessage.style.display = 'flex';
             } catch (error) {
                 console.error("Error submitting survey:", error);
                 showMessage(`Submission error: ${error.message}. Please try again.`, 'error');
@@ -573,39 +573,33 @@
             }
         });
 
-        // Event listener for the "Take Another Survey" button
         newSurveyBtn.addEventListener('click', () => {
-            location.reload(); // Reloads the entire page to start fresh
+            location.reload();
         });
 
 
-        // Add event listeners to visually update selection
         document.querySelectorAll('.rating-faces input[type="radio"]').forEach(radio => {
             radio.addEventListener('change', () => {
-                // Remove selected styles from all labels in the same group
                 const groupName = radio.name;
                 document.querySelectorAll(`.rating-faces input[name="${groupName}"] + label`).forEach(label => {
-                    label.style.color = ''; // Remove inline style (reverts to CSS default)
-                    label.style.border = ''; // Remove inline border style
-                    label.style.boxShadow = ''; // Remove inline box-shadow style
-                    label.classList.remove('selected'); // Remove any 'selected' class if added
-                    label.style.backgroundColor = ''; // Remove inline background color
+                    label.style.color = '';
+                    label.style.border = '';
+                    label.style.boxShadow = '';
+                    label.classList.remove('selected');
+                    label.style.backgroundColor = '';
                 });
 
-                // Apply selected styles to the checked label
                 const selectedLabel = document.querySelector(`label[for="${radio.id}"]`);
                 if (selectedLabel) {
                     selectedLabel.style.border = 'var(--selected-border)';
                     selectedLabel.style.boxShadow = 'var(--selected-shadow)';
-                    selectedLabel.style.backgroundColor = 'rgba(0, 123, 255, 0.1)'; // Set background color
+                    selectedLabel.style.backgroundColor = 'rgba(0, 123, 255, 0.1)';
                 }
             });
         });
 
-        // Initialize form by ensuring all radios are unchecked on load
         document.addEventListener('DOMContentLoaded', () => {
             resetForm();
-            // Ensure the survey form is visible and thank you message is hidden on initial load
             surveyFormContainer.style.display = 'block';
             thankYouMessage.style.display = 'none';
         });
