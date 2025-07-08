@@ -93,7 +93,7 @@
             margin-bottom: 12px; /* Más espacio para la etiqueta */
             font-weight: 600;
             color: var(--text-color);
-            font-size: 1.25em; /* AUMENTADO: Tamaño de la pregunta */
+            font-size: 1.25em; /* Tamaño de la pregunta */
         }
 
         .form-group input[type="text"],
@@ -127,7 +127,7 @@
         .rating-faces label {
             cursor: pointer;
             position: relative;
-            font-size: 2.5em; /* REDUCIDO: Tamaño de las caritas */
+            /* font-size: 2.5em; REMOVIDO */
             transition: transform 0.2s ease, color 0.2s ease;
             color: var(--face-default); /* Color por defecto gris */
             display: flex;
@@ -139,6 +139,12 @@
             max-width: calc(20% - 10px);
             min-width: 60px; /* Asegura un tamaño mínimo */
         }
+
+        /* Tamaño del emoji dentro de la etiqueta */
+        .rating-faces label .face-icon {
+            font-size: 2em; /* REDUCIDO: Tamaño del emoji */
+        }
+
 
         .rating-faces input[type="radio"] {
             display: none; /* Oculta los radio buttons */
@@ -159,20 +165,26 @@
 
         /* Estilo para el texto de calificación debajo de la carita */
         .rating-faces small {
-            font-size: 0.7em; /* Pequeño y legible */
+            font-size: 0.85em; /* AUMENTADO: Texto de descripción de la carita */
+            font-weight: 600; /* Más negrita para el texto */
             display: block;
             margin-top: 5px; /* Espacio entre la carita y el texto */
+            color: var(--text-color); /* Color del texto para que contraste */
         }
 
         /* Estilo para el input "No aplica" */
         .rating-faces .nps-na-option {
-            font-size: 1em; /* REDUCIDO: Tamaño del texto para "N/A" */
+            font-size: 1em;
             font-weight: 500;
             color: var(--face-default);
         }
         .rating-faces .nps-na-option .face-icon {
-            font-size: 2.2em; /* REDUCIDO: Tamaño del icono N/A */
+            font-size: 1.8em; /* REDUCIDO: Tamaño del icono N/A */
             margin-bottom: 2px; /* Espacio entre icono y texto */
+        }
+        .rating-faces .nps-na-option small {
+            font-size: 0.75em; /* Ajuste para el texto 'N/A' */
+            color: var(--secondary-color); /* Un gris más claro para N/A */
         }
 
         button[type="submit"] {
@@ -303,20 +315,17 @@
                 justify-content: center; /* Centrar caritas en móvil */
                 gap: 8px; /* Menor espacio entre caritas */
             }
-            .rating-faces label {
-                font-size: 2.2em; /* Ajuste para caritas en móvil */
-                flex-basis: calc(20% - 8px);
-                max-width: calc(20% - 8px);
-                min-width: 55px;
-            }
-            .rating-faces .nps-na-option {
-                font-size: 0.9em; /* Ajuste para N/A en móvil */
-                flex-basis: calc(20% - 8px);
-                max-width: calc(20% - 8px);
-                min-width: 55px;
+            .rating-faces label .face-icon {
+                font-size: 1.8em; /* Ajuste para caritas en móvil */
             }
             .rating-faces .nps-na-option .face-icon {
-                font-size: 1.8em; /* Ajuste del icono N/A en móvil */
+                font-size: 1.6em; /* Ajuste del icono N/A en móvil */
+            }
+            .rating-faces small {
+                font-size: 0.8em; /* Ajuste del texto de la carita en móvil */
+            }
+            .rating-faces .nps-na-option small {
+                font-size: 0.7em; /* Ajuste para el texto 'N/A' en móvil */
             }
             button[type="submit"] {
                 font-size: 1.1em;
@@ -341,18 +350,17 @@
             h1 {
                 font-size: 1.8em;
             }
-            .rating-faces label {
-                font-size: 1.8em; /* Ajuste aún más pequeño para caritas en móvil muy pequeño */
-                flex-basis: calc(33.33% - 8px); /* 3 caritas por fila */
-                max-width: calc(33.33% - 8px);
+            .rating-faces label .face-icon {
+                font-size: 1.6em; /* Ajuste aún más pequeño para caritas en móvil muy pequeño */
             }
-             .rating-faces .nps-na-option {
-                font-size: 0.8em;
-                flex-basis: calc(33.33% - 8px);
-                max-width: calc(33.33% - 8px);
+             .rating-faces .nps-na-option .face-icon {
+                font-size: 1.4em;
             }
-            .rating-faces .nps-na-option .face-icon {
-                font-size: 1.6em;
+            .rating-faces small {
+                font-size: 0.75em;
+            }
+            .rating-faces .nps-na-option small {
+                font-size: 0.65em;
             }
             button[type="submit"] {
                 font-size: 1em;
