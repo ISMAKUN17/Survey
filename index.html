@@ -244,7 +244,7 @@
 
         /* Thank you message after submission */
         .thank-you-message {
-            display: none;
+            display: none; /* Hidden by default */
             flex-direction: column;
             align-items: center;
             justify-content: center;
@@ -459,7 +459,7 @@
         const firebaseConfig = {
             apiKey: "AIzaSyALR-b68phh_u92V3rw9B9Ei7FcexU2xc8",
             authDomain: "proyectos17-98695.firebaseapp.com",
-            databaseURL: "https://proyectos17-98695-default-rtdb.firebaseio.com", // This is for Realtime Database, current app uses Firestore
+            databaseURL: "https://proyectos17-98695-default-rtdb.firebaseio.com",
             projectId: "proyectos17-98695",
             storageBucket: "proyectos17-98695.firebasestorage.app",
             messagingSenderId: "951673973410",
@@ -469,14 +469,16 @@
 
         // Initialize Firebase
         const app = initializeApp(firebaseConfig);
-        const db = getFirestore(app); // Get Firestore instance
+        const db = getFirestore(app);
 
         const satisfactionForm = document.getElementById('satisfactionForm');
         const messageDiv = document.getElementById('message');
         const submitBtn = document.getElementById('submitBtn');
+        // Get references to the new containers
         const surveyFormContainer = document.getElementById('surveyFormContainer');
         const thankYouMessage = document.getElementById('thankYouMessage');
         const newSurveyBtn = document.getElementById('newSurveyBtn');
+
 
         // Function to show a message (success/error)
         function showMessage(msg, type) {
@@ -528,8 +530,9 @@
                 // Add a new document with a generated ID to the "customer_satisfaction" collection
                 await addDoc(collection(db, "customer_satisfaction"), data);
                 showMessage('Thank you! Your feedback has been successfully submitted.', 'success');
-                satisfactionForm.style.display = 'none'; // Hide the form
-                thankYouMessage.style.display = 'flex'; // Show thank you message
+                // Hide the form and show the thank you message
+                surveyFormContainer.style.display = 'none';
+                thankYouMessage.style.display = 'flex'; // Use 'flex' to center its content
             } catch (error) {
                 console.error("Error submitting survey:", error);
                 showMessage(`Submission error: ${error.message}. Please try again.`, 'error');
@@ -539,6 +542,12 @@
                 submitBtn.textContent = 'Submit Feedback';
             }
         });
+
+        // Event listener for the "Take Another Survey" button
+        newSurveyBtn.addEventListener('click', () => {
+            location.reload(); // Reloads the entire page to start fresh
+        });
+
 
         // Add event listeners to visually update selection
         document.querySelectorAll('.rating-faces input[type="radio"]').forEach(radio => {
@@ -564,6 +573,9 @@
         // Initialize form by ensuring all radios are unchecked on load
         document.addEventListener('DOMContentLoaded', () => {
             resetForm();
+            // Ensure the survey form is visible and thank you message is hidden on initial load
+            surveyFormContainer.style.display = 'block';
+            thankYouMessage.style.display = 'none';
         });
     </script>
 </body>
