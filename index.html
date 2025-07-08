@@ -1,338 +1,493 @@
-<html><head><base href="." />
-<!-- Required meta tags -->
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<!-- Bootstrap CSS -->
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
-<script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
-<style>
-body {
-    font-family: 'Poppins', sans-serif;
-    background: linear-gradient(135deg, #6B73FF 0%, #000DFF 100%);
-    min-height: 100vh;
-    padding: 2rem 1rem;
-}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Encuesta de Satisfacción - Secrets Royal Beach</title>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #007bff; /* Azul vibrante */
+            --secondary-color: #6c757d; /* Gris para texto secundario */
+            --background-color: #f8f9fa; /* Fondo claro */
+            --card-background: #fff; /* Fondo de tarjetas/formularios */
+            --text-color: #343a40; /* Color principal del texto */
+            --border-color: #dee2e6; /* Color de borde */
+            --shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1); /* Sombra suave */
+            --success-color: #28a745; /* Verde para éxito */
+            --error-color: #dc3545; /* Rojo para error */
 
-.survey-container {
-    max-width: 800px;
-    margin: 2rem auto;
-    padding: 3rem;
-    background: rgba(255, 255, 255, 0.95);
-    border-radius: 20px;
-    box-shadow: 0 15px 30px rgba(0,0,0,0.2);
-}
+            /* Colores para las caritas (gradiente de rojo a verde) */
+            --face-bad: #dc3545;
+            --face-poor: #fd7e14;
+            --face-regular: #ffc107;
+            --face-good: #17a2b8;
+            --face-excellent: #28a745;
+        }
 
-h1 {
-    font-weight: 600;
-    color: #2c3e50;
-    margin-bottom: 2rem;
-    font-size: 2.5rem;
-}
+        body {
+            font-family: 'Nunito', sans-serif;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            box-sizing: border-box;
+            line-height: 1.6;
+        }
 
-.rating-group {
-    display: flex;
-    justify-content: center;
-    gap: 1.5rem;
-    margin: 1.5rem 0;
-}
+        .container {
+            background-color: var(--card-background);
+            border-radius: 15px;
+            box-shadow: var(--shadow);
+            padding: 40px;
+            width: 100%;
+            max-width: 600px; /* Ancho máximo para el formulario */
+            text-align: center;
+            animation: fadeIn 0.8s ease-out;
+        }
 
-.emoji-rating {
-    cursor: pointer;
-    font-size: 2.5rem;
-    transition: all 0.3s ease;
-    padding: 0.5rem;
-    border-radius: 50%;
-}
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
 
-.emoji-rating:hover {
-    transform: scale(1.3);
-    background: rgba(107, 115, 255, 0.1);
-}
+        .logo {
+            max-width: 180px;
+            margin-bottom: 25px;
+        }
 
-.selected {
-    transform: scale(1.3);
-    background: rgba(107, 115, 255, 0.2);
-    filter: drop-shadow(0 0 8px rgba(107, 115, 255, 0.5));
-}
+        h1 {
+            color: var(--primary-color);
+            font-size: 2.2em;
+            margin-bottom: 15px;
+            font-weight: 700;
+        }
 
-.language-selector {
-    position: fixed;
-    top: 1rem;
-    right: 1rem;
-    background: white;
-    padding: 0.5rem;
-    border-radius: 12px;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-}
+        p.description {
+            color: var(--secondary-color);
+            font-size: 1.1em;
+            margin-bottom: 30px;
+        }
 
-.form-group {
-    margin-bottom: 1.8rem;
-}
+        .form-group {
+            margin-bottom: 25px;
+            text-align: left;
+        }
 
-.question-container {
-    background: rgba(248, 249, 250, 0.9);
-    padding: 1.5rem;
-    border-radius: 15px;
-    margin-bottom: 1.5rem;
-    transition: transform 0.3s ease;
-    border: 1px solid rgba(107, 115, 255, 0.1);
-}
+        .form-group label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: 600;
+            color: var(--text-color);
+            font-size: 1.05em;
+        }
 
-.question-container:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 5px 15px rgba(107, 115, 255, 0.1);
-}
+        .form-group input[type="text"],
+        .form-group input[type="email"] {
+            width: calc(100% - 20px);
+            padding: 12px 10px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            font-size: 1em;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
 
-.form-control {
-    border-radius: 10px;
-    padding: 0.8rem;
-    border: 2px solid rgba(107, 115, 255, 0.2);
-}
+        .form-group input[type="text"]:focus,
+        .form-group input[type="email"]:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.25);
+            outline: none;
+        }
 
-.form-control:focus {
-    border-color: #6B73FF;
-    box-shadow: 0 0 0 0.25rem rgba(107, 115, 255, 0.25);
-}
+        .rating-faces {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 15px;
+        }
 
-.btn-primary {
-    background: #6B73FF;
-    border: none;
-    padding: 1rem 2rem;
-    font-weight: 500;
-    border-radius: 12px;
-    transition: all 0.3s ease;
-}
+        .rating-faces label {
+            cursor: pointer;
+            position: relative;
+            font-size: 2.8em; /* Tamaño de las caritas */
+            transition: transform 0.2s ease, filter 0.2s ease;
+            color: var(--secondary-color); /* Color por defecto */
+        }
 
-.btn-primary:hover {
-    background: #000DFF;
-    transform: translateY(-2px);
-    box-shadow: 0 5px 15px rgba(107, 115, 255, 0.3);
-}
+        .rating-faces input[type="radio"] {
+            display: none;
+        }
 
-label {
-    font-weight: 500;
-    color: #2c3e50;
-    margin-bottom: 0.5rem;
-}
+        .rating-faces label:hover {
+            transform: scale(1.15); /* Efecto hover */
+        }
 
-.personal-info {
-    background: rgba(248, 249, 250, 0.9);
-    padding: 2rem;
-    border-radius: 15px;
-    margin-top: 2rem;
-}
+        /* Colores de las caritas al seleccionar y hover */
+        .rating-faces label[for*="-1"]:hover, input[type="radio"]:checked + label[for*="-1"] { color: var(--face-bad); transform: scale(1.15); }
+        .rating-faces label[for*="-2"]:hover, input[type="radio"]:checked + label[for*="-2"] { color: var(--face-poor); transform: scale(1.15); }
+        .rating-faces label[for*="-3"]:hover, input[type="radio"]:checked + label[for*="-3"] { color: var(--face-regular); transform: scale(1.15); }
+        .rating-faces label[for*="-4"]:hover, input[type="radio"]:checked + label[for*="-4"] { color: var(--face-good); transform: scale(1.15); }
+        .rating-faces label[for*="-5"]:hover, input[type="radio"]:checked + label[for*="-5"] { color: var(--face-excellent); transform: scale(1.15); }
 
-.form-select {
-    border-radius: 10px;
-    padding: 0.8rem;
-    border: 2px solid rgba(107, 115, 255, 0.2);
-}
-</style>
+        /* Iconos de caritas usando emojis */
+        .face-icon {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        button[type="submit"] {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.2em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            width: 100%;
+            margin-top: 30px;
+            box-shadow: var(--shadow);
+        }
+
+        button[type="submit"]:hover {
+            background-color: #0056b3; /* Tono más oscuro al pasar el ratón */
+            transform: translateY(-2px);
+        }
+
+        .message {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 8px;
+            font-weight: 600;
+            animation: slideIn 0.5s ease-out;
+        }
+
+        .message.success {
+            background-color: #d4edda;
+            color: var(--success-color);
+            border: 1px solid var(--success-color);
+        }
+
+        .message.error {
+            background-color: #f8d7da;
+            color: var(--error-color);
+            border: 1px solid var(--error-color);
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Estilos para el estado de carga del botón */
+        button[type="submit"].loading {
+            background-color: var(--secondary-color);
+            cursor: not-allowed;
+            opacity: 0.8;
+        }
+
+        button[type="submit"].loading:hover {
+            transform: none;
+            background-color: var(--secondary-color);
+        }
+
+        /* Mensaje de gracias después de enviar */
+        .thank-you-message {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 300px;
+            text-align: center;
+        }
+
+        .thank-you-message h2 {
+            color: var(--success-color);
+            font-size: 2.5em;
+            margin-bottom: 15px;
+        }
+
+        .thank-you-message p {
+            font-size: 1.3em;
+            color: var(--text-color);
+            margin-bottom: 30px;
+        }
+
+        /* Estilo para el input "No aplica" */
+        .rating-faces .nps-na-option {
+            font-size: 1em; /* Smaller font for "N/A" */
+            font-weight: normal;
+            color: var(--secondary-color);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            min-width: 60px; /* Ensure it aligns with faces */
+        }
+        .rating-faces .nps-na-option .face-icon {
+            font-size: 2.8em; /* Keep emoji size consistent for N/A if it's an emoji */
+            margin-bottom: 0px; /* Adjust margin for N/A text */
+        }
+
+        /* Media Queries para responsividad */
+        @media (max-width: 768px) {
+            body {
+                padding: 15px;
+            }
+            .container {
+                padding: 30px 20px;
+            }
+            .logo {
+                max-width: 150px;
+            }
+            h1 {
+                font-size: 1.8em;
+            }
+            p.description {
+                font-size: 1em;
+            }
+            .rating-faces {
+                flex-wrap: wrap; /* Permite que las caritas se envuelvan */
+                justify-content: center;
+                gap: 10px; /* Espacio entre caritas en pantallas pequeñas */
+            }
+            .rating-faces label {
+                font-size: 2.2em; /* Reducir tamaño de caritas */
+                flex-basis: 18%; /* Permite 5 por fila con algo de espacio */
+                min-width: 50px;
+            }
+             .rating-faces .nps-na-option {
+                font-size: 0.9em;
+                flex-basis: 18%;
+                min-width: 50px;
+            }
+            button[type="submit"] {
+                font-size: 1.1em;
+                padding: 12px 20px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 25px 15px;
+            }
+            h1 {
+                font-size: 1.5em;
+            }
+            .rating-faces label {
+                font-size: 2em;
+                 flex-basis: 15%; /* Maybe 3-4 per row on very small screens */
+            }
+             .rating-faces .nps-na-option {
+                 flex-basis: 15%;
+            }
+        }
+    </style>
 </head>
 <body>
-<div id="app">
-    <div class="language-selector">
-        <select class="form-select" v-model="currentLanguage">
-            <option value="es">Español</option>
-            <option value="en">English</option>
-            <option value="fr">Français</option>
-        </select>
+    <div class="container" id="surveyFormContainer">
+        <img src="https://images.seeklogo.com/logo-png/34/1/secrets-resorts-spas-logo-png_seeklogo-344670.png" alt="Secrets Royal Beach Logo" class="logo">
+        <h1>¡Nos Encantaría Saber tu Opinión!</h1>
+        <p class="description">Ayúdanos a mejorar tu experiencia en Secrets Royal Beach.</p>
+
+        <form id="satisfactionForm">
+            <div class="form-group">
+                <label for="roomNumber">No. de Habitación:</label>
+                <input type="text" id="roomNumber" name="roomNumber" required>
+            </div>
+
+            <div class="form-group">
+                <label for="butlerName">Nombre del Butler (Opcional):</label>
+                <input type="text" id="butlerName" name="butlerName">
+            </div>
+
+            <div class="form-group">
+                <label>¿Cómo calificaría el nivel general de servicio de nuestro personal?</label>
+                <div class="rating-faces" data-question="overall_service">
+                    <input type="radio" id="overall-service-5" name="overall_service" value="Excelente" required><label for="overall-service-5"><span class="face-icon">😄</span><small>Excelente</small></label>
+                    <input type="radio" id="overall-service-4" name="overall_service" value="Buena"><label for="overall-service-4"><span class="face-icon">🙂</span><small>Buena</small></label>
+                    <input type="radio" id="overall-service-3" name="overall_service" value="Regular"><label for="overall-service-3"><span class="face-icon">😐</span><small>Regular</small></label>
+                    <input type="radio" id="overall-service-2" name="overall_service" value="Pobre"><label for="overall-service-2"><span class="face-icon">🙁</span><small>Pobre</small></label>
+                    <input type="radio" id="overall-service-1" name="overall_service" value="Mala"><label for="overall-service-1"><span class="face-icon">😡</span><small>Mala</small></label>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>¿Cómo ha sido la calidad de la comida?</label>
+                <div class="rating-faces" data-question="food_quality">
+                    <input type="radio" id="food-quality-5" name="food_quality" value="Excelente" required><label for="food-quality-5"><span class="face-icon">😄</span><small>Excelente</small></label>
+                    <input type="radio" id="food-quality-4" name="food_quality" value="Buena"><label for="food-quality-4"><span class="face-icon">🙂</span><small>Buena</small></label>
+                    <input type="radio" id="food-quality-3" name="food_quality" value="Regular"><label for="food-quality-3"><span class="face-icon">😐</span><small>Regular</small></label>
+                    <input type="radio" id="food-quality-2" name="food_quality" value="Pobre"><label for="food-quality-2"><span class="face-icon">🙁</span><small>Pobre</small></label>
+                    <input type="radio" id="food-quality-1" name="food_quality" value="Mala"><label for="food-quality-1"><span class="face-icon">😡</span><small>Mala</small></label>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>¿Cómo está todo en la habitación (limpieza, minibar, etc.)?</label>
+                <div class="rating-faces" data-question="room_condition">
+                    <input type="radio" id="room-condition-5" name="room_condition" value="Excelente" required><label for="room-condition-5"><span class="face-icon">😄</span><small>Excelente</small></label>
+                    <input type="radio" id="room-condition-4" name="room_condition" value="Buena"><label for="room-condition-4"><span class="face-icon">🙂</span><small>Buena</small></label>
+                    <input type="radio" id="room-condition-3" name="room_condition" value="Regular"><label for="room-condition-3"><span class="face-icon">😐</span><small>Regular</small></label>
+                    <input type="radio" id="room-condition-2" name="room_condition" value="Pobre"><label for="room-condition-2"><span class="face-icon">🙁</span><small>Pobre</small></label>
+                    <input type="radio" id="room-condition-1" name="room-condition" value="Mala"><label for="room-condition-1"><span class="face-icon">😡</span><small>Mala</small></label>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>¿Cómo ha sido el servicio Preferred Club?</label>
+                <div class="rating-faces" data-question="preferred_club_service">
+                    <input type="radio" id="preferred-club-5" name="preferred_club_service" value="Excelente" required><label for="preferred-club-5"><span class="face-icon">😄</span><small>Excelente</small></label>
+                    <input type="radio" id="preferred-club-4" name="preferred_club_service" value="Buena"><label for="preferred-club-4"><span class="face-icon">🙂</span><small>Buena</small></label>
+                    <input type="radio" id="preferred-club-3" name="preferred_club_service" value="Regular"><label for="preferred-club-3"><span class="face-icon">😐</span><small>Regular</small></label>
+                    <input type="radio" id="preferred-club-2" name="preferred_club_service" value="Pobre"><label for="preferred-club-2"><span class="face-icon">🙁</span><small>Pobre</small></label>
+                    <input type="radio" id="preferred-club-1" name="preferred-club-1" value="Mala"><label for="preferred-club-1"><span class="face-icon">😡</span><small>Mala</small></label>
+                    <input type="radio" id="preferred-club-na" name="preferred_club_service" value="N/A"><label for="preferred-club-na" class="nps-na-option"><span class="face-icon">➖</span><small>N/A</small></label>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>¿Cómo califica el servicio de su Butler?</label>
+                <div class="rating-faces" data-question="butler_service_rating">
+                    <input type="radio" id="butler-service-5" name="butler_service_rating" value="Excelente" required><label for="butler-service-5"><span class="face-icon">😄</span><small>Excelente</small></label>
+                    <input type="radio" id="butler-service-4" name="butler_service_rating" value="Buena"><label for="butler-service-4"><span class="face-icon">🙂</span><small>Buena</small></label>
+                    <input type="radio" id="butler-service-3" name="butler_service_rating" value="Regular"><label for="butler-service-3"><span class="face-icon">😐</span><small>Regular</small></label>
+                    <input type="radio" id="butler-service-2" name="butler_service_rating" value="Pobre"><label for="butler-service-2"><span class="face-icon">🙁</span><small>Pobre</small></label>
+                    <input type="radio" id="butler-service-1" name="butler_service_rating" value="Mala"><label for="butler-service-1"><span class="face-icon">😡</span><small>Mala</small></label>
+                    <input type="radio" id="butler-service-na" name="butler_service_rating" value="N/A"><label for="butler-service-na" class="nps-na-option"><span class="face-icon">➖</span><small>N/A</small></label>
+                </div>
+            </div>
+
+            <button type="submit" id="submitBtn">Enviar Opinión</button>
+            <div id="message" class="message" style="display: none;"></div>
+        </form>
     </div>
 
-    <div class="survey-container">
-        <h1 class="text-center mb-4">{{ translations[currentLanguage].title }}</h1>
-
-        <div v-for="(question, index) in translations[currentLanguage].questions" 
-             :key="index" 
-             class="question-container">
-            <p class="mb-2">{{ question }}</p>
-            <div class="rating-group">
-                <span v-for="n in 5" 
-                      :key="n" 
-                      class="emoji-rating"
-                      :class="{ selected: ratings[index] === n }"
-                      @click="setRating(index, n)">
-                    {{ getEmoji(n) }}
-                </span>
-            </div>
-        </div>
-
-        <div class="personal-info mt-4">
-            <h3>{{ translations[currentLanguage].personalInfo }}</h3>
-            <div class="form-group">
-                <label>{{ translations[currentLanguage].roomNumber }}</label>
-                <input type="text" class="form-control" v-model="personalInfo.roomNumber">
-            </div>
-            <div class="form-group">
-                <label>{{ translations[currentLanguage].name }}</label>
-                <input type="text" class="form-control" v-model="personalInfo.name">
-            </div>
-            <div class="form-group">
-                <label>{{ translations[currentLanguage].email }}</label>
-                <input type="email" class="form-control" v-model="personalInfo.email">
-            </div>
-            <div class="form-group">
-                <label>{{ translations[currentLanguage].butlerName }}</label>
-                <input type="text" class="form-control" v-model="personalInfo.butlerName">
-            </div>
-        </div>
-
-        <button @click="submitSurvey" class="btn btn-primary w-100 mt-4">
-            {{ translations[currentLanguage].submit }}
-        </button>
+    <div class="container thank-you-message" id="thankYouMessage">
+        <img src="https://images.seeklogo.com/logo-png/34/1/secrets-resorts-spas-logo-png_seeklogo-344670.png" alt="Secrets Royal Beach Logo" class="logo">
+        <h2>¡Gracias por tu Opinión!</h2>
+        <p>Tu feedback es muy importante para nosotros y nos ayuda a mejorar continuamente tu experiencia.</p>
+        <button id="newSurveyBtn" class="new-survey-button">Realizar Otra Encuesta</button>
     </div>
-</div>
 
-<script>
-    // Initialize Firebase
-const firebaseConfig = {
-  apiKey: "AIzaSyDUirwoSQgvcMZn7uLjKMAxlTA15Jkl2BM",
-  authDomain: "ismakun-bf0fa.firebaseapp.com",
-  databaseURL: "https://ismakun-bf0fa-default-rtdb.firebaseio.com",
-  projectId: "ismakun-bf0fa",
-  storageBucket: "ismakun-bf0fa.firebasestorage.app",
-  messagingSenderId: "1028877703945",
-  appId: "1:1028877703945:web:331de48acbcdf2234a51d8"
-};
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+        import { getFirestore, collection, addDoc, Timestamp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
-firebase.initializeApp(firebaseConfig);
-const database = firebase.database();
-new Vue({
-    el: '#app',
-    data: {
-        currentLanguage: 'es',
-        ratings: Array(11).fill(0),
-        personalInfo: {
-            roomNumber: '',
-            name: '',
-            email: '',
-            butlerName: ''
-        },
-        translations: {
-            es: {
-                title: 'Encuesta de Satisfacción',
-                questions: [
-                    '¿Cómo considera la actitud del mayordomo?',
-                    '¿El mayordomo le ofreció ayuda y apoyo según sus necesidades?',
-                    '¿El mayordomo atendió sus solicitudes de manera rápida?',
-                    '¿El mayordomo le ofreció sugerencias para mejorar su experiencia en Secrets Royal Beach?',
-                    '¿La actitud del mayordomo fue amable y cordial?',
-                    '¿Cómo reaccionó el mayordomo ante situaciones inesperadas?',
-                    '¿El mayordomo cumplió con sus expectativas?',
-                    '¿Cómo calificaría el nivel general del servicio proporcionado?',
-                    '¿Recomendaría este hotel a su familia y amigos?',
-                    '¿Cómo calificaría su experiencia como huésped del Preferred Club?'
-                ],
-                personalInfo: 'Información Personal',
-                roomNumber: 'Número de Habitación',
-                name: 'Nombre',
-                email: 'Correo Electrónico',
-                butlerName: 'Nombre del Mayordomo',
-                submit: 'Enviar Encuesta'
-            },
-            en: {
-                title: 'Satisfaction Survey',
-                questions: [
-                    'How do you consider the butler\'s attitude?',
-                    'Did the butler offer help and support according to your needs?',
-                    'Did the butler attend to your requests quickly?',
-                    'Did the butler offer suggestions to improve your experience at Secrets Royal Beach?',
-                    'Was the butler\'s attitude friendly and cordial?',
-                    'How did the butler react to unexpected situations?',
-                    'Did the butler meet your expectations?',
-                    'How would you rate the overall level of service provided?',
-                    'Would you recommend this hotel to your family and friends?',
-                    'How would you rate your experience as an Preferred Club guest?'
-                ],
-                personalInfo: 'Personal Information',
-                roomNumber: 'Room Number',
-                name: 'Name',
-                email: 'Email',
-                butlerName: 'Butler\'s Name',
-                submit: 'Submit Survey'
-            },
-            fr: {
-                title: 'Enquête de Satisfaction',
-                questions: [
-                    'Comment considérez-vous l\'attitude du majordome?',
-                    'Le majordome vous a-t-il offert de l\'aide selon vos besoins?',
-                    'Le majordome a-t-il répondu rapidement à vos demandes?',
-                    'Le majordome vous a-t-il offert des suggestions pour améliorer votre expérience à Secrets Royal Beach?',
-                    'L\'attitude du majordome était-elle aimable et cordiale?',
-                    'Comment le majordome a-t-il réagi aux situations inattendues?',
-                    'Le majordome a-t-il répondu à vos attentes?',
-                    'Comment évalueriez-vous le niveau général du service fourni?',
-                    'Recommanderiez-vous cet hôtel à votre famille et à vos amis?',
-                    'Comment évalueriez-vous votre expérience en tant qu\'invité Preferred Club?'
-                ],
-                personalInfo: 'Informations Personnelles',
-                roomNumber: 'Numéro de Chambre',
-                name: 'Nom',
-                email: 'Email',
-                butlerName: 'Nom du Majordome',
-                submit: 'Soumettre l\'enquête'
-            }
+        // Firebase Configuration (USE YOUR OWN CONFIGURATION HERE)
+        const firebaseConfig = {
+            apiKey: "AIzaSyALR-b68phh_u92V3rw9B9Ei7FcexU2xc8",
+            authDomain: "proyectos17-98695.firebaseapp.com",
+            projectId: "proyectos17-98695",
+            storageBucket: "proyectos17-98695.firebasestorage.app",
+            messagingSenderId: "951673973410",
+            appId: "1:951673973410:web:4bc355e825cf86308645fb",
+            measurementId: "G-6YK06W16FZ"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        const satisfactionForm = document.getElementById('satisfactionForm');
+        const messageDiv = document.getElementById('message');
+        const submitBtn = document.getElementById('submitBtn');
+        const surveyFormContainer = document.getElementById('surveyFormContainer');
+        const thankYouMessage = document.getElementById('thankYouMessage');
+        const newSurveyBtn = document.getElementById('newSurveyBtn');
+
+        // Function to show a message (success/error)
+        function showMessage(msg, type) {
+            messageDiv.textContent = msg;
+            messageDiv.className = `message ${type}`;
+            messageDiv.style.display = 'block';
         }
-    },
-    methods: {
-        getEmoji(rating) {
-            const emojis = ['😢', '😕', '😐', '😊', '😃'];
-            return emojis[rating - 1];
-        },
-        setRating(questionIndex, rating) {
-            this.$set(this.ratings, questionIndex, rating);
-        },
-        async submitSurvey() {
+
+        // Function to reset the form and hide message
+        function resetForm() {
+            satisfactionForm.reset();
+            messageDiv.style.display = 'none';
+            // Reset colors of faces
+            document.querySelectorAll('.rating-faces input[type="radio"]').forEach(input => {
+                input.checked = false;
+                // Force re-evaluation of CSS by removing and re-adding class (or just let CSS handle it on reset)
+                const label = document.querySelector(`label[for="${input.id}"]`);
+                if(label) label.style.color = ''; // Remove inline style
+            });
+        }
+
+        // Handle form submission
+        satisfactionForm.addEventListener('submit', async (e) => {
+            e.preventDefault(); // Prevent default form submission
+
+            submitBtn.disabled = true;
+            submitBtn.classList.add('loading');
+            submitBtn.textContent = 'Enviando...';
+            showMessage('', 'info'); // Clear previous messages
+
+            const formData = new FormData(satisfactionForm);
+            const data = {
+                room_number: formData.get('roomNumber') || '',
+                butler: formData.get('butlerName') || '',
+                overall_staff_service: formData.get('overall_service') || '',
+                food_quality: formData.get('food_quality') || '',
+                room_condition: formData.get('room_condition') || '',
+                preferred_club_service: formData.get('preferred_club_service') || '',
+                butler_service_rating: formData.get('butler_service_rating') || '',
+                timestamp: Timestamp.now() // Add server timestamp
+            };
+
             try {
-                // Create a timestamp for the survey
-                const timestamp = new Date().toISOString();
-                
-                // Create the survey data object
-                const surveyData = {
-                    timestamp: timestamp,
-                    ratings: this.ratings,
-                    personalInfo: this.personalInfo,
-                    language: this.currentLanguage
-                };
-
-                // Save to Firebase
-                await database.ref('surveys').push(surveyData);
-
-                // Show success message based on language
-                const successMessages = {
-                    es: '¡Gracias por completar la encuesta!',
-                    en: 'Thank you for completing the survey!',
-                    fr: 'Merci d\'avoir rempli le questionnaire!'
-                };
-
-                alert(successMessages[this.currentLanguage]);
-
-                // Reset form after successful submission
-                this.ratings = Array(11).fill(0);
-                this.personalInfo = {
-                    roomNumber: '',
-                    name: '',
-                    email: '',
-                    butlerName: ''
-                };
-
+                // Add a new document with a generated ID to the "customer_satisfaction" collection
+                await addDoc(collection(db, "customer_satisfaction"), data);
+                showMessage('¡Gracias! Tu opinión ha sido enviada con éxito.', 'success');
+                satisfactionForm.style.display = 'none'; // Hide the form
+                thankYouMessage.style.display = 'flex'; // Show thank you message
             } catch (error) {
-                console.error('Error submitting survey:', error);
-                
-                // Show error message based on language
-                const errorMessages = {
-                    es: 'Error al enviar la encuesta. Por favor, inténtelo de nuevo.',
-                    en: 'Error submitting survey. Please try again.',
-                    fr: 'Erreur lors de l\'envoi de l\'enquête. Veuillez réessayer.'
-                };
-
-                alert(errorMessages[this.currentLanguage]);
+                console.error("Error al enviar la encuesta:", error);
+                showMessage(`Error al enviar: ${error.message}. Por favor, inténtalo de nuevo.`, 'error');
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.classList.remove('loading');
+                submitBtn.textContent = 'Enviar Opinión';
             }
-        }
-    }
-});
-</script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+        });
+
+        // Handle "New Survey" button click
+        newSurveyBtn.addEventListener('click', () => {
+            thankYouMessage.style.display = 'none'; // Hide thank you message
+            satisfactionForm.style.display = 'block'; // Show the form again
+            resetForm(); // Reset all form fields
+        });
+
+        // Add event listeners to update face colors on selection
+        document.querySelectorAll('.rating-faces input[type="radio"]').forEach(input => {
+            input.addEventListener('change', () => {
+                const name = input.name;
+                const radios = document.querySelectorAll(`input[name="${name}"]`);
+                radios.forEach(radio => {
+                    const label = document.querySelector(`label[for="${radio.id}"]`);
+                    if (label) {
+                        if (radio.checked) {
+                            // CSS handles the checked state color automatically
+                        } else {
+                            label.style.color = ''; // Reset to default if not checked
+                        }
+                    }
+                });
+            });
+        });
+
+        // Initialize form by ensuring all radios are unchecked on load
+        document.addEventListener('DOMContentLoaded', () => {
+            resetForm();
+        });
+
+    </script>
 </body>
 </html>
