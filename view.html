@@ -90,6 +90,13 @@
             box-shadow: var(--shadow);
             text-align: left;
             border: 1px solid var(--border-color);
+            cursor: pointer; /* Add cursor pointer to indicate clickability */
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .summary-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 0.7rem 1.2rem rgba(0, 0, 0, 0.15);
         }
 
         .summary-card h3 {
@@ -366,27 +373,27 @@
 
             <h2>Overall Summary</h2>
             <div class="summary-grid">
-                <div class="summary-card">
+                <div class="summary-card" id="totalSurveysCard">
                     <h3>Total Surveys</h3>
                     <p class="value" id="totalSurveys">0</p>
                 </div>
-                <div class="summary-card">
+                <div class="summary-card" id="overallStaffRatingCard">
                     <h3>Average Overall Staff Rating</h3>
                     <p class="value" id="avgOverallStaffServiceRating">N/A</p>
                 </div>
-                <div class="summary-card">
+                <div class="summary-card" id="foodQualityRatingCard">
                     <h3>Average Food Quality Rating</h3>
                     <p class="value" id="avgFoodQualityRating">N/A</p>
                 </div>
-                <div class="summary-card">
+                <div class="summary-card" id="roomConditionRatingCard">
                     <h3>Average Room Condition Rating</h3>
                     <p class="value" id="avgRoomConditionRating">N/A</p>
                 </div>
-                <div class="summary-card">
+                <div class="summary-card" id="preferredClubRatingCard">
                     <h3>Average Preferred Club Rating</h3>
                     <p class="value" id="avgPreferredClubServiceRating">N/A</p>
                 </div>
-                <div class="summary-card">
+                <div class="summary-card" id="butlerServiceRatingCard">
                     <h3>Average Butler Service Rating</h3>
                     <p class="value" id="avgButlerServiceRating">N/A</p>
                 </div>
@@ -513,11 +520,11 @@
                 document.getElementById('totalSurveys').textContent = allSurveysData.length;
 
                 const fieldsToAverage = [
-                    { fieldName: 'overall_staff_service', elementSuffix: 'OverallStaffServiceRating' },
-                    { fieldName: 'food_quality', elementSuffix: 'FoodQualityRating' },
-                    { fieldName: 'room_condition', elementSuffix: 'RoomConditionRating' },
-                    { fieldName: 'preferred_club_service', elementSuffix: 'PreferredClubServiceRating' },
-                    { fieldName: 'butler_service_rating', elementSuffix: 'ButlerServiceRating' }
+                    { fieldName: 'overall_staff_service', elementSuffix: 'OverallStaffServiceRating', title: 'Servicio General del Personal' },
+                    { fieldName: 'food_quality', elementSuffix: 'FoodQualityRating', title: 'Calidad de la Comida' },
+                    { fieldName: 'room_condition', elementSuffix: 'RoomConditionRating', title: 'Condición de la Habitación' },
+                    { fieldName: 'preferred_club_service', elementSuffix: 'PreferredClubServiceRating', title: 'Servicio Preferred Club' },
+                    { fieldName: 'butler_service_rating', elementSuffix: 'ButlerServiceRating', title: 'Calificación del Servicio del Mayordomo' }
                 ];
 
                 fieldsToAverage.forEach(item => {
@@ -582,7 +589,7 @@
                                 borderColor: 'rgba(40, 167, 69, 1)',
                                 borderWidth: 1
                             },
-                             {
+                            {
                                 label: 'Preferred Club Service',
                                 data: chartData['preferred_club_service'],
                                 backgroundColor: 'rgba(23, 162, 184, 0.7)',
@@ -620,7 +627,7 @@
                                     family: 'Nunito'
                                 }
                             },
-                             datalabels: {
+                            datalabels: {
                                 anchor: 'end',
                                 align: 'top',
                                 formatter: (value) => value > 0 ? value : '',
@@ -707,7 +714,13 @@
 
         // --- EXPORT TO CSV FUNCTIONALITY ---
         function exportToCsv(filename, data) {
-            const replacer = (key, value) => (value === null ? '' : value); // Handle null values
+            const replacer = (key, value) => {
+                // Handle Firebase Timestamp objects for CSV export
+                if (value && typeof value.toDate === 'function') {
+                    return value.toDate().toLocaleString();
+                }
+                return value === null ? '' : value;
+            };
             const header = Object.keys(data[0]); // Get headers from the first object
             let csv = data.map(row => header.map(fieldName => JSON.stringify(row[fieldName], replacer)).join(','));
             csv.unshift(header.join(',')); // Add header row
@@ -728,18 +741,20 @@
 
         // --- POPUP FOR DETAILED SURVEYS FUNCTIONALITY ---
         const modal = document.getElementById("surveyDetailModal");
-        const btn = document.getElementById("viewDetailsBtn");
-        const span = document.getElementsByClassName("close-button")[0];
+        const viewDetailsBtn = document.getElementById("viewDetailsBtn");
+        const closeModalSpan = document.getElementsByClassName("close-button")[0];
         const detailedSurveysContainer = document.getElementById("detailedSurveysContainer");
+        const modalTitle = modal.querySelector('h3'); // Get the modal title element
 
-        // When the user clicks the button, open the modal
-        btn.onclick = function() {
-            modal.style.display = "flex"; // Use flex to center content
+        // When the user clicks the "Ver Encuestas a Detalle" button, open the modal and show all surveys
+        viewDetailsBtn.onclick = function() {
+            modalTitle.textContent = "Encuestas Recibidas a Detalle"; // Set title for full surveys
+            modal.style.display = "flex";
             displayDetailedSurveys();
         }
 
         // When the user clicks on <span> (x), close the modal
-        span.onclick = function() {
+        closeModalSpan.onclick = function() {
             modal.style.display = "none";
             detailedSurveysContainer.innerHTML = ''; // Clear content when closing
         }
@@ -752,6 +767,7 @@
             }
         }
 
+        // Function to display ALL detailed surveys
         function displayDetailedSurveys() {
             detailedSurveysContainer.innerHTML = ''; // Clear previous content
 
@@ -781,8 +797,83 @@
             });
         }
 
+        // NEW: Function to display detailed summary for a specific metric
+        function displayMetricSummary(metricName, metricField, title) {
+            modalTitle.textContent = `Resumen Detallado: ${title}`; // Set dynamic title
+            detailedSurveysContainer.innerHTML = ''; // Clear previous content
 
-        // Event Listeners for buttons
+            if (allSurveysData.length === 0) {
+                detailedSurveysContainer.innerHTML = `<p style="text-align: center; color: var(--secondary-color);">No hay datos para mostrar el resumen de ${title}.</p>`;
+                modal.style.display = "flex";
+                return;
+            }
+
+            const ratingCounts = { "Bad": 0, "Poor": 0, "Regular": 0, "Good": 0, "Excellent": 0 };
+            const commentsForMetric = [];
+
+            allSurveysData.forEach(survey => {
+                const rating = survey[metricField];
+                if (rating && ratingCounts.hasOwnProperty(rating)) {
+                    ratingCounts[rating]++;
+                }
+                // Collect comments regardless of rating, as they can be general or implicitly related
+                if (survey.comments && survey.comments.trim() !== '') {
+                    commentsForMetric.push({
+                        comment: survey.comments,
+                        // Include the specific rating for this metric in the comment context
+                        ratingForMetric: survey[metricField] || 'N/A',
+                        overallStaffRating: survey.overall_staff_service || 'N/A',
+                        foodQualityRating: survey.food_quality || 'N/A',
+                        roomConditionRating: survey.room_condition || 'N/A',
+                        preferredClubService: survey.preferred_club_service || 'N/A',
+                        butlerServiceRating: survey.butler_service_rating || 'N/A',
+                        room: survey.room_number || 'N/A',
+                        butler: survey.butler || 'N/A',
+                        timestamp: survey.timestamp && survey.timestamp.toDate ? new Date(survey.timestamp.toDate()).toLocaleString() : 'N/A'
+                    });
+                }
+            });
+
+            // Display counts
+            let summaryHtml = `<h4>Distribución de Calificaciones para "${title}":</h4>`;
+            summaryHtml += '<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 10px; margin-bottom: 20px;">';
+            for (const rating of ["Excellent", "Good", "Regular", "Poor", "Bad"]) {
+                const color = getRatingColor(ratingMap[rating]);
+                const emoji = getFaceEmoji(ratingMap[rating]);
+                summaryHtml += `
+                    <div style="text-align: center; background-color: var(--background-color); padding: 10px; border-radius: 8px; border: 1px solid var(--border-color); box-shadow: 0 1px 3px rgba(0,0,0,0.05);">
+                        <p style="margin: 0; font-size: 1.1em; font-weight: bold; color: ${color};">${emoji} ${rating}</p>
+                        <p style="margin: 5px 0 0; font-size: 1.2em; font-weight: bold;">${ratingCounts[rating]}</p>
+                    </div>
+                `;
+            }
+            summaryHtml += '</div>';
+
+            // Display relevant comments
+            summaryHtml += `<h4>Comentarios (pueden ser generales o relacionados):</h4>`;
+            if (commentsForMetric.length > 0) {
+                commentsForMetric.forEach(c => {
+                    summaryHtml += `
+                        <div class="comment-card">
+                            <p><strong>Comentario:</strong> ${c.comment}</p>
+                            <p><small>Rating (${title}): ${c.ratingForMetric}</small></p>
+                            <small>
+                                General Staff: ${c.overallStaffRating} | Food: ${c.foodQualityRating} | Room: ${c.roomConditionRating} | Club: ${c.preferredClubService} | Butler: ${c.butlerServiceRating}<br>
+                                Room: ${c.room} | Butler: ${c.butler} | Submitted: ${c.timestamp}
+                            </small>
+                        </div>
+                    `;
+                });
+            } else {
+                summaryHtml += '<p style="text-align: center; color: var(--secondary-color);">No hay comentarios disponibles.</p>';
+            }
+
+            detailedSurveysContainer.innerHTML = summaryHtml;
+            modal.style.display = "flex"; // Show the modal
+        }
+
+
+        // Event Listeners for buttons and new summary cards
         document.addEventListener('DOMContentLoaded', () => {
             loadDashboard(); // Load dashboard data first
 
@@ -792,6 +883,50 @@
                 } else {
                     alert('No hay datos de encuestas para exportar.');
                 }
+            });
+
+            // Add event listeners to summary cards
+            const summaryCards = document.querySelectorAll('.summary-card');
+            summaryCards.forEach(card => {
+                card.addEventListener('click', () => {
+                    const cardId = card.id;
+                    let metricField = '';
+                    let displayTitle = '';
+
+                    // Determine which metric this card represents
+                    switch (cardId) {
+                        case 'totalSurveysCard':
+                            // For total surveys, we'll just show the full detailed surveys modal
+                            viewDetailsBtn.click(); // Simulate click on "Ver Encuestas a Detalle"
+                            return; // Exit here to prevent further processing for this card
+                        case 'overallStaffRatingCard':
+                            metricField = 'overall_staff_service';
+                            displayTitle = 'Servicio General del Personal';
+                            break;
+                        case 'foodQualityRatingCard':
+                            metricField = 'food_quality';
+                            displayTitle = 'Calidad de la Comida';
+                            break;
+                        case 'roomConditionRatingCard':
+                            metricField = 'room_condition';
+                            displayTitle = 'Condición de la Habitación';
+                            break;
+                        case 'preferredClubRatingCard':
+                            metricField = 'preferred_club_service';
+                            displayTitle = 'Servicio Preferred Club';
+                            break;
+                        case 'butlerServiceRatingCard':
+                            metricField = 'butler_service_rating';
+                            displayTitle = 'Calificación del Servicio del Mayordomo';
+                            break;
+                        default:
+                            console.warn('Unknown card clicked:', cardId);
+                            return; // Do nothing if the card is not recognized
+                    }
+
+                    // Display the specific metric summary in the modal
+                    displayMetricSummary(cardId, metricField, displayTitle);
+                });
             });
         });
 
