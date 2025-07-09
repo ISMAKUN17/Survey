@@ -6,6 +6,7 @@
     <title>Secrets Royal Beach - Survey Dashboard</title>
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700&display=swap" rel="stylesheet">
     <style>
+        /* Variables CSS para consistencia */
         :root {
             --primary-color: #007bff;
             --secondary-color: #6c757d;
@@ -15,13 +16,15 @@
             --border-color: #dee2e6;
             --shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
 
-            --face-bad: #dc3545;
-            --face-poor: #fd7e14;
-            --face-regular: #ffc107;
-            --face-good: #17a2b8;
-            --face-excellent: #28a745;
+            /* Colores para las calificaciones (emojis y texto) */
+            --face-bad: #dc3545; /* Rojo */
+            --face-poor: #fd7e14; /* Naranja */
+            --face-regular: #ffc107; /* Amarillo */
+            --face-good: #17a2b8; /* Azul claro */
+            --face-excellent: #28a745; /* Verde */
         }
 
+        /* Estilos generales del cuerpo */
         body {
             font-family: 'Nunito', sans-serif;
             background-color: var(--background-color);
@@ -36,6 +39,7 @@
             line-height: 1.6;
         }
 
+        /* Contenedor principal del dashboard */
         .container {
             background-color: var(--card-background);
             border-radius: 15px;
@@ -45,19 +49,22 @@
             max-width: 900px;
             text-align: center;
             margin-bottom: 20px;
-            animation: fadeIn 0.8s ease-out;
+            animation: fadeIn 0.8s ease-out; /* Animación de entrada */
         }
 
+        /* Animación de entrada para el contenedor */
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(20px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
+        /* Estilos para el logo */
         .logo {
             max-width: 180px;
             margin-bottom: 10px;
         }
 
+        /* Estilos para los títulos */
         h1 {
             color: var(--primary-color);
             font-size: 2.8em;
@@ -75,6 +82,7 @@
             padding-bottom: 10px;
         }
 
+        /* Grid para las tarjetas de resumen */
         .summary-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -83,6 +91,7 @@
             margin-bottom: 40px;
         }
 
+        /* Estilos para las tarjetas de resumen */
         .summary-card {
             background-color: var(--background-color);
             border-radius: 10px;
@@ -90,12 +99,12 @@
             box-shadow: var(--shadow);
             text-align: left;
             border: 1px solid var(--border-color);
-            cursor: pointer; /* Add cursor pointer to indicate clickability */
+            cursor: pointer; /* Indica que son clickeables */
             transition: transform 0.2s ease, box-shadow 0.2s ease;
         }
 
         .summary-card:hover {
-            transform: translateY(-5px);
+            transform: translateY(-5px); /* Efecto hover */
             box-shadow: 0 0.7rem 1.2rem rgba(0, 0, 0, 0.15);
         }
 
@@ -118,6 +127,7 @@
             color: var(--text-color);
         }
 
+        /* Contenedor para el gráfico */
         .chart-container {
             width: 100%;
             height: 350px;
@@ -130,11 +140,13 @@
             border: 1px solid var(--border-color);
         }
 
+        /* Sección de comentarios */
         .comments-section {
             text-align: left;
             margin-top: 30px;
         }
 
+        /* Tarjeta de comentario individual */
         .comment-card {
             background-color: var(--background-color);
             border-radius: 10px;
@@ -156,6 +168,7 @@
             font-size: 0.9em;
         }
 
+        /* Mensajes de estado (cargando, sin datos, error) */
         .loading-message, .no-data-message, .error-message {
             text-align: center;
             font-style: italic;
@@ -165,11 +178,11 @@
         }
 
         .error-message {
-            color: #dc3545;
+            color: var(--face-bad); /* Rojo para errores */
             font-weight: 600;
         }
 
-        /* Styles for Buttons */
+        /* Estilos para los botones de acción del dashboard (exportar, ver detalles) */
         .dashboard-actions {
             margin-top: 30px;
             display: flex;
@@ -200,19 +213,103 @@
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
 
-        /* Styles for Modal (Popup) */
+        /* Estilos para los controles de filtro */
+        .filter-controls {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            justify-content: center;
+            margin-top: 25px;
+            margin-bottom: 30px;
+            padding: 20px;
+            background-color: var(--background-color);
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+            border: 1px solid var(--border-color);
+        }
+
+        .filter-group {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .filter-group label {
+            font-size: 0.9em;
+            color: var(--secondary-color);
+            margin-bottom: 5px;
+            font-weight: 600;
+        }
+
+        .filter-group input[type="date"],
+        .filter-group select {
+            padding: 10px 12px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            font-family: 'Nunito', sans-serif;
+            font-size: 1em;
+            color: var(--text-color);
+            background-color: var(--card-background);
+            transition: border-color 0.2s ease, box-shadow 0.2s ease;
+            min-width: 150px;
+        }
+
+        .filter-group input[type="date"]:focus,
+        .filter-group select:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.25);
+            outline: none;
+        }
+
+        .filter-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+            flex-basis: 100%;
+            justify-content: center;
+        }
+
+        .filter-actions button {
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-size: 1em;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        #applyFiltersBtn {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+        }
+
+        #applyFiltersBtn:hover {
+            background-color: #0056b3;
+        }
+
+        #resetFiltersBtn {
+            background-color: var(--secondary-color);
+            color: white;
+            border: none;
+        }
+
+        #resetFiltersBtn:hover {
+            background-color: #5a6268;
+        }
+
+        /* Estilos del Modal (Popup) */
         .modal {
-            display: none; /* Hidden by default */
-            position: fixed; /* Stay in place */
-            z-index: 1000; /* Sit on top */
+            display: none; /* Oculto por defecto */
+            position: fixed; /* Fijo en la pantalla */
+            z-index: 1000; /* Por encima de todo */
             left: 0;
             top: 0;
-            width: 100%; /* Full width */
-            height: 100%; /* Full height */
-            overflow: auto; /* Enable scroll if needed */
-            background-color: rgba(0,0,0,0.6); /* Black w/ opacity */
-            backdrop-filter: blur(5px); /* Blurred background */
-            -webkit-backdrop-filter: blur(5px); /* For Safari */
+            width: 100%; /* Ancho completo */
+            height: 100%; /* Alto completo */
+            overflow: auto; /* Permite scroll si el contenido es grande */
+            background-color: rgba(0,0,0,0.6); /* Fondo semi-transparente */
+            backdrop-filter: blur(5px); /* Efecto de desenfoque */
+            -webkit-backdrop-filter: blur(5px); /* Para Safari */
             justify-content: center;
             align-items: center;
             padding: 20px;
@@ -227,12 +324,13 @@
             width: 90%;
             max-width: 700px;
             position: relative;
-            animation: slideIn 0.4s ease-out;
-            max-height: 90vh; /* Limit height */
-            overflow-y: auto; /* Enable scrolling for content */
+            animation: slideIn 0.4s ease-out; /* Animación de entrada */
+            max-height: 90vh; /* Altura máxima para el scroll */
+            overflow-y: auto; /* Scroll vertical */
             text-align: left;
         }
 
+        /* Animación de entrada para el modal */
         @keyframes slideIn {
             from { opacity: 0; transform: translateY(-50px); }
             to { opacity: 1; transform: translateY(0); }
@@ -285,11 +383,10 @@
 
         .survey-detail-card .rating-value {
             font-weight: 600;
-            color: var(--primary-color); /* You can make this dynamic based on rating */
+            color: var(--primary-color);
         }
 
-
-        /* Responsive adjustments */
+        /* Ajustes responsivos */
         @media (max-width: 768px) {
             .container {
                 padding: 25px 15px;
@@ -312,8 +409,21 @@
                 padding: 15px;
             }
             .dashboard-actions button {
-                width: 100%; /* Full width buttons on small screens */
+                width: 100%;
                 margin-bottom: 10px;
+            }
+            .filter-controls {
+                flex-direction: column;
+                align-items: center;
+            }
+            .filter-group {
+                width: 100%;
+                align-items: center;
+            }
+            .filter-actions {
+                flex-direction: column;
+                align-items: center;
+                width: 100%;
             }
             .modal-content {
                 padding: 20px;
@@ -352,59 +462,122 @@
                 padding: 10px;
             }
         }
+
+        /* Estilos específicos para impresión */
+        @media print {
+            body {
+                background-color: #fff; /* Fondo blanco para imprimir */
+                padding: 0;
+            }
+            .container {
+                box-shadow: none; /* Eliminar sombras para imprimir */
+                border-radius: 0;
+                padding: 20px; /* Ajustar padding si es necesario */
+                max-width: 100%;
+            }
+            .logo {
+                max-width: 150px; /* Reducir tamaño del logo en impresión */
+                margin-bottom: 5px;
+            }
+            h1, h2 {
+                color: #000; /* Texto negro para imprimir */
+                -webkit-print-color-adjust: exact; /* Forzar colores en impresión */
+                print-color-adjust: exact;
+            }
+            .filter-controls, .dashboard-actions, .modal {
+                display: none !important; /* Ocultar filtros, acciones y modales al imprimir */
+            }
+            .summary-card, .comment-card {
+                border: 1px solid #ccc; /* Bordes más simples para impresión */
+                box-shadow: none;
+                page-break-inside: avoid; /* Evitar que las tarjetas se corten entre páginas */
+            }
+            .chart-container {
+                break-inside: avoid; /* Evitar que el gráfico se corte */
+                margin-bottom: 20px; /* Espacio después del gráfico */
+            }
+            /* Ocultar scrollbars en impresión */
+            ::-webkit-scrollbar {
+                display: none;
+            }
+            body {
+                -ms-overflow-style: none; /* IE and Edge */
+                scrollbar-width: none; /* Firefox */
+            }
+        }
     </style>
 </head>
 <body>
     <div class="container">
         <img src="https://images.seeklogo.com/logo-png/34/1/secrets-resorts-spas-logo-png_seeklogo-344670.png" alt="Secrets Royal Beach Logo" class="logo">
         <h1>Secrets Royal Beach - Survey Dashboard</h1>
-        <p class="description">Overview of Guest Satisfaction Feedback</p>
+        <p class="description">Vista General de los Comentarios de Satisfacción del Huésped</p>
 
-        <div id="loading" class="loading-message">Loading data...</div>
-        <div id="noData" class="no-data-message" style="display:none;">No survey data available yet.</div>
+        <div id="loading" class="loading-message">Cargando datos...</div>
+        <div id="noData" class="no-data-message" style="display:none;">No hay datos de encuestas disponibles todavía.</div>
         <div id="error" class="error-message" style="display: none;"></div>
 
+        <div class="filter-controls" id="filterControls" style="display: none;">
+            <div class="filter-group">
+                <label for="startDate">Fecha Inicio:</label>
+                <input type="date" id="startDate">
+            </div>
+            <div class="filter-group">
+                <label for="endDate">Fecha Fin:</label>
+                <input type="date" id="endDate">
+            </div>
+            <div class="filter-group">
+                <label for="butlerFilter">Filtrar por Mayordomo:</label>
+                <select id="butlerFilter">
+                    <option value="">Todos los Mayordomos</option>
+                    </select>
+            </div>
+            <div class="filter-actions">
+                <button id="applyFiltersBtn">Aplicar Filtros</button>
+                <button id="resetFiltersBtn">Limpiar Filtros</button>
+            </div>
+        </div>
 
         <div id="dashboardContent" style="display:none;">
             <div class="dashboard-actions">
                 <button id="exportReportBtn">Exportar Reporte (CSV)</button>
                 <button id="viewDetailsBtn">Ver Encuestas a Detalle</button>
-            </div>
+                <button id="printReportBtn">Imprimir Reporte</button> </div>
 
-            <h2>Overall Summary</h2>
+            <h2>Resumen General</h2>
             <div class="summary-grid">
                 <div class="summary-card" id="totalSurveysCard">
-                    <h3>Total Surveys</h3>
+                    <h3>Total de Encuestas</h3>
                     <p class="value" id="totalSurveys">0</p>
                 </div>
                 <div class="summary-card" id="overallStaffRatingCard">
-                    <h3>Average Overall Staff Rating</h3>
+                    <h3>Calificación Promedio del Personal</h3>
                     <p class="value" id="avgOverallStaffServiceRating">N/A</p>
                 </div>
                 <div class="summary-card" id="foodQualityRatingCard">
-                    <h3>Average Food Quality Rating</h3>
+                    <h3>Calificación Promedio Calidad de Comida</h3>
                     <p class="value" id="avgFoodQualityRating">N/A</p>
                 </div>
                 <div class="summary-card" id="roomConditionRatingCard">
-                    <h3>Average Room Condition Rating</h3>
+                    <h3>Calificación Promedio Condición Habitación</h3>
                     <p class="value" id="avgRoomConditionRating">N/A</p>
                 </div>
                 <div class="summary-card" id="preferredClubRatingCard">
-                    <h3>Average Preferred Club Rating</h3>
+                    <h3>Calificación Promedio Preferred Club</h3>
                     <p class="value" id="avgPreferredClubServiceRating">N/A</p>
                 </div>
                 <div class="summary-card" id="butlerServiceRatingCard">
-                    <h3>Average Butler Service Rating</h3>
+                    <h3>Calificación Promedio Servicio Mayordomo</h3>
                     <p class="value" id="avgButlerServiceRating">N/A</p>
                 </div>
             </div>
 
-            <h2>Ratings Distribution</h2>
+            <h2>Distribución de Calificaciones</h2>
             <div class="chart-container">
                 <canvas id="ratingsChart"></canvas>
             </div>
 
-            <h2>Recent Comments</h2>
+            <h2>Comentarios Recientes</h2>
             <div class="comments-section" id="commentsSection">
                 </div>
         </div>
@@ -423,14 +596,15 @@
     <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0/dist/chartjs-plugin-datalabels.min.js"></script>
 
     <script type="module">
+        // Importa los módulos necesarios de Firebase SDK v9+
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+        // ¡IMPORTANTE! Asegúrate de importar getFirestore y las funciones de Firestore aquí
         import { getFirestore, collection, getDocs, orderBy, query } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
-        // Firebase Configuration (MUST MATCH THE SURVEY FORM EXACTLY)
+        // --- Configuración de Firebase (YA ACTUALIZADA CON TUS DATOS) ---
         const firebaseConfig = {
             apiKey: "AIzaSyALR-b68phh_u92V3rw9B9Ei7FcexU2xc8",
             authDomain: "proyectos17-98695.firebaseapp.com",
-            databaseURL: "https://proyectos17-98695-default-rtdb.firebaseio.com",
             projectId: "proyectos17-98695",
             storageBucket: "proyectos17-98695.firebasestorage.app",
             messagingSenderId: "951673973410",
@@ -438,14 +612,18 @@
             measurementId: "G-6YK06W16FZ"
         };
 
-        // Initialize Firebase
+        // Inicializa la aplicación Firebase
         const app = initializeApp(firebaseConfig);
+        // ¡IMPORTANTE! Inicializa Firestore
         const db = getFirestore(app);
 
-        // Global variable to store all surveys once loaded
-        let allSurveysData = [];
+        // Variables globales para almacenar los datos
+        // allRawSurveysData: Contiene TODAS las encuestas cargadas desde Firebase (sin filtrar)
+        let allRawSurveysData = [];
+        // filteredSurveysData: Contiene las encuestas actualmente mostradas/filtradas
+        let filteredSurveysData = [];
 
-        // Map rating words to numeric values for calculation
+        // Mapeo de palabras de calificación a valores numéricos para cálculos
         const ratingMap = {
             "Bad": 1,
             "Poor": 2,
@@ -454,7 +632,32 @@
             "Excellent": 5
         };
 
-        // Function to calculate average rating
+        // --- Funciones Auxiliares ---
+
+        /**
+         * Normaliza un objeto Date o Firebase Timestamp a una cadena de fecha ISO (YYYY-MM-DD).
+         * Esto elimina cualquier componente de hora o zona horaria, permitiendo una comparación simple por día.
+         * @param {Date | firebase.firestore.Timestamp} dateInput
+         * @returns {string | null} Fecha en formato 'YYYY-MM-DD' o null si es inválido.
+         */
+        function normalizeDateToISOString(dateInput) {
+            let date;
+            if (dateInput instanceof Date) {
+                date = dateInput;
+            } else if (dateInput && typeof dateInput.toDate === 'function') {
+                date = dateInput.toDate();
+            } else {
+                return null;
+            }
+            // Usa getFullYear, getMonth, getDate para obtener los componentes de la fecha
+            // en la zona horaria local del objeto Date, y luego construye la cadena ISO.
+            const year = date.getFullYear();
+            const month = (date.getMonth() + 1).toString().padStart(2, '0');
+            const day = date.getDate().toString().padStart(2, '0');
+            return `${year}-${month}-${day}`;
+        }
+
+        // Calcula el promedio de una calificación específica
         function calculateAverage(data, field) {
             let total = 0;
             let count = 0;
@@ -468,7 +671,7 @@
             return count > 0 ? (total / count).toFixed(2) : "N/A";
         }
 
-        // Function to get face emoji for average rating
+        // Obtiene el emoji de cara según el promedio
         function getFaceEmoji(avg) {
             if (avg === "N/A") return "";
             const numAvg = parseFloat(avg);
@@ -479,7 +682,7 @@
             return "😡";
         }
 
-        // Function to get color for average rating
+        // Obtiene el color del texto según el promedio
         function getRatingColor(avg) {
             if (avg === "N/A") return "var(--secondary-color)";
             const numAvg = parseFloat(avg);
@@ -490,34 +693,103 @@
             return "var(--face-bad)";
         }
 
+        // Instancia global del gráfico Chart.js para poder destruirlo y recrearlo
         let ratingsChartInstance = null;
 
-        async function loadDashboard() {
+        // Rellena el menú desplegable de mayordomos con los mayordomos únicos encontrados en las encuestas
+        function populateButlerFilter(surveys) {
+            const butlerFilterSelect = document.getElementById('butlerFilter');
+            butlerFilterSelect.innerHTML = '<option value="">Todos los Mayordomos</option>'; // Opción por defecto
+
+            const uniqueButlers = new Set();
+            surveys.forEach(survey => {
+                if (survey.butler && survey.butler.trim() !== '') {
+                    uniqueButlers.add(survey.butler.trim());
+                }
+            });
+
+            // Ordena los mayordomos alfabéticamente
+            const sortedButlers = Array.from(uniqueButlers).sort();
+
+            sortedButlers.forEach(butler => {
+                const option = document.createElement('option');
+                option.value = butler;
+                option.textContent = butler;
+                butlerFilterSelect.appendChild(option);
+            });
+        }
+
+        // --- Función Principal de Carga y Renderizado del Dashboard ---
+        async function loadDashboard(filters = {}) {
             const loadingDiv = document.getElementById('loading');
             const noDataDiv = document.getElementById('noData');
             const errorDiv = document.getElementById('error');
             const dashboardContent = document.getElementById('dashboardContent');
+            const filterControls = document.getElementById('filterControls');
 
+            // Muestra el mensaje de carga y oculta el resto
             loadingDiv.style.display = 'block';
             dashboardContent.style.display = 'none';
             noDataDiv.style.display = 'none';
             errorDiv.style.display = 'none';
+            filterControls.style.display = 'none'; // Oculta los filtros mientras carga para evitar interacción
 
             try {
-                const q = query(collection(db, "customer_satisfaction"), orderBy("timestamp", "desc"));
-                const querySnapshot = await getDocs(q);
-                allSurveysData = []; // Clear previous data
-                querySnapshot.forEach((doc) => {
-                    allSurveysData.push(doc.data());
+                // Solo cargamos los datos brutos de Firebase una vez
+                if (allRawSurveysData.length === 0) {
+                    // Asegúrate de que 'customer_satisfaction' es el nombre correcto de tu colección en Firestore
+                    const qAll = query(collection(db, "customer_satisfaction"), orderBy("timestamp", "desc"));
+                    const querySnapshotAll = await getDocs(qAll);
+                    querySnapshotAll.forEach((doc) => {
+                        allRawSurveysData.push(doc.data());
+                    });
+
+                    // Si no hay datos en absoluto en Firebase
+                    if (allRawSurveysData.length === 0) {
+                        loadingDiv.style.display = 'none';
+                        noDataDiv.textContent = "No hay datos de encuestas en la base de datos.";
+                        noDataDiv.style.display = 'block';
+                        return; // Salir, no hay nada que mostrar
+                    }
+                    populateButlerFilter(allRawSurveysData); // Rellena el filtro de mayordomos con todos los datos
+                }
+
+                // Aplica los filtros a los datos brutos (allRawSurveysData)
+                filteredSurveysData = allRawSurveysData.filter(survey => {
+                    // Normaliza la fecha de la encuesta a su formato ISO de día (ej. "2025-07-08")
+                    const surveyDateISO = normalizeDateToISOString(survey.timestamp);
+
+                    // Normaliza las fechas de los filtros a formato ISO si están presentes
+                    const filterStartDateISO = filters.startDate ? filters.startDate : null;
+                    const filterEndDateISO = filters.endDate ? filters.endDate : null;
+
+                    // Filtrado por rango de fechas
+                    if (filterStartDateISO && surveyDateISO) {
+                        if (surveyDateISO < filterStartDateISO) return false;
+                    }
+                    if (filterEndDateISO && surveyDateISO) {
+                        if (surveyDateISO > filterEndDateISO) return false;
+                    }
+
+                    // Filtrado por mayordomo
+                    if (filters.butler && filters.butler !== "" && survey.butler !== filters.butler) {
+                        return false;
+                    }
+
+                    return true; // La encuesta pasa todos los filtros
                 });
 
-                if (allSurveysData.length === 0) {
+                // Si no hay datos después de aplicar los filtros
+                if (filteredSurveysData.length === 0) {
                     loadingDiv.style.display = 'none';
+                    noDataDiv.textContent = "No hay datos que coincidan con los filtros aplicados.";
                     noDataDiv.style.display = 'block';
+                    filterControls.style.display = 'flex'; // Mostrar filtros para que el usuario pueda ajustarlos
                     return;
                 }
 
-                document.getElementById('totalSurveys').textContent = allSurveysData.length;
+                // --- Actualizar el Dashboard con datos filtrados ---
+                document.getElementById('totalSurveys').textContent = filteredSurveysData.length;
 
                 const fieldsToAverage = [
                     { fieldName: 'overall_staff_service', elementSuffix: 'OverallStaffServiceRating', title: 'Servicio General del Personal' },
@@ -528,17 +800,16 @@
                 ];
 
                 fieldsToAverage.forEach(item => {
-                    const avg = calculateAverage(allSurveysData, item.fieldName);
+                    const avg = calculateAverage(filteredSurveysData, item.fieldName);
                     const emoji = getFaceEmoji(avg);
                     const color = getRatingColor(avg);
                     const targetElement = document.getElementById(`avg${item.elementSuffix}`);
                     if (targetElement) {
                         targetElement.innerHTML = `<span style="color: ${color};">${emoji} ${avg}</span>`;
-                    } else {
-                        console.warn(`Element with ID avg${item.elementSuffix} not found.`);
                     }
                 });
 
+                // --- Configuración y actualización del gráfico ---
                 const chartLabels = ["Bad", "Poor", "Regular", "Good", "Excellent"];
                 const chartData = {
                     'overall_staff_service': Array(5).fill(0),
@@ -548,7 +819,7 @@
                     'butler_service_rating': Array(5).fill(0)
                 };
 
-                allSurveysData.forEach(survey => {
+                filteredSurveysData.forEach(survey => {
                     fieldsToAverage.forEach(item => {
                         const ratingWord = survey[item.fieldName];
                         const numericRating = ratingMap[ratingWord];
@@ -560,230 +831,224 @@
 
                 const ctx = document.getElementById('ratingsChart').getContext('2d');
                 if (ratingsChartInstance) {
-                    ratingsChartInstance.destroy();
+                    ratingsChartInstance.destroy(); // Destruye la instancia anterior del gráfico
                 }
+
+                // Calcula el máximo valor para el eje Y del gráfico
+                let maxCount = 0;
+                Object.values(chartData).forEach(dataArray => {
+                    const currentMax = Math.max(...dataArray);
+                    if (currentMax > maxCount) {
+                        maxCount = currentMax;
+                    }
+                });
+                const dynamicSuggestedMax = maxCount + (maxCount * 0.2); // Añade un 20% de padding
+                const finalSuggestedMax = Math.max(dynamicSuggestedMax, 5); // Asegura un mínimo de 5
 
                 ratingsChartInstance = new Chart(ctx, {
                     type: 'bar',
                     data: {
                         labels: chartLabels,
                         datasets: [
-                            {
-                                label: 'Overall Staff Service',
-                                data: chartData['overall_staff_service'],
-                                backgroundColor: 'rgba(0, 123, 255, 0.7)',
-                                borderColor: 'rgba(0, 123, 255, 1)',
-                                borderWidth: 1
-                            },
-                            {
-                                label: 'Food Quality',
-                                data: chartData['food_quality'],
-                                backgroundColor: 'rgba(255, 193, 7, 0.7)',
-                                borderColor: 'rgba(255, 193, 7, 1)',
-                                borderWidth: 1
-                            },
-                            {
-                                label: 'Room Condition',
-                                data: chartData['room_condition'],
-                                backgroundColor: 'rgba(40, 167, 69, 0.7)',
-                                borderColor: 'rgba(40, 167, 69, 1)',
-                                borderWidth: 1
-                            },
-                            {
-                                label: 'Preferred Club Service',
-                                data: chartData['preferred_club_service'],
-                                backgroundColor: 'rgba(23, 162, 184, 0.7)',
-                                borderColor: 'rgba(23, 162, 184, 1)',
-                                borderWidth: 1
-                            },
-                            {
-                                label: 'Butler Service',
-                                data: chartData['butler_service_rating'],
-                                backgroundColor: 'rgba(220, 53, 69, 0.7)',
-                                borderColor: 'rgba(220, 53, 69, 1)',
-                                borderWidth: 1
-                            }
+                            { label: 'Servicio General del Personal', data: chartData['overall_staff_service'], backgroundColor: 'rgba(0, 123, 255, 0.7)', borderColor: 'rgba(0, 123, 255, 1)', borderWidth: 1 },
+                            { label: 'Calidad de la Comida', data: chartData['food_quality'], backgroundColor: 'rgba(255, 193, 7, 0.7)', borderColor: 'rgba(255, 193, 7, 1)', borderWidth: 1 },
+                            { label: 'Condición de la Habitación', data: chartData['room_condition'], backgroundColor: 'rgba(40, 167, 69, 0.7)', borderColor: 'rgba(40, 167, 69, 1)', borderWidth: 1 },
+                            { label: 'Servicio Preferred Club', data: chartData['preferred_club_service'], backgroundColor: 'rgba(23, 162, 184, 0.7)', borderColor: 'rgba(23, 162, 184, 1)', borderWidth: 1 },
+                            { label: 'Servicio del Mayordomo', data: chartData['butler_service_rating'], backgroundColor: 'rgba(220, 53, 69, 0.7)', borderColor: 'rgba(220, 53, 69, 1)', borderWidth: 1 }
                         ]
                     },
                     options: {
                         responsive: true,
                         maintainAspectRatio: false,
                         plugins: {
-                            legend: {
-                                display: true,
-                                position: 'top',
-                                labels: {
-                                    font: {
-                                        size: 14,
-                                        family: 'Nunito'
-                                    }
-                                }
-                            },
-                            title: {
-                                display: false,
-                                text: 'Ratings Distribution',
-                                font: {
-                                    size: 18,
-                                    family: 'Nunito'
-                                }
-                            },
-                            datalabels: {
+                            legend: { display: true, position: 'top', labels: { font: { size: 14, family: 'Nunito' } } },
+                            title: { display: false }, // El título del gráfico se gestiona con h2
+                            datalabels: { // Plugin para mostrar el valor sobre las barras
                                 anchor: 'end',
                                 align: 'top',
-                                formatter: (value) => value > 0 ? value : '',
-                                font: {
-                                    weight: 'bold',
-                                    size: 12
-                                },
+                                formatter: (value) => value > 0 ? value : '', // Muestra solo si es > 0
+                                font: { weight: 'bold', size: 12 },
                                 color: 'var(--text-color)'
                             }
                         },
                         scales: {
-                            x: {
-                                beginAtZero: true,
-                                title: {
-                                    display: true,
-                                    text: 'Rating',
-                                    font: {
-                                        size: 14,
-                                        family: 'Nunito',
-                                        weight: '600'
-                                    }
-                                },
-                                ticks: {
-                                    font: {
-                                        size: 12,
-                                        family: 'Nunito'
-                                    }
-                                }
-                            },
+                            x: { beginAtZero: true, title: { display: true, text: 'Calificación', font: { size: 14, family: 'Nunito', weight: '600' } }, ticks: { font: { size: 12, family: 'Nunito' } } },
                             y: {
                                 beginAtZero: true,
-                                title: {
-                                    display: true,
-                                    text: 'Number of Responses',
-                                    font: {
-                                        size: 14,
-                                        family: 'Nunito',
-                                        weight: '600'
-                                    }
-                                },
-                                ticks: {
-                                    precision: 0,
-                                    font: {
-                                        size: 12,
-                                        family: 'Nunito'
-                                    }
-                                }
+                                title: { display: true, text: 'Número de Respuestas', font: { size: 14, family: 'Nunito', weight: '600' } },
+                                ticks: { precision: 0, font: { size: 12, family: 'Nunito' } },
+                                suggestedMax: finalSuggestedMax // Aplica el máximo dinámico
                             }
                         }
                     },
-                    plugins: [ChartDataLabels]
+                    plugins: [ChartDataLabels] // Habilita el plugin datalabels
                 });
 
+                // --- Renderizar Comentarios Recientes ---
                 const commentsSection = document.getElementById('commentsSection');
                 commentsSection.innerHTML = '';
-                const comments = allSurveysData.filter(s => s.comments && s.comments.trim() !== '');
+                // Filtra comentarios vacíos o solo con espacios en blanco
+                const comments = filteredSurveysData.filter(s => s.comments && s.comments.trim() !== '');
 
                 if (comments.length > 0) {
                     comments.forEach(comment => {
                         const commentCard = document.createElement('div');
                         commentCard.classList.add('comment-card');
-                        const formattedTimestamp = comment.timestamp && comment.timestamp.toDate ? new Date(comment.timestamp.toDate()).toLocaleString() : 'N/A';
+                        const formattedTimestamp = comment.timestamp && comment.timestamp.toDate ? new Date(comment.timestamp.toDate()).toLocaleString('es-DO') : 'N/A';
                         commentCard.innerHTML = `
                             <p>${comment.comments}</p>
-                            <small>Room: ${comment.room_number || 'N/A'} - Butler: ${comment.butler || 'N/A'} - Submitted: ${formattedTimestamp}</small>
+                            <small>Habitación: ${comment.room_number || 'N/A'} - Mayordomo: ${comment.butler || 'N/A'} - Enviado: ${formattedTimestamp}</small>
                         `;
                         commentsSection.appendChild(commentCard);
                     });
                 } else {
-                    commentsSection.innerHTML = '<p style="text-align: center; color: var(--secondary-color);">No additional comments found.</p>';
+                    commentsSection.innerHTML = '<p style="text-align: center; color: var(--secondary-color);">No hay comentarios adicionales con los filtros actuales.</p>';
                 }
 
+                // Oculta el mensaje de carga y muestra el contenido del dashboard y los filtros
                 loadingDiv.style.display = 'none';
                 dashboardContent.style.display = 'block';
+                filterControls.style.display = 'flex';
 
             } catch (error) {
-                console.error("Error loading dashboard data: ", error);
+                console.error("Error al cargar los datos del dashboard: ", error);
                 loadingDiv.style.display = 'none';
-                errorDiv.textContent = `Error loading data: ${error.message}. Please check your Firebase connection and Firestore Security Rules.`;
+                errorDiv.textContent = `Error al cargar los datos: ${error.message}. Por favor, revisa tu conexión a Firebase y las Reglas de Seguridad de Firestore.`;
                 errorDiv.style.display = 'block';
                 noDataDiv.style.display = 'none';
+                filterControls.style.display = 'flex'; // Mostrar filtros incluso en caso de error para permitir reintentar
             }
         }
 
-        // --- EXPORT TO CSV FUNCTIONALITY ---
+        // --- Función para Exportar a CSV (Reporte Bonito y Organizado) ---
+        // Esta función ahora toma 'data' como parámetro, que será 'filteredSurveysData'
         function exportToCsv(filename, data) {
-            const replacer = (key, value) => {
-                // Handle Firebase Timestamp objects for CSV export
-                if (value && typeof value.toDate === 'function') {
-                    return value.toDate().toLocaleString();
-                }
-                return value === null ? '' : value;
-            };
-            const header = Object.keys(data[0]); // Get headers from the first object
-            let csv = data.map(row => header.map(fieldName => JSON.stringify(row[fieldName], replacer)).join(','));
-            csv.unshift(header.join(',')); // Add header row
-            csv = csv.join('\r\n');
+            if (!data || data.length === 0) {
+                alert('No hay datos para generar el reporte. Aplica filtros o asegúrate de tener encuestas.');
+                return;
+            }
 
+            // Define el orden y los títulos de las columnas para el CSV
+            const columnOrder = [
+                'timestamp',
+                'room_number',
+                'butler',
+                'overall_staff_service',
+                'food_quality',
+                'room_condition',
+                'preferred_club_service',
+                'butler_service_rating',
+                'comments'
+            ];
+
+            const columnTitles = {
+                'timestamp': 'Fecha y Hora',
+                'room_number': 'Número de Habitación',
+                'butler': 'Mayordomo Asignado',
+                'overall_staff_service': 'Servicio General del Personal',
+                'food_quality': 'Calidad de la Comida',
+                'room_condition': 'Condición de la Habitación',
+                'preferred_club_service': 'Servicio Preferred Club',
+                'butler_service_rating': 'Calificación del Servicio del Mayordomo',
+                'comments': 'Comentarios Adicionales'
+            };
+
+            // Función para formatear valores para el CSV
+            const replacer = (key, value) => {
+                // Formatear objetos Timestamp de Firebase a una cadena legible (ej. "DD/MM/YYYY HH:MM:SS")
+                if (value && typeof value.toDate === 'function') {
+                    return value.toDate().toLocaleString('es-DO', {
+                        year: 'numeric', month: '2-digit', day: '2-digit',
+                        hour: '2-digit', minute: '2-digit', second: '2-digit',
+                        hour12: false // Formato 24 horas
+                    });
+                }
+                // Reemplazar valores nulos o indefinidos con una cadena vacía
+                if (value === null || value === undefined) {
+                    return '';
+                }
+                // Para asegurar que el texto con comas o comillas dobles no rompa el CSV
+                if (typeof value === 'string') {
+                    return `"${value.replace(/"/g, '""')}"`; // Escapar comillas dobles y encerrar en comillas
+                }
+                return value;
+            };
+
+            // Generar la fila de encabezados
+            const header = columnOrder.map(col => `"${columnTitles[col] || col}"`).join(',');
+
+            // Generar las filas de datos
+            const csvRows = data.map(row =>
+                columnOrder.map(col => replacer(col, row[col])).join(',')
+            );
+
+            // Unir encabezados y filas
+            const csv = [header, ...csvRows].join('\r\n');
+
+            // Crear y descargar el archivo Blob
             const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
             const link = document.createElement('a');
-            if (link.download !== undefined) { // Feature detection
+
+            if (link.download !== undefined) { // Asegura compatibilidad con el navegador
                 const url = URL.createObjectURL(blob);
                 link.setAttribute('href', url);
                 link.setAttribute('download', filename);
-                link.style.visibility = 'hidden';
+                link.style.visibility = 'hidden'; // Oculta el enlace
                 document.body.appendChild(link);
-                link.click();
+                link.click(); // Simula un clic
                 document.body.removeChild(link);
+                URL.revokeObjectURL(url); // Limpia la URL del objeto Blob
+            } else {
+                alert('Tu navegador no soporta la descarga directa de archivos.');
             }
         }
 
-        // --- POPUP FOR DETAILED SURVEYS FUNCTIONALITY ---
+        // --- Funcionalidad del Modal para Ver Detalles de Encuestas ---
         const modal = document.getElementById("surveyDetailModal");
         const viewDetailsBtn = document.getElementById("viewDetailsBtn");
         const closeModalSpan = document.getElementsByClassName("close-button")[0];
         const detailedSurveysContainer = document.getElementById("detailedSurveysContainer");
-        const modalTitle = modal.querySelector('h3'); // Get the modal title element
+        const modalTitle = modal.querySelector('h3');
 
-        // When the user clicks the "Ver Encuestas a Detalle" button, open the modal and show all surveys
+        // Abre el modal para ver todas las encuestas detalladas (las que están filtradas actualmente)
         viewDetailsBtn.onclick = function() {
-            modalTitle.textContent = "Encuestas Recibidas a Detalle"; // Set title for full surveys
+            modalTitle.textContent = "Encuestas Recibidas a Detalle (Filtradas)";
             modal.style.display = "flex";
-            displayDetailedSurveys();
+            displayDetailedSurveys(filteredSurveysData); // Muestra datos filtrados
         }
 
-        // When the user clicks on <span> (x), close the modal
+        // Cierra el modal al hacer clic en la "x"
         closeModalSpan.onclick = function() {
             modal.style.display = "none";
-            detailedSurveysContainer.innerHTML = ''; // Clear content when closing
+            detailedSurveysContainer.innerHTML = ''; // Limpia el contenido al cerrar
         }
 
-        // When the user clicks anywhere outside of the modal, close it
+        // Cierra el modal al hacer clic fuera de él
         window.onclick = function(event) {
             if (event.target == modal) {
                 modal.style.display = "none";
-                detailedSurveysContainer.innerHTML = ''; // Clear content when closing
+                detailedSurveysContainer.innerHTML = ''; // Limpia el contenido al cerrar
             }
         }
 
-        // Function to display ALL detailed surveys
-        function displayDetailedSurveys() {
-            detailedSurveysContainer.innerHTML = ''; // Clear previous content
+        // Función para mostrar encuestas detalladas (puede recibir datos filtrados o todos)
+        function displayDetailedSurveys(dataToDisplay) {
+            detailedSurveysContainer.innerHTML = ''; // Limpia contenido anterior
 
-            if (allSurveysData.length === 0) {
-                detailedSurveysContainer.innerHTML = '<p style="text-align: center; color: var(--secondary-color);">No hay encuestas para mostrar a detalle.</p>';
+            if (!dataToDisplay || dataToDisplay.length === 0) {
+                detailedSurveysContainer.innerHTML = '<p style="text-align: center; color: var(--secondary-color);">No hay encuestas para mostrar a detalle con los filtros actuales.</p>';
                 return;
             }
 
-            allSurveysData.forEach((survey, index) => {
+            // Recorre los datos para crear tarjetas de detalle
+            dataToDisplay.forEach((survey, index) => {
                 const surveyCard = document.createElement('div');
                 surveyCard.classList.add('survey-detail-card');
 
-                const formattedTimestamp = survey.timestamp && survey.timestamp.toDate ? new Date(survey.timestamp.toDate()).toLocaleString() : 'N/A';
+                const formattedTimestamp = survey.timestamp && survey.timestamp.toDate ? new Date(survey.timestamp.toDate()).toLocaleString('es-DO') : 'N/A';
 
                 surveyCard.innerHTML = `
-                    <h4>Encuesta #${allSurveysData.length - index} (Enviada: ${formattedTimestamp})</h4>
+                    <h4>Encuesta #${dataToDisplay.length - index} (Enviada: ${formattedTimestamp})</h4>
                     <p><strong>Número de Habitación:</strong> ${survey.room_number || 'N/A'}</p>
                     <p><strong>Mayordomo:</strong> ${survey.butler || 'N/A'}</p>
                     <p><strong>Servicio General del Personal:</strong> <span class="rating-value">${survey.overall_staff_service || 'N/A'}</span></p>
@@ -797,13 +1062,13 @@
             });
         }
 
-        // NEW: Function to display detailed summary for a specific metric
+        // Función para mostrar un resumen detallado de una métrica específica (utiliza datos filtrados)
         function displayMetricSummary(metricName, metricField, title) {
-            modalTitle.textContent = `Resumen Detallado: ${title}`; // Set dynamic title
-            detailedSurveysContainer.innerHTML = ''; // Clear previous content
+            modalTitle.textContent = `Resumen Detallado: ${title} (Filtrado)`; // Título dinámico
+            detailedSurveysContainer.innerHTML = ''; // Limpia contenido anterior
 
-            if (allSurveysData.length === 0) {
-                detailedSurveysContainer.innerHTML = `<p style="text-align: center; color: var(--secondary-color);">No hay datos para mostrar el resumen de ${title}.</p>`;
+            if (filteredSurveysData.length === 0) {
+                detailedSurveysContainer.innerHTML = `<p style="text-align: center; color: var(--secondary-color);">No hay datos para mostrar el resumen de ${title} con los filtros actuales.</p>`;
                 modal.style.display = "flex";
                 return;
             }
@@ -811,17 +1076,17 @@
             const ratingCounts = { "Bad": 0, "Poor": 0, "Regular": 0, "Good": 0, "Excellent": 0 };
             const commentsForMetric = [];
 
-            allSurveysData.forEach(survey => {
+            filteredSurveysData.forEach(survey => {
                 const rating = survey[metricField];
                 if (rating && ratingCounts.hasOwnProperty(rating)) {
                     ratingCounts[rating]++;
                 }
-                // Collect comments regardless of rating, as they can be general or implicitly related
+                // Recopila comentarios, pueden ser generales o específicos
                 if (survey.comments && survey.comments.trim() !== '') {
                     commentsForMetric.push({
                         comment: survey.comments,
-                        // Include the specific rating for this metric in the comment context
-                        ratingForMetric: survey[metricField] || 'N/A',
+                        ratingForMetric: survey[metricField] || 'N/A', // Calificación específica de esta métrica
+                        // Incluye otras calificaciones para contexto
                         overallStaffRating: survey.overall_staff_service || 'N/A',
                         foodQualityRating: survey.food_quality || 'N/A',
                         roomConditionRating: survey.room_condition || 'N/A',
@@ -829,12 +1094,12 @@
                         butlerServiceRating: survey.butler_service_rating || 'N/A',
                         room: survey.room_number || 'N/A',
                         butler: survey.butler || 'N/A',
-                        timestamp: survey.timestamp && survey.timestamp.toDate ? new Date(survey.timestamp.toDate()).toLocaleString() : 'N/A'
+                        timestamp: survey.timestamp && survey.timestamp.toDate ? new Date(survey.timestamp.toDate()).toLocaleString('es-DO') : 'N/A'
                     });
                 }
             });
 
-            // Display counts
+            // HTML para la distribución de calificaciones
             let summaryHtml = `<h4>Distribución de Calificaciones para "${title}":</h4>`;
             summaryHtml += '<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 10px; margin-bottom: 20px;">';
             for (const rating of ["Excellent", "Good", "Regular", "Poor", "Bad"]) {
@@ -849,43 +1114,84 @@
             }
             summaryHtml += '</div>';
 
-            // Display relevant comments
+            // HTML para comentarios relevantes
             summaryHtml += `<h4>Comentarios (pueden ser generales o relacionados):</h4>`;
             if (commentsForMetric.length > 0) {
                 commentsForMetric.forEach(c => {
                     summaryHtml += `
                         <div class="comment-card">
                             <p><strong>Comentario:</strong> ${c.comment}</p>
-                            <p><small>Rating (${title}): ${c.ratingForMetric}</small></p>
+                            <p><small>Calificación (${title}): ${c.ratingForMetric}</small></p>
                             <small>
-                                General Staff: ${c.overallStaffRating} | Food: ${c.foodQualityRating} | Room: ${c.roomConditionRating} | Club: ${c.preferredClubService} | Butler: ${c.butlerServiceRating}<br>
-                                Room: ${c.room} | Butler: ${c.butler} | Submitted: ${c.timestamp}
+                                Personal General: ${c.overallStaffRating} | Comida: ${c.foodQualityRating} | Habitación: ${c.roomConditionRating} | Club: ${c.preferredClubService} | Mayordomo: ${c.butlerServiceRating}<br>
+                                Habitación: ${c.room} | Mayordomo: ${c.butler} | Enviado: ${c.timestamp}
                             </small>
                         </div>
                     `;
                 });
             } else {
-                summaryHtml += '<p style="text-align: center; color: var(--secondary-color);">No hay comentarios disponibles.</p>';
+                detailedSurveysContainer.innerHTML += '<p style="text-align: center; color: var(--secondary-color);">No hay comentarios disponibles con los filtros actuales.</p>';
             }
 
             detailedSurveysContainer.innerHTML = summaryHtml;
-            modal.style.display = "flex"; // Show the modal
+            modal.style.display = "flex"; // Mostrar el modal
         }
 
 
-        // Event Listeners for buttons and new summary cards
+        // --- Event Listeners (Controladores de Eventos) ---
         document.addEventListener('DOMContentLoaded', () => {
-            loadDashboard(); // Load dashboard data first
+            // Carga el dashboard inicialmente sin filtros
+            loadDashboard();
 
+            // Referencias a los elementos de filtro
+            const startDateInput = document.getElementById('startDate');
+            const endDateInput = document.getElementById('endDate');
+            const butlerFilterSelect = document.getElementById('butlerFilter');
+            const applyFiltersBtn = document.getElementById('applyFiltersBtn');
+            const resetFiltersBtn = document.getElementById('resetFiltersBtn');
+            const printReportBtn = document.getElementById('printReportBtn'); // Nuevo botón de imprimir
+
+            // Event listener para el botón "Aplicar Filtros"
+            applyFiltersBtn.addEventListener('click', () => {
+                const filters = {};
+                // Los inputs de tipo "date" ya devuelven el formato 'YYYY-MM-DD'
+                if (startDateInput.value) {
+                    filters.startDate = startDateInput.value;
+                }
+                if (endDateInput.value) {
+                    filters.endDate = endDateInput.value;
+                }
+                if (butlerFilterSelect.value) {
+                    filters.butler = butlerFilterSelect.value;
+                }
+                // Recarga el dashboard con los filtros aplicados
+                loadDashboard(filters);
+            });
+
+            // Event listener para el botón "Limpiar Filtros"
+            resetFiltersBtn.addEventListener('click', () => {
+                startDateInput.value = '';
+                endDateInput.value = '';
+                butlerFilterSelect.value = ''; // Resetea a la opción "Todos los Mayordomos"
+                loadDashboard({}); // Recarga el dashboard sin ningún filtro
+            });
+
+            // Event listener para el botón "Exportar Reporte (CSV)"
             document.getElementById('exportReportBtn').addEventListener('click', () => {
-                if (allSurveysData.length > 0) {
-                    exportToCsv('secrets_royal_beach_surveys.csv', allSurveysData);
+                // Exporta los datos actualmente filtrados
+                if (filteredSurveysData.length > 0) {
+                    exportToCsv('secrets_royal_beach_reporte_encuestas_filtrado.csv', filteredSurveysData);
                 } else {
-                    alert('No hay datos de encuestas para exportar.');
+                    alert('No hay datos filtrados para exportar. Aplica filtros o asegúrate de tener datos.');
                 }
             });
 
-            // Add event listeners to summary cards
+            // **NUEVO** Event listener para el botón "Imprimir Reporte"
+            printReportBtn.addEventListener('click', () => {
+                window.print(); // Abre el diálogo de impresión del navegador
+            });
+
+            // Event listeners para las tarjetas de resumen (para abrir el modal con el resumen de la métrica)
             const summaryCards = document.querySelectorAll('.summary-card');
             summaryCards.forEach(card => {
                 card.addEventListener('click', () => {
@@ -893,12 +1199,11 @@
                     let metricField = '';
                     let displayTitle = '';
 
-                    // Determine which metric this card represents
                     switch (cardId) {
                         case 'totalSurveysCard':
-                            // For total surveys, we'll just show the full detailed surveys modal
-                            viewDetailsBtn.click(); // Simulate click on "Ver Encuestas a Detalle"
-                            return; // Exit here to prevent further processing for this card
+                            // Si se hace clic en "Total de Encuestas", abrir el modal con todas las encuestas filtradas
+                            viewDetailsBtn.click();
+                            return; // Salir de la función
                         case 'overallStaffRatingCard':
                             metricField = 'overall_staff_service';
                             displayTitle = 'Servicio General del Personal';
@@ -920,16 +1225,13 @@
                             displayTitle = 'Calificación del Servicio del Mayordomo';
                             break;
                         default:
-                            console.warn('Unknown card clicked:', cardId);
-                            return; // Do nothing if the card is not recognized
+                            console.warn('Tarjeta de resumen desconocida clicada:', cardId);
+                            return;
                     }
-
-                    // Display the specific metric summary in the modal
                     displayMetricSummary(cardId, metricField, displayTitle);
                 });
             });
         });
-
     </script>
 </body>
 </html>
