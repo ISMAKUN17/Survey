@@ -159,6 +159,7 @@
         .comment-card p {
             margin: 0;
             font-size: 1em;
+            word-wrap: break-word; /* Para comentarios largos */
         }
 
         .comment-card small {
@@ -386,6 +387,100 @@
             color: var(--primary-color);
         }
 
+        /* --- Estilos para el Modal de Tabla --- */
+        #tableModal .modal-content {
+            max-width: 95%; /* Más ancho para la tabla */
+            width: auto; /* Ajusta el ancho automáticamente */
+        }
+
+        .table-controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .table-controls input[type="search"] {
+            flex-grow: 1;
+            padding: 8px 12px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            font-family: 'Nunito', sans-serif;
+            font-size: 1em;
+        }
+
+        .pagination-controls {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+
+        .pagination-controls button {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+        }
+
+        .pagination-controls button:hover:not(:disabled) {
+            background-color: #0056b3;
+        }
+
+        .pagination-controls button:disabled {
+            background-color: var(--secondary-color);
+            cursor: not-allowed;
+            opacity: 0.7;
+        }
+
+        #currentPage {
+            font-weight: bold;
+        }
+
+        .survey-table-container {
+            overflow-x: auto; /* Permite desplazamiento horizontal en la tabla */
+            max-width: 100%;
+        }
+
+        .survey-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+            font-size: 0.9em;
+            white-space: nowrap; /* Evita que el texto se ajuste */
+        }
+
+        .survey-table th, .survey-table td {
+            border: 1px solid var(--border-color);
+            padding: 10px 12px;
+            text-align: left;
+        }
+
+        .survey-table th {
+            background-color: var(--background-color);
+            font-weight: 700;
+            color: var(--primary-color);
+            position: sticky; /* Encabezado pegajoso para scroll horizontal */
+            top: 0;
+            z-index: 1;
+        }
+        .survey-table tbody tr:nth-child(even) {
+            background-color: #f2f2f2; /* Cebra para filas */
+        }
+        .survey-table tbody tr:hover {
+            background-color: #e9e9e9; /* Efecto hover en filas */
+        }
+
+        /* Estilos para el botón de cerrar en modales */
+        .modal .close-button {
+            right: 25px; /* Ajuste para el nuevo modal */
+            top: 15px;
+        }
+
         /* Ajustes responsivos */
         @media (max-width: 768px) {
             .container {
@@ -433,6 +528,21 @@
                 font-size: 30px;
                 top: 10px;
                 right: 15px;
+            }
+            /* Tabla modal responsiva */
+            .table-controls {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            .table-controls input[type="search"] {
+                margin-bottom: 10px;
+            }
+            .pagination-controls {
+                justify-content: center;
+                width: 100%;
+            }
+            .survey-table th, .survey-table td {
+                padding: 8px; /* Reducir padding en celdas */
             }
         }
 
@@ -542,7 +652,8 @@
             <div class="dashboard-actions">
                 <button id="exportReportBtn">Exportar Reporte (CSV)</button>
                 <button id="viewDetailsBtn">Ver Encuestas a Detalle</button>
-                <button id="printReportBtn">Imprimir Reporte</button> </div>
+                <button id="viewTableBtn">Ver en Tabla</button> <button id="printReportBtn">Imprimir Reporte</button>
+            </div>
 
             <h2>Resumen General</h2>
             <div class="summary-grid">
@@ -592,6 +703,47 @@
         </div>
     </div>
 
+    <div id="tableModal" class="modal">
+        <div class="modal-content">
+            <span class="close-button" id="closeTableModal">&times;</span>
+            <h3>Encuestas en Vista de Tabla</h3>
+            <div class="table-controls">
+                <input type="search" id="tableSearchInput" placeholder="Buscar en la tabla...">
+                <div class="pagination-controls">
+                    <button id="prevPageBtn">Anterior</button>
+                    <span id="currentPage">1</span> / <span id="totalPages">1</span>
+                    <button id="nextPageBtn">Siguiente</button>
+                </div>
+                <select id="rowsPerPageSelect">
+                    <option value="10">10 por página</option>
+                    <option value="25">25 por página</option>
+                    <option value="50">50 por página</option>
+                    <option value="100">100 por página</option>
+                </select>
+            </div>
+            <div class="survey-table-container">
+                <table class="survey-table">
+                    <thead>
+                        <tr>
+                            <th>Fecha</th>
+                            <th>Hab.</th>
+                            <th>Mayordomo</th>
+                            <th>Personal General</th>
+                            <th>Comida</th>
+                            <th>Habitación</th>
+                            <th>Preferred Club</th>
+                            <th>Mayordomo Cal.</th>
+                            <th>Comentarios</th>
+                        </tr>
+                    </thead>
+                    <tbody id="surveyTableBody">
+                        </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0/dist/chartjs-plugin-datalabels.min.js"></script>
 
@@ -622,6 +774,13 @@
         let allRawSurveysData = [];
         // filteredSurveysData: Contiene las encuestas actualmente mostradas/filtradas
         let filteredSurveysData = [];
+        // filteredAndSearchedData: Contiene las encuestas filtradas Y luego buscadas (para la tabla)
+        let filteredAndSearchedData = [];
+
+        // Variables para la paginación de la tabla
+        let currentPage = 1;
+        let rowsPerPage = 10;
+        let totalPages = 1;
 
         // Mapeo de palabras de calificación a valores numéricos para cálculos
         const ratingMap = {
@@ -778,6 +937,9 @@
 
                     return true; // La encuesta pasa todos los filtros
                 });
+
+                // Inicializa filteredAndSearchedData con los datos filtrados para la tabla
+                filteredAndSearchedData = [...filteredSurveysData];
 
                 // Si no hay datos después de aplicar los filtros
                 if (filteredSurveysData.length === 0) {
@@ -1003,7 +1165,7 @@
             }
         }
 
-        // --- Funcionalidad del Modal para Ver Detalles de Encuestas ---
+        // --- Funcionalidad del Modal para Ver Detalles de Encuestas (Formato Tarjeta) ---
         const modal = document.getElementById("surveyDetailModal");
         const viewDetailsBtn = document.getElementById("viewDetailsBtn");
         const closeModalSpan = document.getElementsByClassName("close-button")[0];
@@ -1137,6 +1299,128 @@
             modal.style.display = "flex"; // Mostrar el modal
         }
 
+        // --- Funcionalidad del Nuevo Modal de Tabla ---
+        const tableModal = document.getElementById("tableModal");
+        const viewTableBtn = document.getElementById("viewTableBtn");
+        const closeTableModalSpan = document.getElementById("closeTableModal");
+        const surveyTableBody = document.getElementById("surveyTableBody");
+        const tableSearchInput = document.getElementById("tableSearchInput");
+        const prevPageBtn = document.getElementById("prevPageBtn");
+        const nextPageBtn = document.getElementById("nextPageBtn");
+        const currentPageSpan = document.getElementById("currentPage");
+        const totalPagesSpan = document.getElementById("totalPages");
+        const rowsPerPageSelect = document.getElementById("rowsPerPageSelect");
+
+        function renderTable() {
+            surveyTableBody.innerHTML = ''; // Limpiar tabla actual
+
+            if (filteredAndSearchedData.length === 0) {
+                surveyTableBody.innerHTML = '<tr><td colspan="9" style="text-align: center; color: var(--secondary-color);">No hay encuestas para mostrar en la tabla con la búsqueda actual.</td></tr>';
+                currentPageSpan.textContent = 0;
+                totalPagesSpan.textContent = 0;
+                prevPageBtn.disabled = true;
+                nextPageBtn.disabled = true;
+                return;
+            }
+
+            // Calcular paginación
+            totalPages = Math.ceil(filteredAndSearchedData.length / rowsPerPage);
+            currentPage = Math.min(Math.max(1, currentPage), totalPages); // Asegurar que currentPage sea válida
+
+            const startIndex = (currentPage - 1) * rowsPerPage;
+            const endIndex = startIndex + rowsPerPage;
+            const paginatedData = filteredAndSearchedData.slice(startIndex, endIndex);
+
+            paginatedData.forEach(survey => {
+                const row = surveyTableBody.insertRow();
+                const formattedTimestamp = survey.timestamp && survey.timestamp.toDate ? new Date(survey.timestamp.toDate()).toLocaleString('es-DO') : 'N/A';
+
+                row.insertCell().textContent = formattedTimestamp;
+                row.insertCell().textContent = survey.room_number || 'N/A';
+                row.insertCell().textContent = survey.butler || 'N/A';
+                row.insertCell().textContent = survey.overall_staff_service || 'N/A';
+                row.insertCell().textContent = survey.food_quality || 'N/A';
+                row.insertCell().textContent = survey.room_condition || 'N/A';
+                row.insertCell().textContent = survey.preferred_club_service || 'N/A';
+                row.insertCell().textContent = survey.butler_service_rating || 'N/A';
+                row.insertCell().textContent = survey.comments || '';
+            });
+
+            currentPageSpan.textContent = currentPage;
+            totalPagesSpan.textContent = totalPages;
+            prevPageBtn.disabled = currentPage === 1;
+            nextPageBtn.disabled = currentPage === totalPages;
+        }
+
+        function applyTableSearch() {
+            const searchTerm = tableSearchInput.value.toLowerCase().trim();
+            if (searchTerm === '') {
+                filteredAndSearchedData = [...filteredSurveysData]; // Restablecer si la búsqueda está vacía
+            } else {
+                filteredAndSearchedData = filteredSurveysData.filter(survey => {
+                    // Busca en todas las columnas relevantes
+                    return (survey.room_number && String(survey.room_number).toLowerCase().includes(searchTerm)) ||
+                           (survey.butler && survey.butler.toLowerCase().includes(searchTerm)) ||
+                           (survey.comments && survey.comments.toLowerCase().includes(searchTerm)) ||
+                           (survey.overall_staff_service && survey.overall_staff_service.toLowerCase().includes(searchTerm)) ||
+                           (survey.food_quality && survey.food_quality.toLowerCase().includes(searchTerm)) ||
+                           (survey.room_condition && survey.room_condition.toLowerCase().includes(searchTerm)) ||
+                           (survey.preferred_club_service && survey.preferred_club_service.toLowerCase().includes(searchTerm)) ||
+                           (survey.butler_service_rating && survey.butler_service_rating.toLowerCase().includes(searchTerm));
+                });
+            }
+            currentPage = 1; // Reiniciar página al buscar
+            renderTable();
+        }
+
+        // Eventos para el modal de tabla
+        viewTableBtn.onclick = function() {
+            tableModal.style.display = "flex";
+            // Asegurarse de que el input de búsqueda esté vacío al abrir el modal
+            tableSearchInput.value = '';
+            // Restablecer los datos de búsqueda a los filtrados actuales
+            filteredAndSearchedData = [...filteredSurveysData];
+            currentPage = 1; // Reiniciar página
+            renderTable();
+        }
+
+        closeTableModalSpan.onclick = function() {
+            tableModal.style.display = "none";
+        }
+
+        tableSearchInput.addEventListener('input', applyTableSearch);
+
+        prevPageBtn.addEventListener('click', () => {
+            if (currentPage > 1) {
+                currentPage--;
+                renderTable();
+            }
+        });
+
+        nextPageBtn.addEventListener('click', () => {
+            if (currentPage < totalPages) {
+                currentPage++;
+                renderTable();
+            }
+        });
+
+        rowsPerPageSelect.addEventListener('change', (event) => {
+            rowsPerPage = parseInt(event.target.value);
+            currentPage = 1; // Reiniciar página al cambiar el número de filas
+            renderTable();
+        });
+
+
+        // Cierra el modal de tabla al hacer clic fuera de él (manejar ambos modales)
+        window.addEventListener('click', function(event) {
+            if (event.target == modal) { // Modal de detalles
+                modal.style.display = "none";
+                detailedSurveysContainer.innerHTML = '';
+            }
+            if (event.target == tableModal) { // Modal de tabla
+                tableModal.style.display = "none";
+            }
+        });
 
         // --- Event Listeners (Controladores de Eventos) ---
         document.addEventListener('DOMContentLoaded', () => {
@@ -1149,12 +1433,11 @@
             const butlerFilterSelect = document.getElementById('butlerFilter');
             const applyFiltersBtn = document.getElementById('applyFiltersBtn');
             const resetFiltersBtn = document.getElementById('resetFiltersBtn');
-            const printReportBtn = document.getElementById('printReportBtn'); // Nuevo botón de imprimir
+            const printReportBtn = document.getElementById('printReportBtn');
 
             // Event listener para el botón "Aplicar Filtros"
             applyFiltersBtn.addEventListener('click', () => {
                 const filters = {};
-                // Los inputs de tipo "date" ya devuelven el formato 'YYYY-MM-DD'
                 if (startDateInput.value) {
                     filters.startDate = startDateInput.value;
                 }
@@ -1164,7 +1447,6 @@
                 if (butlerFilterSelect.value) {
                     filters.butler = butlerFilterSelect.value;
                 }
-                // Recarga el dashboard con los filtros aplicados
                 loadDashboard(filters);
             });
 
@@ -1172,13 +1454,12 @@
             resetFiltersBtn.addEventListener('click', () => {
                 startDateInput.value = '';
                 endDateInput.value = '';
-                butlerFilterSelect.value = ''; // Resetea a la opción "Todos los Mayordomos"
+                butlerFilterSelect.value = '';
                 loadDashboard({}); // Recarga el dashboard sin ningún filtro
             });
 
             // Event listener para el botón "Exportar Reporte (CSV)"
             document.getElementById('exportReportBtn').addEventListener('click', () => {
-                // Exporta los datos actualmente filtrados
                 if (filteredSurveysData.length > 0) {
                     exportToCsv('secrets_royal_beach_reporte_encuestas_filtrado.csv', filteredSurveysData);
                 } else {
@@ -1186,9 +1467,9 @@
                 }
             });
 
-            // **NUEVO** Event listener para el botón "Imprimir Reporte"
+            // Event listener para el botón "Imprimir Reporte"
             printReportBtn.addEventListener('click', () => {
-                window.print(); // Abre el diálogo de impresión del navegador
+                window.print();
             });
 
             // Event listeners para las tarjetas de resumen (para abrir el modal con el resumen de la métrica)
@@ -1201,9 +1482,8 @@
 
                     switch (cardId) {
                         case 'totalSurveysCard':
-                            // Si se hace clic en "Total de Encuestas", abrir el modal con todas las encuestas filtradas
-                            viewDetailsBtn.click();
-                            return; // Salir de la función
+                            viewDetailsBtn.click(); // Abrir modal de detalles
+                            return;
                         case 'overallStaffRatingCard':
                             metricField = 'overall_staff_service';
                             displayTitle = 'Servicio General del Personal';
