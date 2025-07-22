@@ -329,6 +329,8 @@
             max-height: 90vh; /* Altura máxima para el scroll */
             overflow-y: auto; /* Scroll vertical */
             text-align: left;
+            display: flex;
+            flex-direction: column;
         }
 
         /* Animación de entrada para el modal */
@@ -618,6 +620,121 @@
         .summary-card .value span[title] {
             cursor: help;
         }
+
+        /* --- TOP BUTLERS MODAL --- */
+        #topButlersModal .modal-content {
+            max-width: 420px;
+            padding: 22px 14px 18px 14px;
+        }
+        .top-butlers-cards {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            margin-bottom: 18px;
+            flex-wrap: wrap;
+        }
+        .top-butler-card {
+            background: linear-gradient(135deg, #fffbe6 60%, #f8f9fa 100%);
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.10);
+            padding: 14px 12px 10px 12px;
+            min-width: 90px;
+            min-height: 110px;
+            text-align: center;
+            position: relative;
+            flex: 1 1 100px;
+            max-width: 120px;
+            border: 2px solid #ffe066;
+            transition: transform 0.18s;
+        }
+        .top-butler-card:hover {
+            transform: translateY(-3px) scale(1.03);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.13);
+        }
+        .top-butler-medal {
+            font-size: 1.5em;
+            position: absolute;
+            top: -14px;
+            left: 50%;
+            transform: translateX(-50%);
+            filter: drop-shadow(0 1px 2px rgba(0,0,0,0.10));
+        }
+        .top-butler-avatar {
+            width: 32px;
+            height: 32px;
+            background: #e9ecef;
+            border-radius: 50%;
+            margin: 0 auto 6px auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1em;
+            font-weight: 700;
+            color: #6c757d;
+            border: 1.5px solid #ffe066;
+        }
+        .top-butler-name {
+            font-size: 0.98em;
+            font-weight: 800;
+            margin: 6px 0 2px 0;
+            color: #343a40;
+        }
+        .top-butler-count {
+            font-size: 0.92em;
+            color: #888;
+            font-weight: 600;
+        }
+        .top-butlers-list {
+            list-style: none;
+            padding: 0 0 0 0;
+            margin: 0;
+        }
+        .top-butlers-list li {
+            display: flex;
+            align-items: center;
+            gap: 7px;
+            margin-bottom: 6px;
+            background: #f8f9fa;
+            border-radius: 6px;
+            padding: 6px 8px;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.03);
+            font-size: 0.98em;
+        }
+        .top-butler-rank {
+            font-size: 1em;
+            font-weight: 900;
+            color: #007bff;
+            width: 20px;
+            text-align: center;
+        }
+        .top-butler-bar {
+            flex: 1;
+            height: 7px;
+            border-radius: 4px;
+            background: linear-gradient(90deg, #ffe066 60%, #ffd700 100%);
+            margin: 0 6px;
+            position: relative;
+            overflow: hidden;
+        }
+        .top-butler-bar-inner {
+            height: 100%;
+            border-radius: 4px;
+            background: linear-gradient(90deg, #ffd700 60%, #ffc107 100%);
+            transition: width 0.5s;
+        }
+        .top-butler-list-name {
+            font-weight: 700;
+            color: #343a40;
+            min-width: 60px;
+            font-size: 0.97em;
+        }
+        .top-butler-list-count {
+            color: #888;
+            font-size: 0.93em;
+            font-weight: 600;
+            min-width: 28px;
+            text-align: right;
+        }
     </style>
 </head>
 <body>
@@ -656,6 +773,7 @@
                 <button id="exportReportBtn">Exportar Reporte (CSV)</button>
                 <button id="viewDetailsBtn">Ver Encuestas a Detalle</button>
                 <button id="viewTableBtn">Ver en Tabla</button> <button id="printReportBtn">Imprimir Reporte</button>
+                <button id="topButlersBtn">Top 10 Mayordomos</button>
             </div>
 
             <h2>Resumen General</h2>
@@ -761,6 +879,17 @@
         </div>
     </div>
 
+    <div id="topButlersModal" class="modal">
+        <div class="modal-content">
+            <span class="close-button" id="closeTopButlersModal">&times;</span>
+            <h3>Top 10 Mayordomos Más Mencionados</h3>
+            <div id="topButlersCards" class="top-butlers-cards"></div>
+            <ul id="topButlersList" class="top-butlers-list"></ul>
+            <button id="sendTopButlersWhatsappBtn" style="background:#25D366; color:#fff; border:none; border-radius:8px; padding:8px 18px; font-size:1em; font-weight:600; margin-top:8px; cursor:pointer; align-self:center;">
+                <span style="font-size:1.2em; vertical-align:middle;">🟢</span> Enviar Top 10 por WhatsApp
+            </button>
+        </div>
+    </div>
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0/dist/chartjs-plugin-datalabels.min.js"></script>
@@ -1755,6 +1884,80 @@
                     const phone = ""; // Si quieres un número fijo, ponlo aquí. Si no, deja vacío.
                     const url = `https://wa.me/${phone}?text=${msg}`;
                     window.open(url, '_blank');
+                }
+            });
+
+            const topButlersBtn = document.getElementById('topButlersBtn');
+            const topButlersModal = document.getElementById('topButlersModal');
+            const closeTopButlersModal = document.getElementById('closeTopButlersModal');
+            const topButlersCards = document.getElementById('topButlersCards');
+            const topButlersList = document.getElementById('topButlersList');
+            const sendTopButlersWhatsappBtn = document.getElementById('sendTopButlersWhatsappBtn');
+
+            function showTopButlers() {
+                // Cuenta menciones de mayordomos en los datos filtrados
+                const butlerCounts = {};
+                filteredSurveysData.forEach(s => {
+                    if (s.butler && s.butler.trim() !== '') {
+                        const name = s.butler.trim();
+                        butlerCounts[name] = (butlerCounts[name] || 0) + 1;
+                    }
+                });
+                // Ordena por menciones descendente
+                const sorted = Object.entries(butlerCounts).sort((a, b) => b[1] - a[1]);
+                // Top 10
+                const top10 = sorted.slice(0, 10);
+                // Cartas para los 3 primeros
+                topButlersCards.innerHTML = '';
+                const medals = ['🥇', '🥈', '🥉'];
+                for (let i = 0; i < 3 && i < top10.length; i++) {
+                    const [name, count] = top10[i];
+                    const card = document.createElement('div');
+                    card.className = 'top-butler-card';
+                    card.innerHTML = `
+                        <div class="top-butler-medal">${medals[i]}</div>
+                        <div class="top-butler-avatar">${name[0] ? name[0].toUpperCase() : '?'}</div>
+                        <div class="top-butler-name">${name}</div>
+                        <div class="top-butler-count">${count} menciones</div>
+                    `;
+                    topButlersCards.appendChild(card);
+                }
+                // Listado del top 10 con barra de progreso
+                topButlersList.innerHTML = '';
+                const maxCount = top10.length > 0 ? top10[0][1] : 1;
+                top10.forEach(([name, count], idx) => {
+                    const li = document.createElement('li');
+                    li.innerHTML = `
+                        <span class="top-butler-rank">${idx+1}</span>
+                        <span class="top-butler-list-name">${name}</span>
+                        <div class="top-butler-bar"><div class="top-butler-bar-inner" style="width:${(count/maxCount*100).toFixed(0)}%"></div></div>
+                        <span class="top-butler-list-count">${count}</span>
+                    `;
+                    if (idx < 3) li.style.background = '#fffbe6';
+                    topButlersList.appendChild(li);
+                });
+                // Habilita el botón de WhatsApp solo si hay datos
+                sendTopButlersWhatsappBtn.style.display = top10.length > 0 ? 'block' : 'none';
+                sendTopButlersWhatsappBtn.onclick = function() {
+                    if (top10.length === 0) return;
+                    let msg = '🏆 *Top 10 Mayordomos Más Mencionados* 🏆%0A%0A';
+                    top10.forEach(([name, count], idx) => {
+                        const medal = idx === 0 ? '🥇' : idx === 1 ? '🥈' : idx === 2 ? '🥉' : `${idx+1}°`;
+                        msg += `${medal} ${name}: ${count} menciones%0A`;
+                    });
+                    const phone = '';
+                    const url = `https://wa.me/${phone}?text=${msg}`;
+                    window.open(url, '_blank');
+                };
+                topButlersModal.style.display = 'flex';
+            }
+            topButlersBtn.addEventListener('click', showTopButlers);
+            closeTopButlersModal.addEventListener('click', () => {
+                topButlersModal.style.display = 'none';
+            });
+            window.addEventListener('click', function(event) {
+                if (event.target == topButlersModal) {
+                    topButlersModal.style.display = 'none';
                 }
             });
         });
