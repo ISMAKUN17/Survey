@@ -852,6 +852,14 @@
             return "var(--face-bad)";
         }
 
+        function getRatingBadgeColor(rating) {
+            if (!rating) return '';
+            if (rating === "Bad" || rating === "Poor") return "#dc3545"; // rojo
+            if (rating === "Regular") return "#ffc107"; // amarillo
+            if (rating === "Good" || rating === "Excellent") return "#28a745"; // verde
+            return "";
+        }
+
         // Instancia global del gráfico Chart.js para poder destruirlo y recrearlo
         let ratingsChartInstance = null;
 
@@ -1202,22 +1210,30 @@
                 return;
             }
 
-            // Recorre los datos para crear tarjetas de detalle
             dataToDisplay.forEach((survey, index) => {
                 const surveyCard = document.createElement('div');
                 surveyCard.classList.add('survey-detail-card');
 
-                const formattedTimestamp = survey.timestamp && survey.timestamp.toDate ? new Date(survey.timestamp.toDate()).toLocaleString('es-DO') : 'N/A';
+                const formattedTimestamp = survey.timestamp && survey.timestamp.toDate
+                    ? new Date(survey.timestamp.toDate()).toLocaleString('es-DO')
+                    : 'N/A';
+
+                // Colores para cada calificación
+                const staffColor = getRatingBadgeColor(survey.overall_staff_service);
+                const foodColor = getRatingBadgeColor(survey.food_quality);
+                const roomColor = getRatingBadgeColor(survey.room_condition);
+                const clubColor = getRatingBadgeColor(survey.preferred_club_service);
+                const butlerColor = getRatingBadgeColor(survey.butler_service_rating);
 
                 surveyCard.innerHTML = `
                     <h4>Encuesta #${dataToDisplay.length - index} (Enviada: ${formattedTimestamp})</h4>
                     <p><strong>Número de Habitación:</strong> ${survey.room_number || 'N/A'}</p>
                     <p><strong>Mayordomo:</strong> ${survey.butler || 'N/A'}</p>
-                    <p><strong>Servicio General del Personal:</strong> <span class="rating-value">${survey.overall_staff_service || 'N/A'}</span></p>
-                    <p><strong>Calidad de la Comida:</strong> <span class="rating-value">${survey.food_quality || 'N/A'}</span></p>
-                    <p><strong>Condición de la Habitación:</strong> <span class="rating-value">${survey.room_condition || 'N/A'}</span></p>
-                    <p><strong>Servicio Preferred Club:</strong> <span class="rating-value">${survey.preferred_club_service || 'N/A'}</span></p>
-                    <p><strong>Calificación del Servicio del Mayordomo:</strong> <span class="rating-value">${survey.butler_service_rating || 'N/A'}</span></p>
+                    <p><strong>Servicio General del Personal:</strong> <span class="rating-value" style="color:${staffColor}; font-weight:700;">${survey.overall_staff_service || 'N/A'}</span></p>
+                    <p><strong>Calidad de la Comida:</strong> <span class="rating-value" style="color:${foodColor}; font-weight:700;">${survey.food_quality || 'N/A'}</span></p>
+                    <p><strong>Condición de la Habitación:</strong> <span class="rating-value" style="color:${roomColor}; font-weight:700;">${survey.room_condition || 'N/A'}</span></p>
+                    <p><strong>Servicio Preferred Club:</strong> <span class="rating-value" style="color:${clubColor}; font-weight:700;">${survey.preferred_club_service || 'N/A'}</span></p>
+                    <p><strong>Calificación del Servicio del Mayordomo:</strong> <span class="rating-value" style="color:${butlerColor}; font-weight:700;">${survey.butler_service_rating || 'N/A'}</span></p>
                     <p><strong>Comentarios Adicionales:</strong> ${survey.comments || 'No hay comentarios.'}</p>
                 `;
                 detailedSurveysContainer.appendChild(surveyCard);
@@ -1338,11 +1354,28 @@
                 row.insertCell().textContent = formattedTimestamp;
                 row.insertCell().textContent = survey.room_number || 'N/A';
                 row.insertCell().textContent = survey.butler || 'N/A';
-                row.insertCell().textContent = survey.overall_staff_service || 'N/A';
-                row.insertCell().textContent = survey.food_quality || 'N/A';
-                row.insertCell().textContent = survey.room_condition || 'N/A';
-                row.insertCell().textContent = survey.preferred_club_service || 'N/A';
-                row.insertCell().textContent = survey.butler_service_rating || 'N/A';
+
+                // Calificaciones con color
+                const staffCell = row.insertCell();
+                staffCell.textContent = survey.overall_staff_service || 'N/A';
+                staffCell.style.color = getRatingBadgeColor(survey.overall_staff_service);
+
+                const foodCell = row.insertCell();
+                foodCell.textContent = survey.food_quality || 'N/A';
+                foodCell.style.color = getRatingBadgeColor(survey.food_quality);
+
+                const roomCell = row.insertCell();
+                roomCell.textContent = survey.room_condition || 'N/A';
+                roomCell.style.color = getRatingBadgeColor(survey.room_condition);
+
+                const clubCell = row.insertCell();
+                clubCell.textContent = survey.preferred_club_service || 'N/A';
+                clubCell.style.color = getRatingBadgeColor(survey.preferred_club_service);
+
+                const butlerCell = row.insertCell();
+                butlerCell.textContent = survey.butler_service_rating || 'N/A';
+                butlerCell.style.color = getRatingBadgeColor(survey.butler_service_rating);
+
                 row.insertCell().textContent = survey.comments || '';
             });
 
