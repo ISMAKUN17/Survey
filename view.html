@@ -735,6 +735,145 @@
             min-width: 28px;
             text-align: right;
         }
+
+        #butlerEffectivenessModal .modal-content {
+            max-width: 720px;
+            padding: 38px 48px 32px 48px;
+        }
+        .butler-effectiveness-legend {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 10px;
+            font-size: 0.97em;
+            align-items: center;
+            justify-content: center;
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 6px 0 4px 0;
+        }
+        .butler-effectiveness-legend span {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            font-weight: 600;
+        }
+        .butler-effectiveness-dot {
+            width: 13px;
+            height: 13px;
+            border-radius: 50%;
+            display: inline-block;
+            border: 1.5px solid #fff;
+        }
+        .butler-effectiveness-list li {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 16px;
+            border-radius: 10px;
+            padding: 22px 22px 22px 22px;
+            font-size: 1.09em;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+            font-weight: 500;
+            background: #fff;
+            border: 1.5px solid #f2f2f2;
+            position: relative;
+        }
+        .butler-effectiveness-list li.baja {
+            background: #fdeaea;
+            color: #dc3545;
+            border-color: #f5c6cb;
+        }
+        .butler-effectiveness-list li.media {
+            background: #fffbe6;
+            color: #bfa600;
+            border-color: #ffe066;
+        }
+        .butler-effectiveness-list li.alta {
+            background: #eafaf1;
+            color: #28a745;
+            border-color: #b7eed8;
+        }
+        .butler-effectiveness-avatar {
+            width: 48px;
+            height: 48px;
+            background: #e9ecef;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.45em;
+            font-weight: 800;
+            color: #6c757d;
+            margin-right: 16px;
+            border: 2px solid #fff;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+        }
+        .butler-effectiveness-rank {
+            font-weight:900;
+            color:#007bff;
+            width:22px;
+            text-align:center;
+            font-size:1.18em;
+            margin-right: 8px;
+        }
+        .butler-effectiveness-name {
+            font-weight:700;
+            min-width:110px;
+            color:#343a40;
+            font-size:1.08em;
+            margin-right: 10px;
+        }
+        .butler-effectiveness-avg {
+            font-size:1.18em;
+            font-weight:800;
+            margin-left: 2px;
+            min-width: 48px;
+            text-align: right;
+        }
+        .butler-effectiveness-bar {
+            flex: 1;
+            height: 10px;
+            border-radius: 5px;
+            background: #f2f2f2;
+            margin: 0 10px;
+            position: relative;
+            overflow: hidden;
+            min-width: 120px;
+            max-width: 320px;
+        }
+        .butler-effectiveness-bar-inner {
+            height: 100%;
+            border-radius: 5px;
+            background: linear-gradient(90deg, #28a745 60%, #b7eed8 100%);
+            transition: width 0.5s;
+        }
+        .butler-effectiveness-list li.baja .butler-effectiveness-bar-inner {
+            background: linear-gradient(90deg, #dc3545 60%, #f5c6cb 100%);
+        }
+        .butler-effectiveness-list li.media .butler-effectiveness-bar-inner {
+            background: linear-gradient(90deg, #ffc107 60%, #ffe066 100%);
+        }
+        .butler-effectiveness-badge {
+            font-size:0.93em;
+            font-weight:700;
+            border-radius: 8px;
+            padding: 2px 10px;
+            margin-left: 16px;
+            color: #fff;
+            background: #888;
+            letter-spacing: 0.5px;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.07);
+        }
+        .butler-effectiveness-badge.baja {
+            background: #dc3545;
+        }
+        .butler-effectiveness-badge.media {
+            background: #ffc107;
+            color: #222;
+        }
+        .butler-effectiveness-badge.alta {
+            background: #28a745;
+        }
     </style>
 </head>
 <body>
@@ -774,6 +913,7 @@
                 <button id="viewDetailsBtn">Ver Encuestas a Detalle</button>
                 <button id="viewTableBtn">Ver en Tabla</button> <button id="printReportBtn">Imprimir Reporte</button>
                 <button id="topButlersBtn">Top 10 Mayordomos</button>
+                <button id="butlerEffectivenessBtn">Efectividad de Mayordomos</button>
             </div>
 
             <h2>Resumen General</h2>
@@ -833,7 +973,7 @@
     <div id="surveyDetailModal" class="modal">
         <div class="modal-content">
             <span class="close-button">&times;</span>
-            <h3>Encuestas Recibidas a Detalle</h3>
+            <h3>Encuestas Recibidas a Detalle (Filtradas)</h3>
             <div id="detailedSurveysContainer">
                 </div>
         </div>
@@ -888,6 +1028,19 @@
             <button id="sendTopButlersWhatsappBtn" style="background:#25D366; color:#fff; border:none; border-radius:8px; padding:8px 18px; font-size:1em; font-weight:600; margin-top:8px; cursor:pointer; align-self:center;">
                 <span style="font-size:1.2em; vertical-align:middle;">🟢</span> Enviar Top 10 por WhatsApp
             </button>
+        </div>
+    </div>
+
+    <div id="butlerEffectivenessModal" class="modal">
+        <div class="modal-content">
+            <span class="close-button" id="closeButlerEffectivenessModal">&times;</span>
+            <h3>Efectividad de Mayordomos (Promedio de Servicio)</h3>
+            <div class="butler-effectiveness-legend">
+                <span><span class="butler-effectiveness-dot" style="background:#eafaf1;"></span> Alta (&ge; 4.0)</span>
+                <span><span class="butler-effectiveness-dot" style="background:#fffbe6;"></span> Media (2.5 - 3.99)</span>
+                <span><span class="butler-effectiveness-dot" style="background:#fdeaea;"></span> Baja (&lt; 2.5)</span>
+            </div>
+            <ul id="butlerEffectivenessList" class="butler-effectiveness-list" style="list-style:none; padding:0; margin:0;"></ul>
         </div>
     </div>
 
@@ -1958,6 +2111,65 @@
             window.addEventListener('click', function(event) {
                 if (event.target == topButlersModal) {
                     topButlersModal.style.display = 'none';
+                }
+            });
+
+            const butlerEffectivenessBtn = document.getElementById('butlerEffectivenessBtn');
+            const butlerEffectivenessModal = document.getElementById('butlerEffectivenessModal');
+            const closeButlerEffectivenessModal = document.getElementById('closeButlerEffectivenessModal');
+            const butlerEffectivenessList = document.getElementById('butlerEffectivenessList');
+
+            function showButlerEffectiveness() {
+                // Agrupa por mayordomo y calcula promedio de servicio
+                const map = { "Bad": 1, "Poor": 2, "Regular": 3, "Good": 4, "Excellent": 5 };
+                const butlerStats = {};
+                filteredSurveysData.forEach(s => {
+                    if (s.butler && s.butler_service_rating && map[s.butler_service_rating]) {
+                        const name = s.butler.trim();
+                        if (!butlerStats[name]) butlerStats[name] = { sum: 0, count: 0 };
+                        butlerStats[name].sum += map[s.butler_service_rating];
+                        butlerStats[name].count++;
+                    }
+                });
+                // Calcula promedios y ordena
+                const effectiveness = Object.entries(butlerStats)
+                    .map(([name, stat]) => ({
+                        name,
+                        avg: stat.count ? (stat.sum/stat.count) : 0,
+                        count: stat.count
+                    }))
+                    .filter(b => b.count > 0)
+                    .sort((a, b) => b.avg - a.avg);
+                // Renderiza lista
+                butlerEffectivenessList.innerHTML = '';
+                effectiveness.forEach((b, idx) => {
+                    let nivel = 'media', badge = 'Media';
+                    if (b.avg >= 4.0) { nivel = 'alta'; badge = 'Alta'; }
+                    else if (b.avg < 2.5) { nivel = 'baja'; badge = 'Baja'; }
+                    const li = document.createElement('li');
+                    li.className = nivel;
+                    // Barra de progreso: 1-5 mapeado a 0-100%
+                    const barWidth = ((b.avg-1)/4*100).toFixed(0);
+                    li.innerHTML = `
+                        <span class="butler-effectiveness-rank">${idx+1}</span>
+                        <span class="butler-effectiveness-avatar">${b.name[0] ? b.name[0].toUpperCase() : '?'}</span>
+                        <span class="butler-effectiveness-name">${b.name}</span>
+                        <span class="butler-effectiveness-avg">${b.avg.toFixed(2)}</span>
+                        <div class="butler-effectiveness-bar"><div class="butler-effectiveness-bar-inner" style="width:${barWidth}%"></div></div>
+                        <span class="butler-effectiveness-badge ${nivel}">${badge}</span>
+                        <span style="color:#888; font-size:0.95em; margin-left:8px;">(${b.count} respuestas)</span>
+                    `;
+                    butlerEffectivenessList.appendChild(li);
+                });
+                butlerEffectivenessModal.style.display = 'flex';
+            }
+            butlerEffectivenessBtn.addEventListener('click', showButlerEffectiveness);
+            closeButlerEffectivenessModal.addEventListener('click', () => {
+                butlerEffectivenessModal.style.display = 'none';
+            });
+            window.addEventListener('click', function(event) {
+                if (event.target == butlerEffectivenessModal) {
+                    butlerEffectivenessModal.style.display = 'none';
                 }
             });
         });
