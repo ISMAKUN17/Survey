@@ -615,6 +615,9 @@
                 scrollbar-width: none; /* Firefox */
             }
         }
+        .summary-card .value span[title] {
+            cursor: help;
+        }
     </style>
 </head>
 <body>
@@ -690,7 +693,22 @@
 
             <h2>Comentarios Recientes</h2>
             <div class="comments-section" id="commentsSection">
+                <input type="text" id="commentKeywordFilter" placeholder="Filtrar comentarios por palabra clave..." style="margin-bottom:10px; width:100%; padding:8px;">
+                <select id="ratingRangeFilter" style="margin-bottom:10px;">
+                    <option value="">Todas las calificaciones</option>
+                    <option value="Bad">Bad</option>
+                    <option value="Poor">Poor</option>
+                    <option value="Regular">Regular</option>
+                    <option value="Good">Good</option>
+                    <option value="Excellent">Excellent</option>
+                </select>
+                <div style="margin-bottom:10px;">
+                    <label>Comparar del <input type="date" id="compareStart1"> al <input type="date" id="compareEnd1">
+                    vs del <input type="date" id="compareStart2"> al <input type="date" id="compareEnd2"></label>
+                    <button id="compareBtn">Comparar</button>
                 </div>
+                <div id="compareResult"></div>
+            </div>
         </div>
     </div>
 
@@ -859,6 +877,13 @@
             if (rating === "Good" || rating === "Excellent") return "#28a745"; // verde
             return "";
         }
+        function getRatingBadgeBg(rating) {
+            if (!rating) return '';
+            if (rating === "Bad" || rating === "Poor") return "#fdeaea"; // fondo rojo suave
+            if (rating === "Regular") return "#fffbe6"; // fondo amarillo suave
+            if (rating === "Good" || rating === "Excellent") return "#eafaf1"; // fondo verde suave
+            return "";
+        }
 
         // Instancia global del gráfico Chart.js para poder destruirlo y recrearlo
         let ratingsChartInstance = null;
@@ -884,6 +909,28 @@
                 option.textContent = butler;
                 butlerFilterSelect.appendChild(option);
             });
+        }
+
+        // Devuelve el promedio numérico de una lista de encuestas para un campo
+        function getNumericAverage(surveys, field) {
+            const map = { "Bad": 1, "Poor": 2, "Regular": 3, "Good": 4, "Excellent": 5 };
+            const vals = surveys.map(s => map[s[field]]).filter(Boolean);
+            if (!vals.length) return null;
+            return vals.reduce((a, b) => a + b, 0) / vals.length;
+        }
+
+        // Devuelve la tendencia: "up", "down", "same"
+        function getTrend(current, previous) {
+            if (current == null || previous == null) return "same";
+            if (current > previous) return "up";
+            if (current < previous) return "down";
+            return "same";
+        }
+
+        // Devuelve true si hay más de X respuestas "Bad" o "Poor"
+        function hasAlert(surveys, field, threshold = 3) {
+            const count = surveys.filter(s => s[field] === "Bad" || s[field] === "Poor").length;
+            return count >= threshold;
         }
 
         // --- Función Principal de Carga y Renderizado del Dashboard ---
@@ -977,6 +1024,48 @@
                     if (targetElement) {
                         targetElement.innerHTML = `<span style="color: ${color};">${emoji} ${avg}</span>`;
                     }
+
+                    // --- BADGE DE TENDENCIA Y ALERTA ---
+                    // 1. Encuestas de la semana actual y anterior
+                    const today = new Date();
+                    const getWeek = d => {
+                        const date = new Date(d);
+                        date.setHours(0,0,0,0);
+                        const firstDay = new Date(date.getFullYear(), 0, 1);
+                        return Math.ceil((((date - firstDay) / 86400000) + firstDay.getDay() + 1) / 7);
+                    };
+                    const weekNow = getWeek(today);
+                    const yearNow = today.getFullYear();
+
+                    // Encuestas de esta semana y la anterior
+                    const surveysThisWeek = filteredSurveysData.filter(s => {
+                        const d = s.timestamp ? new Date(s.timestamp.toDate ? s.timestamp.toDate() : s.timestamp) : null;
+                        return d && getWeek(d) === weekNow && d.getFullYear() === yearNow;
+                    });
+                    const surveysLastWeek = filteredSurveysData.filter(s => {
+                        const d = s.timestamp ? new Date(s.timestamp.toDate ? s.timestamp.toDate() : s.timestamp) : null;
+                        return d && getWeek(d) === weekNow - 1 && d.getFullYear() === yearNow;
+                    });
+
+                    const avgThis = getNumericAverage(surveysThisWeek, item.fieldName);
+                    const avgLast = getNumericAverage(surveysLastWeek, item.fieldName);
+                    const trend = getTrend(avgThis, avgLast);
+
+                    // Badge de tendencia
+                    let trendBadge = "";
+                    if (trend === "up") trendBadge = `<span title="Mejoró respecto a la semana pasada" style="color: #28a745; font-size:1.2em; margin-left:8px;">▲</span>`;
+                    else if (trend === "down") trendBadge = `<span title="Empeoró respecto a la semana pasada" style="color: #dc3545; font-size:1.2em; margin-left:8px;">▼</span>`;
+                    else trendBadge = `<span title="Sin cambio respecto a la semana pasada" style="color: #ffc107; font-size:1.2em; margin-left:8px;">●</span>`;
+
+                    // Badge de alerta
+                    const alert = hasAlert(surveysThisWeek, item.fieldName, 3); // 3 o más "Bad"/"Poor"
+                    let alertBadge = "";
+                    if (alert) alertBadge = `<span title="¡Alerta! Muchas respuestas negativas esta semana" style="background:#dc3545; color:#fff; border-radius:8px; padding:2px 8px; margin-left:8px; font-size:0.9em;">ALERTA</span>`;
+
+                    // Inserta los badges en la tarjeta
+                    if (targetElement) {
+                        targetElement.innerHTML += trendBadge + alertBadge;
+                    }
                 });
 
                 // --- Configuración y actualización del gráfico ---
@@ -1065,9 +1154,12 @@
                         const commentCard = document.createElement('div');
                         commentCard.classList.add('comment-card');
                         const formattedTimestamp = comment.timestamp && comment.timestamp.toDate ? new Date(comment.timestamp.toDate()).toLocaleString('es-DO') : 'N/A';
+                        const isNew = isCommentNew(comment.timestamp ? (comment.timestamp.toDate ? comment.timestamp.toDate() : comment.timestamp) : null);
                         commentCard.innerHTML = `
                             <p>${comment.comments}</p>
+                            ${isNew ? '<span style="background:#28a745; color:#fff; border-radius:8px; padding:2px 8px; margin-left:8px; font-size:0.9em;">Nuevo</span>' : ''}
                             <small>Habitación: ${comment.room_number || 'N/A'} - Mayordomo: ${comment.butler || 'N/A'} - Enviado: ${formattedTimestamp}</small>
+                            <button class="copy-comment-btn" data-comment="${comment.comments}">Copiar</button>
                         `;
                         commentsSection.appendChild(commentCard);
                     });
@@ -1355,28 +1447,38 @@
                 row.insertCell().textContent = survey.room_number || 'N/A';
                 row.insertCell().textContent = survey.butler || 'N/A';
 
-                // Calificaciones con color
-                const staffCell = row.insertCell();
-                staffCell.textContent = survey.overall_staff_service || 'N/A';
-                staffCell.style.color = getRatingBadgeColor(survey.overall_staff_service);
-
-                const foodCell = row.insertCell();
-                foodCell.textContent = survey.food_quality || 'N/A';
-                foodCell.style.color = getRatingBadgeColor(survey.food_quality);
-
-                const roomCell = row.insertCell();
-                roomCell.textContent = survey.room_condition || 'N/A';
-                roomCell.style.color = getRatingBadgeColor(survey.room_condition);
-
-                const clubCell = row.insertCell();
-                clubCell.textContent = survey.preferred_club_service || 'N/A';
-                clubCell.style.color = getRatingBadgeColor(survey.preferred_club_service);
-
-                const butlerCell = row.insertCell();
-                butlerCell.textContent = survey.butler_service_rating || 'N/A';
-                butlerCell.style.color = getRatingBadgeColor(survey.butler_service_rating);
+                // Calificaciones con color, fondo y tooltip
+                function addRatingCell(value) {
+                    const cell = row.insertCell();
+                    cell.textContent = value || 'N/A';
+                    cell.style.color = getRatingBadgeColor(value);
+                    cell.style.background = getRatingBadgeBg(value);
+                    cell.style.fontWeight = "700";
+                    cell.title = value ? ({
+                        "Bad": "Muy insatisfecho",
+                        "Poor": "Insatisfecho",
+                        "Regular": "Regular",
+                        "Good": "Satisfecho",
+                        "Excellent": "Muy satisfecho"
+                    }[value] || value) : "";
+                    return cell;
+                }
+                addRatingCell(survey.overall_staff_service);
+                addRatingCell(survey.food_quality);
+                addRatingCell(survey.room_condition);
+                addRatingCell(survey.preferred_club_service);
+                addRatingCell(survey.butler_service_rating);
 
                 row.insertCell().textContent = survey.comments || '';
+
+                // Click en fila para ver detalle
+                row.style.cursor = "pointer";
+                row.addEventListener('click', () => {
+                    // Antes de mostrar el modal de detalle, cierra el de tabla
+                    document.getElementById('tableModal').style.display = "none";
+                    document.getElementById('surveyDetailModal').style.display = "flex";
+                    displayDetailedSurveys([survey]);
+                });
             });
 
             currentPageSpan.textContent = currentPage;
@@ -1544,7 +1646,98 @@
                     displayMetricSummary(cardId, metricField, displayTitle);
                 });
             });
+
+            // Event listeners para el filtro de comentarios por palabra clave
+            const commentKeywordFilterInput = document.getElementById('commentKeywordFilter');
+            commentKeywordFilterInput.addEventListener('input', function() {
+                const keyword = this.value.toLowerCase();
+                // Filtra los comentarios y vuelve a renderizar la sección
+                renderCommentsSection(filteredSurveysData.filter(s => (s.comments || '').toLowerCase().includes(keyword)));
+            });
+
+            // Event listeners para el filtro de rango de calificación
+            document.getElementById('ratingRangeFilter').addEventListener('change', function() {
+                const value = this.value;
+                let filtered = filteredSurveysData;
+                if (value) {
+                    filtered = filtered.filter(s => 
+                        s.overall_staff_service === value ||
+                        s.food_quality === value ||
+                        s.room_condition === value ||
+                        s.preferred_club_service === value ||
+                        s.butler_service_rating === value
+                    );
+                }
+                // Vuelve a renderizar la tabla y los comentarios con el filtro aplicado
+                renderTable(filtered);
+                renderCommentsSection(filtered);
+            });
+
+            // Event listeners para el comparador de periodos
+            const compareStart1 = document.getElementById('compareStart1');
+            const compareEnd1 = document.getElementById('compareEnd1');
+            const compareStart2 = document.getElementById('compareStart2');
+            const compareEnd2 = document.getElementById('compareEnd2');
+            const compareBtn = document.getElementById('compareBtn');
+            const compareResultDiv = document.getElementById('compareResult');
+
+            function filterByRange(data, start, end) {
+                return data.filter(s => {
+                    const d = s.timestamp ? new Date(s.timestamp.toDate ? s.timestamp.toDate() : s.timestamp) : null;
+                    if (!d) return false;
+                    const iso = d.toISOString().slice(0,10);
+                    return iso >= start && iso <= end;
+                });
+            }
+
+            compareBtn.addEventListener('click', function() {
+                const s1 = document.getElementById('compareStart1').value;
+                const e1 = document.getElementById('compareEnd1').value;
+                const s2 = document.getElementById('compareStart2').value;
+                const e2 = document.getElementById('compareEnd2').value;
+                if (!s1 || !e1 || !s2 || !e2) return;
+
+                const group1 = filterByRange(filteredSurveysData, s1, e1);
+                const group2 = filterByRange(filteredSurveysData, s2, e2);
+
+                let html = "<b>Comparación de promedios:</b><br>";
+                ['overall_staff_service','food_quality','room_condition','preferred_club_service','butler_service_rating'].forEach(field => {
+                    const avg1 = getNumericAverage(group1, field) || 0;
+                    const avg2 = getNumericAverage(group2, field) || 0;
+                    const diff = (avg1 - avg2).toFixed(2);
+                    html += `${field}: ${avg1.toFixed(2)} vs ${avg2.toFixed(2)} <span style="color:${diff>0?'#28a745':diff<0?'#dc3545':'#ffc107'};">(${diff>0?'+':''}${diff})</span><br>`;
+                });
+                compareResultDiv.innerHTML = html;
+            });
+
+            // Event listeners para el botón de copiar comentario
+            document.addEventListener('click', function(event) {
+                const copyButton = event.target.closest('.copy-comment-btn');
+                if (copyButton) {
+                    const comment = copyButton.dataset.comment;
+                    navigator.clipboard.writeText(comment).then(() => {
+                        alert('Comentario copiado al portapapeles!');
+                    }).catch(err => {
+                        console.error('Error al copiar el comentario: ', err);
+                    });
+                }
+            });
         });
+
+        // Guardar la fecha de la última visita en localStorage
+        function markCommentsAsSeen() {
+            localStorage.setItem('lastSeenComments', new Date().toISOString());
+        }
+
+        // Devuelve true si el comentario es nuevo desde la última visita
+        function isCommentNew(commentTimestamp) {
+            const lastSeen = localStorage.getItem('lastSeenComments');
+            if (!lastSeen) return true;
+            return new Date(commentTimestamp) > new Date(lastSeen);
+        }
+
+        // Llama a esta función cuando el usuario abre el dashboard
+        markCommentsAsSeen();
     </script>
 </body>
 </html>
