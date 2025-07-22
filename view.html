@@ -1159,7 +1159,14 @@
                             <p>${comment.comments}</p>
                             ${isNew ? '<span style="background:#28a745; color:#fff; border-radius:8px; padding:2px 8px; margin-left:8px; font-size:0.9em;">Nuevo</span>' : ''}
                             <small>Habitación: ${comment.room_number || 'N/A'} - Mayordomo: ${comment.butler || 'N/A'} - Enviado: ${formattedTimestamp}</small>
-                            <button class="copy-comment-btn" data-comment="${comment.comments}">Copiar</button>
+                            <button class="whatsapp-comment-btn" 
+                                data-comment="${encodeURIComponent(comment.comments)}"
+                                data-room="${encodeURIComponent(comment.room_number || 'N/A')}"
+                                data-butler="${encodeURIComponent(comment.butler || 'N/A')}"
+                                data-date="${encodeURIComponent(formattedTimestamp)}"
+                                style="background:#25D366; color:#fff; border:none; border-radius:6px; padding:6px 14px; margin-top:8px; cursor:pointer;">
+                                <span style="font-size:1.2em; vertical-align:middle;">🟢</span> Enviar a WhatsApp
+                            </button>
                         `;
                         commentsSection.appendChild(commentCard);
                     });
@@ -1317,6 +1324,19 @@
                 const clubColor = getRatingBadgeColor(survey.preferred_club_service);
                 const butlerColor = getRatingBadgeColor(survey.butler_service_rating);
 
+                // Mensaje bonito y organizado para WhatsApp
+                const whatsappMsg =
+                    `📋 *Encuesta #${dataToDisplay.length - index}*%0A` +
+                    `🏨 *Habitación:* ${survey.room_number || 'N/A'}%0A` +
+                    `🧑‍💼 *Mayordomo:* ${survey.butler || 'N/A'}%0A` +
+                    `🕒 *Enviado:* ${formattedTimestamp}%0A%0A` +
+                    `⭐ *Servicio General del Personal:* ${survey.overall_staff_service || 'N/A'}%0A` +
+                    `🍽️ *Calidad de la Comida:* ${survey.food_quality || 'N/A'}%0A` +
+                    `🛏️ *Condición de la Habitación:* ${survey.room_condition || 'N/A'}%0A` +
+                    `🏷️ *Servicio Preferred Club:* ${survey.preferred_club_service || 'N/A'}%0A` +
+                    `🤵 *Calificación del Mayordomo:* ${survey.butler_service_rating || 'N/A'}%0A%0A` +
+                    `💬 *Comentario:*%0A${survey.comments || 'No hay comentarios.'}`;
+
                 surveyCard.innerHTML = `
                     <h4>Encuesta #${dataToDisplay.length - index} (Enviada: ${formattedTimestamp})</h4>
                     <p><strong>Número de Habitación:</strong> ${survey.room_number || 'N/A'}</p>
@@ -1327,6 +1347,11 @@
                     <p><strong>Servicio Preferred Club:</strong> <span class="rating-value" style="color:${clubColor}; font-weight:700;">${survey.preferred_club_service || 'N/A'}</span></p>
                     <p><strong>Calificación del Servicio del Mayordomo:</strong> <span class="rating-value" style="color:${butlerColor}; font-weight:700;">${survey.butler_service_rating || 'N/A'}</span></p>
                     <p><strong>Comentarios Adicionales:</strong> ${survey.comments || 'No hay comentarios.'}</p>
+                    <button class="whatsapp-survey-btn" 
+                        data-msg="${whatsappMsg}"
+                        style="background:#25D366; color:#fff; border:none; border-radius:6px; padding:6px 14px; margin-top:8px; cursor:pointer;">
+                        <span style="font-size:1.2em; vertical-align:middle;">🟢</span> Enviar a WhatsApp
+                    </button>
                 `;
                 detailedSurveysContainer.appendChild(surveyCard);
             });
@@ -1712,14 +1737,24 @@
 
             // Event listeners para el botón de copiar comentario
             document.addEventListener('click', function(event) {
-                const copyButton = event.target.closest('.copy-comment-btn');
-                if (copyButton) {
-                    const comment = copyButton.dataset.comment;
-                    navigator.clipboard.writeText(comment).then(() => {
-                        alert('Comentario copiado al portapapeles!');
-                    }).catch(err => {
-                        console.error('Error al copiar el comentario: ', err);
-                    });
+                const whatsappButton = event.target.closest('.whatsapp-comment-btn');
+                if (whatsappButton) {
+                    const comment = whatsappButton.dataset.comment;
+                    const room = whatsappButton.dataset.room;
+                    const butler = whatsappButton.dataset.butler;
+                    const date = whatsappButton.dataset.date;
+                    // Mensaje completo en el formato solicitado
+                    const message = `${decodeURIComponent(comment)}\n\nHabitación: ${decodeURIComponent(room)} - Mayordomo: ${decodeURIComponent(butler)} - Enviado: ${decodeURIComponent(date)}`;
+                    const phone = ""; // Si quieres un número fijo, ponlo aquí. Si no, deja vacío.
+                    const url = `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
+                    window.open(url, '_blank');
+                }
+                const whatsappSurveyBtn = event.target.closest('.whatsapp-survey-btn');
+                if (whatsappSurveyBtn) {
+                    const msg = whatsappSurveyBtn.dataset.msg;
+                    const phone = ""; // Si quieres un número fijo, ponlo aquí. Si no, deja vacío.
+                    const url = `https://wa.me/${phone}?text=${msg}`;
+                    window.open(url, '_blank');
                 }
             });
         });
