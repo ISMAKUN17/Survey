@@ -1,0 +1,3560 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Secrets Royal Beach - Survey Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        /* Variables CSS para consistencia - Diseño Moderno */
+        :root {
+            /* Paleta de colores moderna */
+            --primary-color: #6366f1;
+            --primary-dark: #4f46e5;
+            --primary-light: #a5b4fc;
+            --secondary-color: #64748b;
+            --accent-color: #f59e0b;
+            --success-color: #10b981;
+            --warning-color: #f59e0b;
+            --error-color: #ef4444;
+            
+            /* Colores de fondo modernos */
+            --background-color: #f8fafc;
+            --card-background: #ffffff;
+            --surface-color: #f1f5f9;
+            
+            /* Colores de texto */
+            --text-primary: #1e293b;
+            --text-secondary: #64748b;
+            --text-muted: #94a3b8;
+            
+            /* Bordes y sombras */
+            --border-color: #e2e8f0;
+            --border-light: #f1f5f9;
+            --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+            --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+            --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+            --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+
+            /* Colores para las calificaciones (emojis y texto) */
+            --face-bad: #ef4444;
+            --face-poor: #f59e0b;
+            --face-regular: #eab308;
+            --face-good: #06b6d4;
+            --face-excellent: #10b981;
+            
+            /* Espaciado moderno */
+            --spacing-xs: 0.25rem;
+            --spacing-sm: 0.5rem;
+            --spacing-md: 1rem;
+            --spacing-lg: 1.5rem;
+            --spacing-xl: 2rem;
+            --spacing-2xl: 3rem;
+            
+            /* Bordes redondeados */
+            --radius-sm: 0.375rem;
+            --radius-md: 0.5rem;
+            --radius-lg: 0.75rem;
+            --radius-xl: 1rem;
+            --radius-2xl: 1.5rem;
+        }
+
+        /* Estilos generales del cuerpo */
+        body {
+            font-family: 'Inter', 'Nunito', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: var(--text-primary);
+            margin: 0;
+            padding: var(--spacing-lg);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            box-sizing: border-box;
+            line-height: 1.6;
+            font-weight: 400;
+        }
+
+        /* Contenedor principal del dashboard */
+        .container {
+            background: var(--card-background);
+            border-radius: var(--radius-2xl);
+            box-shadow: var(--shadow-xl);
+            padding: var(--spacing-2xl);
+            width: 100%;
+            max-width: 1200px;
+            text-align: center;
+            margin-bottom: var(--spacing-lg);
+            animation: fadeInUp 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        /* Animación de entrada mejorada */
+        @keyframes fadeInUp {
+            from { 
+                opacity: 0; 
+                transform: translateY(30px) scale(0.95); 
+            }
+            to { 
+                opacity: 1; 
+                transform: translateY(0) scale(1); 
+            }
+        }
+
+        /* Estilos para el logo */
+        .logo {
+            max-width: 200px;
+            margin-bottom: var(--spacing-md);
+            filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.1));
+        }
+
+        /* Estilos para los títulos */
+        h1 {
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-size: 3rem;
+            margin-top: var(--spacing-md);
+            margin-bottom: var(--spacing-lg);
+            font-weight: 800;
+            letter-spacing: -0.025em;
+        }
+
+        h2 {
+            color: var(--text-primary);
+            font-size: 2rem;
+            margin-top: var(--spacing-2xl);
+            margin-bottom: var(--spacing-lg);
+            font-weight: 700;
+            position: relative;
+            padding-bottom: var(--spacing-md);
+        }
+
+        h2::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+            border-radius: 2px;
+        }
+
+        /* Grid para las tarjetas de resumen */
+        .summary-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: var(--spacing-lg);
+            margin-top: var(--spacing-xl);
+            margin-bottom: var(--spacing-2xl);
+        }
+
+        /* Estilos para las tarjetas de resumen */
+        .summary-card {
+            background: linear-gradient(135deg, var(--card-background) 0%, var(--surface-color) 100%);
+            border-radius: var(--radius-xl);
+            padding: var(--spacing-xl);
+            box-shadow: var(--shadow-md);
+            text-align: left;
+            border: 1px solid var(--border-light);
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .summary-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+
+        .summary-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-xl);
+        }
+
+        .summary-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .summary-card h3 {
+            color: var(--text-primary);
+            font-size: 1.25rem;
+            margin-top: 0;
+            margin-bottom: var(--spacing-md);
+            font-weight: 600;
+        }
+
+        .summary-card p {
+            font-size: 1.125rem;
+            margin-bottom: var(--spacing-sm);
+            color: var(--text-secondary);
+        }
+
+        .summary-card .value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+        }
+
+        /* Contenedor para el gráfico */
+        .chart-container {
+            width: 100%;
+            height: 400px;
+            margin: 0 auto var(--spacing-xl) auto;
+            background: var(--card-background);
+            border-radius: var(--radius-xl);
+            box-shadow: var(--shadow-lg);
+            padding: var(--spacing-xl);
+            box-sizing: border-box;
+            border: 1px solid var(--border-light);
+            position: relative;
+        }
+
+        .chart-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--border-color), transparent);
+        }
+
+        /* Sección de comentarios */
+        .comments-section {
+            text-align: left;
+            margin-top: var(--spacing-xl);
+        }
+
+        /* Tarjeta de comentario individual */
+        .comment-card {
+            background: var(--card-background);
+            border-radius: var(--radius-lg);
+            padding: var(--spacing-lg);
+            margin-bottom: var(--spacing-md);
+            box-shadow: var(--shadow-sm);
+            border: 1px solid var(--border-light);
+            transition: all 0.2s ease;
+            position: relative;
+        }
+
+        .comment-card:hover {
+            box-shadow: var(--shadow-md);
+            transform: translateY(-2px);
+        }
+
+        .comment-card p {
+            margin: 0;
+            font-size: 1rem;
+            word-wrap: break-word;
+            color: var(--text-primary);
+            line-height: 1.6;
+        }
+
+        .comment-card small {
+            display: block;
+            margin-top: var(--spacing-md);
+            color: var(--text-muted);
+            font-size: 0.875rem;
+        }
+
+        /* Mensajes de estado */
+        .loading-message, .no-data-message, .error-message {
+            text-align: center;
+            font-style: italic;
+            color: var(--text-secondary);
+            margin-top: var(--spacing-2xl);
+            font-size: 1.25rem;
+            padding: var(--spacing-xl);
+            background: var(--surface-color);
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--border-light);
+        }
+
+        .error-message {
+            color: var(--error-color);
+            font-weight: 600;
+            background: #fef2f2;
+            border-color: #fecaca;
+        }
+
+        /* Estilos para los botones de acción */
+        .dashboard-actions {
+            margin-top: var(--spacing-xl);
+            display: flex;
+            justify-content: center;
+            gap: var(--spacing-md);
+            flex-wrap: wrap;
+        }
+
+        .dashboard-actions button {
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+            color: white;
+            border: none;
+            padding: var(--spacing-md) var(--spacing-lg);
+            border-radius: var(--radius-lg);
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: var(--shadow-md);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .dashboard-actions button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .dashboard-actions button:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .dashboard-actions button:hover::before {
+            left: 100%;
+        }
+
+        .dashboard-actions button:active {
+            transform: translateY(0);
+            box-shadow: var(--shadow-md);
+        }
+
+        /* Estilos para los controles de filtro */
+        .filter-controls {
+            display: flex;
+            flex-direction: column;
+            gap: var(--spacing-lg);
+            justify-content: center;
+            margin-top: var(--spacing-xl);
+            margin-bottom: var(--spacing-xl);
+            padding: var(--spacing-xl);
+            background: linear-gradient(135deg, var(--surface-color) 0%, var(--background-color) 100%);
+            border-radius: var(--radius-xl);
+            box-shadow: var(--shadow-md);
+            border: 1px solid var(--border-light);
+        }
+
+        .filter-controls h3 {
+            color: var(--text-primary);
+            font-size: 1.5rem;
+            margin: 0 0 var(--spacing-lg) 0;
+            text-align: center;
+            font-weight: 700;
+        }
+
+        .filter-section {
+            background: var(--card-background);
+            border-radius: var(--radius-lg);
+            padding: var(--spacing-lg);
+            border: 1px solid var(--border-light);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .filter-section h4 {
+            color: var(--primary-color);
+            font-size: 1.125rem;
+            margin: 0 0 var(--spacing-md) 0;
+            font-weight: 600;
+            border-bottom: 2px solid var(--border-light);
+            padding-bottom: var(--spacing-sm);
+        }
+
+        .filter-row {
+            display: flex;
+            gap: var(--spacing-md);
+            flex-wrap: wrap;
+            align-items: flex-end;
+        }
+
+        .filter-group {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            flex: 1;
+            min-width: 200px;
+        }
+
+        .filter-group label {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            margin-bottom: var(--spacing-sm);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .filter-group input[type="date"],
+        .filter-group input[type="text"],
+        .filter-group input[type="number"],
+        .filter-group select {
+            padding: var(--spacing-md);
+            border: 2px solid var(--border-color);
+            border-radius: var(--radius-lg);
+            font-family: inherit;
+            font-size: 1rem;
+            color: var(--text-primary);
+            background: var(--card-background);
+            transition: all 0.2s ease;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .filter-group input[type="date"]:focus,
+        .filter-group input[type="text"]:focus,
+        .filter-group input[type="number"]:focus,
+        .filter-group select:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+            outline: none;
+        }
+
+        .filter-actions {
+            display: flex;
+            gap: var(--spacing-md);
+            margin-top: var(--spacing-lg);
+            flex-basis: 100%;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .filter-actions button {
+            padding: var(--spacing-md) var(--spacing-lg);
+            border-radius: var(--radius-lg);
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: none;
+            min-width: 140px;
+        }
+
+        .active-filters {
+            background: var(--success-color);
+            color: white;
+            border-radius: var(--radius-lg);
+            padding: var(--spacing-lg);
+            margin-top: var(--spacing-lg);
+        }
+
+        .active-filters h4 {
+            color: white;
+            margin: 0 0 var(--spacing-md) 0;
+            font-size: 1.125rem;
+        }
+
+        .active-filters-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--spacing-sm);
+        }
+
+        .active-filter-tag {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            padding: var(--spacing-xs) var(--spacing-sm);
+            border-radius: var(--radius-md);
+            font-size: 0.875rem;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-xs);
+        }
+
+        .active-filter-tag .remove-filter {
+            background: none;
+            border: none;
+            color: white;
+            cursor: pointer;
+            font-size: 1.2rem;
+            padding: 0;
+            margin-left: var(--spacing-xs);
+        }
+
+        .active-filter-tag .remove-filter:hover {
+            opacity: 0.8;
+        }
+
+        #applyFiltersBtn {
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+            color: white;
+        }
+
+        #applyFiltersBtn:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        #resetFiltersBtn {
+            background: linear-gradient(135deg, var(--secondary-color), #475569);
+            color: white;
+        }
+
+        #resetFiltersBtn:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        /* Estilos del Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            justify-content: center;
+            align-items: center;
+            padding: var(--spacing-lg);
+        }
+
+        .modal-content {
+            background: var(--card-background);
+            margin: auto;
+            padding: var(--spacing-2xl);
+            border-radius: var(--radius-2xl);
+            box-shadow: var(--shadow-xl);
+            width: 90%;
+            max-width: 800px;
+            position: relative;
+            animation: slideInUp 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            max-height: 90vh;
+            overflow-y: auto;
+            text-align: left;
+            display: flex;
+            flex-direction: column;
+            border: 1px solid var(--border-light);
+        }
+
+        @keyframes slideInUp {
+            from { 
+                opacity: 0; 
+                transform: translateY(50px) scale(0.95); 
+            }
+            to { 
+                opacity: 1; 
+                transform: translateY(0) scale(1); 
+            }
+        }
+
+        .close-button {
+            color: var(--text-secondary);
+            position: absolute;
+            top: var(--spacing-lg);
+            right: var(--spacing-xl);
+            font-size: 2rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            background: var(--surface-color);
+        }
+
+        .close-button:hover {
+            color: var(--error-color);
+            background: #fef2f2;
+            transform: scale(1.1);
+        }
+
+        .modal-content h3 {
+            color: var(--text-primary);
+            font-size: 1.75rem;
+            margin-top: 0;
+            margin-bottom: var(--spacing-lg);
+            font-weight: 700;
+            border-bottom: 2px solid var(--border-light);
+            padding-bottom: var(--spacing-md);
+        }
+
+        .survey-detail-card {
+            background: var(--surface-color);
+            border-radius: var(--radius-lg);
+            padding: var(--spacing-lg);
+            margin-bottom: var(--spacing-md);
+            box-shadow: var(--shadow-sm);
+            border: 1px solid var(--border-light);
+            transition: all 0.2s ease;
+        }
+
+        .survey-detail-card:hover {
+            box-shadow: var(--shadow-md);
+            transform: translateY(-2px);
+        }
+
+        .survey-detail-card p {
+            margin: var(--spacing-sm) 0;
+            font-size: 1rem;
+        }
+
+        .survey-detail-card strong {
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+
+        .survey-detail-card .rating-value {
+            font-weight: 700;
+            color: var(--primary-color);
+        }
+
+        /* Estilos para el Modal de Tabla */
+        #tableModal .modal-content {
+            max-width: 95%;
+            width: auto;
+        }
+
+        .table-controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: var(--spacing-lg);
+            gap: var(--spacing-md);
+            flex-wrap: wrap;
+            padding: var(--spacing-lg);
+            background: var(--surface-color);
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--border-light);
+        }
+
+        .table-controls input[type="search"] {
+            flex-grow: 1;
+            padding: var(--spacing-md);
+            border: 2px solid var(--border-color);
+            border-radius: var(--radius-lg);
+            font-family: inherit;
+            font-size: 1rem;
+            background: var(--card-background);
+            transition: all 0.2s ease;
+        }
+
+        .table-controls input[type="search"]:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+            outline: none;
+        }
+
+        .pagination-controls {
+            display: flex;
+            gap: var(--spacing-sm);
+            align-items: center;
+        }
+
+        .pagination-controls button {
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+            color: white;
+            border: none;
+            padding: var(--spacing-sm) var(--spacing-md);
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-weight: 600;
+        }
+
+        .pagination-controls button:hover:not(:disabled) {
+            transform: translateY(-1px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .pagination-controls button:disabled {
+            background: var(--text-muted);
+            cursor: not-allowed;
+            opacity: 0.7;
+        }
+
+        #currentPage {
+            font-weight: 700;
+            color: var(--primary-color);
+        }
+
+        .survey-table-container {
+            overflow-x: auto;
+            max-width: 100%;
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-md);
+        }
+
+        .survey-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: var(--spacing-md);
+            font-size: 0.9rem;
+            white-space: nowrap;
+            background: var(--card-background);
+        }
+
+        .survey-table th, .survey-table td {
+            border: 1px solid var(--border-light);
+            padding: var(--spacing-md);
+            text-align: left;
+        }
+
+        .survey-table th {
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+            color: white;
+            font-weight: 700;
+            position: sticky;
+            top: 0;
+            z-index: 1;
+        }
+
+        .survey-table tbody tr:nth-child(even) {
+            background: var(--surface-color);
+        }
+
+        .survey-table tbody tr:hover {
+            background: var(--border-light);
+            transform: scale(1.01);
+            transition: all 0.2s ease;
+        }
+
+        /* Ajustes responsivos */
+        @media (max-width: 768px) {
+            body {
+                padding: var(--spacing-md);
+            }
+            
+            .container {
+                padding: var(--spacing-lg);
+                max-width: 100%;
+            }
+            
+            h1 {
+                font-size: 2.25rem;
+            }
+            
+            h2 {
+                font-size: 1.5rem;
+            }
+            
+            .summary-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .summary-card h3 {
+                font-size: 1.125rem;
+            }
+            
+            .chart-container {
+                height: 300px;
+                padding: var(--spacing-lg);
+            }
+            
+            .dashboard-actions button {
+                width: 100%;
+                margin-bottom: var(--spacing-sm);
+            }
+            
+            .filter-controls {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .filter-group {
+                width: 100%;
+                align-items: center;
+            }
+            
+            .filter-actions {
+                flex-direction: column;
+                align-items: center;
+                width: 100%;
+            }
+            
+            .modal-content {
+                padding: var(--spacing-lg);
+                width: 95%;
+            }
+            
+            .close-button {
+                font-size: 1.75rem;
+                top: var(--spacing-md);
+                right: var(--spacing-lg);
+            }
+            
+            .table-controls {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            
+            .table-controls input[type="search"] {
+                margin-bottom: var(--spacing-md);
+            }
+            
+            .pagination-controls {
+                justify-content: center;
+                width: 100%;
+            }
+            
+            .survey-table th, .survey-table td {
+                padding: var(--spacing-sm);
+            }
+        }
+
+        @media (max-width: 480px) {
+            body {
+                padding: var(--spacing-sm);
+            }
+            
+            .container {
+                padding: var(--spacing-md);
+            }
+            
+            h1 {
+                font-size: 1.875rem;
+            }
+            
+            h2 {
+                font-size: 1.25rem;
+            }
+            
+            .summary-card {
+                padding: var(--spacing-lg);
+            }
+            
+            .summary-card p {
+                font-size: 1rem;
+            }
+            
+            .chart-container {
+                height: 250px;
+            }
+            
+            .comment-card {
+                padding: var(--spacing-md);
+            }
+        }
+
+        /* Estilos específicos para impresión */
+        @media print {
+            body {
+                background: #fff;
+                padding: 0;
+            }
+            
+            .container {
+                box-shadow: none;
+                border-radius: 0;
+                padding: var(--spacing-lg);
+                max-width: 100%;
+            }
+            
+            .logo {
+                max-width: 150px;
+                margin-bottom: var(--spacing-sm);
+            }
+            
+            h1, h2 {
+                color: #000;
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+            
+            .filter-controls, .dashboard-actions, .modal {
+                display: none !important;
+            }
+            
+            .summary-card, .comment-card {
+                border: 1px solid #ccc;
+                box-shadow: none;
+                page-break-inside: avoid;
+            }
+            
+            .chart-container {
+                break-inside: avoid;
+                margin-bottom: var(--spacing-lg);
+            }
+            
+            ::-webkit-scrollbar {
+                display: none;
+            }
+            
+            body {
+                -ms-overflow-style: none;
+                scrollbar-width: none;
+            }
+        }
+
+        .summary-card .value span[title] {
+            cursor: help;
+        }
+
+        /* TOP BUTLERS MODAL - Diseño Moderno */
+        #topButlersModal .modal-content {
+            max-width: 480px;
+            padding: var(--spacing-xl);
+        }
+        
+        .top-butlers-cards {
+            display: flex;
+            gap: var(--spacing-md);
+            justify-content: center;
+            margin-bottom: var(--spacing-lg);
+            flex-wrap: wrap;
+        }
+        
+        .top-butler-card {
+            background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+            border-radius: var(--radius-xl);
+            box-shadow: var(--shadow-lg);
+            padding: var(--spacing-lg);
+            min-width: 100px;
+            min-height: 120px;
+            text-align: center;
+            position: relative;
+            flex: 1 1 100px;
+            max-width: 140px;
+            border: 2px solid #f59e0b;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .top-butler-card:hover {
+            transform: translateY(-4px) scale(1.05);
+            box-shadow: var(--shadow-xl);
+        }
+        
+        .top-butler-medal {
+            font-size: 1.75rem;
+            position: absolute;
+            top: -16px;
+            left: 50%;
+            transform: translateX(-50%);
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
+        }
+        
+        .top-butler-avatar {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+            border-radius: 50%;
+            margin: 0 auto var(--spacing-sm) auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: white;
+            border: 2px solid #f59e0b;
+            box-shadow: var(--shadow-md);
+        }
+        
+        .top-butler-name {
+            font-size: 1rem;
+            font-weight: 700;
+            margin: var(--spacing-sm) 0 var(--spacing-xs) 0;
+            color: var(--text-primary);
+        }
+        
+        .top-butler-count {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            font-weight: 600;
+        }
+        
+        .top-butlers-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        
+        .top-butlers-list li {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+            margin-bottom: var(--spacing-sm);
+            background: var(--surface-color);
+            border-radius: var(--radius-lg);
+            padding: var(--spacing-md);
+            box-shadow: var(--shadow-sm);
+            font-size: 1rem;
+            transition: all 0.2s ease;
+        }
+        
+        .top-butlers-list li:hover {
+            background: var(--border-light);
+            transform: translateX(4px);
+        }
+        
+        .top-butler-rank {
+            font-size: 1.125rem;
+            font-weight: 800;
+            color: var(--primary-color);
+            width: 24px;
+            text-align: center;
+        }
+        
+        .top-butler-bar {
+            flex: 1;
+            height: 8px;
+            border-radius: var(--radius-sm);
+            background: linear-gradient(90deg, #fde68a 0%, #f59e0b 100%);
+            margin: 0 var(--spacing-sm);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .top-butler-bar-inner {
+            height: 100%;
+            border-radius: var(--radius-sm);
+            background: linear-gradient(90deg, #f59e0b 0%, #d97706 100%);
+            transition: width 0.5s ease;
+        }
+        
+        .top-butler-list-name {
+            font-weight: 700;
+            color: var(--text-primary);
+            min-width: 80px;
+            font-size: 1rem;
+        }
+        
+        .top-butler-list-count {
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+            font-weight: 600;
+            min-width: 32px;
+            text-align: right;
+        }
+
+        /* BUTLER EFFECTIVENESS MODAL - Diseño Moderno */
+        #butlerEffectivenessModal .modal-content {
+            max-width: 800px;
+            padding: var(--spacing-2xl);
+        }
+        
+        .butler-effectiveness-legend {
+            display: flex;
+            gap: var(--spacing-md);
+            margin-bottom: var(--spacing-lg);
+            font-size: 1rem;
+            align-items: center;
+            justify-content: center;
+            background: var(--surface-color);
+            border-radius: var(--radius-lg);
+            padding: var(--spacing-md);
+            border: 1px solid var(--border-light);
+        }
+        
+        .butler-effectiveness-legend span {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+            font-weight: 600;
+        }
+        
+        .butler-effectiveness-dot {
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            display: inline-block;
+            border: 2px solid white;
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .butler-effectiveness-list li {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-md);
+            margin-bottom: var(--spacing-lg);
+            border-radius: var(--radius-xl);
+            padding: var(--spacing-xl);
+            font-size: 1.125rem;
+            box-shadow: var(--shadow-md);
+            font-weight: 500;
+            background: var(--card-background);
+            border: 1px solid var(--border-light);
+            position: relative;
+            transition: all 0.3s ease;
+        }
+        
+        .butler-effectiveness-list li:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+        
+        .butler-effectiveness-list li.baja {
+            background: linear-gradient(135deg, #fef2f2 0%, #fee2e2 100%);
+            color: var(--error-color);
+            border-color: #fecaca;
+        }
+        
+        .butler-effectiveness-list li.media {
+            background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+            color: var(--warning-color);
+            border-color: #fde68a;
+        }
+        
+        .butler-effectiveness-list li.alta {
+            background: linear-gradient(135deg, #ecfdf5 0%, #d1fae5 100%);
+            color: var(--success-color);
+            border-color: #a7f3d0;
+        }
+        
+        .butler-effectiveness-avatar {
+            width: 56px;
+            height: 56px;
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: white;
+            margin-right: var(--spacing-lg);
+            border: 3px solid white;
+            box-shadow: var(--shadow-md);
+        }
+        
+        .butler-effectiveness-rank {
+            font-weight: 900;
+            color: var(--primary-color);
+            width: 28px;
+            text-align: center;
+            font-size: 1.25rem;
+            margin-right: var(--spacing-md);
+        }
+        
+        .butler-effectiveness-name {
+            font-weight: 700;
+            min-width: 140px;
+            color: var(--text-primary);
+            font-size: 1.125rem;
+            margin-right: var(--spacing-md);
+        }
+        
+        .butler-effectiveness-avg {
+            font-size: 1.25rem;
+            font-weight: 800;
+            margin-left: var(--spacing-sm);
+            min-width: 56px;
+            text-align: right;
+        }
+        
+        .butler-effectiveness-bar {
+            flex: 1;
+            height: 12px;
+            border-radius: var(--radius-md);
+            background: var(--border-light);
+            margin: 0 var(--spacing-md);
+            position: relative;
+            overflow: hidden;
+            min-width: 140px;
+            max-width: 360px;
+        }
+        
+        .butler-effectiveness-bar-inner {
+            height: 100%;
+            border-radius: var(--radius-md);
+            background: linear-gradient(90deg, var(--success-color) 0%, #34d399 100%);
+            transition: width 0.5s ease;
+        }
+        
+        .butler-effectiveness-list li.baja .butler-effectiveness-bar-inner {
+            background: linear-gradient(90deg, var(--error-color) 0%, #f87171 100%);
+        }
+        
+        .butler-effectiveness-list li.media .butler-effectiveness-bar-inner {
+            background: linear-gradient(90deg, var(--warning-color) 0%, #fbbf24 100%);
+        }
+        
+        .butler-effectiveness-badge {
+            font-size: 0.875rem;
+            font-weight: 700;
+            border-radius: var(--radius-lg);
+            padding: var(--spacing-xs) var(--spacing-md);
+            margin-left: var(--spacing-lg);
+            color: white;
+            background: var(--text-muted);
+            letter-spacing: 0.05em;
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .butler-effectiveness-badge.baja {
+            background: var(--error-color);
+        }
+        
+        .butler-effectiveness-badge.media {
+            background: var(--warning-color);
+            color: var(--text-primary);
+        }
+        
+        .butler-effectiveness-badge.alta {
+            background: var(--success-color);
+        }
+
+        .description {
+            color: var(--text-secondary);
+            font-size: 1.125rem;
+            margin-bottom: var(--spacing-xl);
+            font-weight: 400;
+            opacity: 0.9;
+        }
+
+        /* Estilos para el Modal de Email */
+        #emailReportModal .modal-content {
+            max-width: 700px;
+            padding: var(--spacing-2xl);
+        }
+
+        .email-form {
+            display: flex;
+            flex-direction: column;
+            gap: var(--spacing-lg);
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: var(--spacing-sm);
+        }
+
+        .form-group label {
+            font-weight: 600;
+            color: var(--text-primary);
+            font-size: 0.95rem;
+        }
+
+        .form-group input[type="email"],
+        .form-group input[type="text"],
+        .form-group select,
+        .form-group textarea {
+            padding: var(--spacing-md);
+            border: 2px solid var(--border-color);
+            border-radius: var(--radius-lg);
+            font-family: inherit;
+            font-size: 1rem;
+            color: var(--text-primary);
+            background: var(--card-background);
+            transition: all 0.2s ease;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .form-group input[type="email"]:focus,
+        .form-group input[type="text"]:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+            outline: none;
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .form-group small {
+            color: var(--text-muted);
+            font-size: 0.875rem;
+            margin-top: var(--spacing-xs);
+        }
+
+        .form-group input[type="checkbox"] {
+            width: auto;
+            margin-right: var(--spacing-sm);
+        }
+
+        .form-group label:has(input[type="checkbox"]) {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            font-weight: 500;
+        }
+
+        .email-preview {
+            background: var(--surface-color);
+            border-radius: var(--radius-lg);
+            padding: var(--spacing-lg);
+            border: 1px solid var(--border-light);
+            margin: var(--spacing-lg) 0;
+        }
+
+        .email-preview h4 {
+            color: var(--text-primary);
+            margin-top: 0;
+            margin-bottom: var(--spacing-md);
+            font-size: 1.125rem;
+        }
+
+        .email-preview p {
+            margin: var(--spacing-sm) 0;
+            color: var(--text-secondary);
+        }
+
+        .email-preview strong {
+            color: var(--text-primary);
+        }
+
+        .email-actions {
+            display: flex;
+            gap: var(--spacing-md);
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: var(--spacing-lg);
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+            color: white;
+            border: none;
+            padding: var(--spacing-md) var(--spacing-xl);
+            border-radius: var(--radius-lg);
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: var(--shadow-md);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .btn-secondary {
+            background: linear-gradient(135deg, var(--secondary-color), #475569);
+            color: white;
+            border: none;
+            padding: var(--spacing-md) var(--spacing-xl);
+            border-radius: var(--radius-lg);
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: var(--shadow-md);
+        }
+
+        .btn-secondary:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        /* Responsive para el modal de email */
+        @media (max-width: 768px) {
+            #emailReportModal .modal-content {
+                padding: var(--spacing-lg);
+                margin: var(--spacing-md);
+            }
+            
+            .email-actions {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            
+            .btn-primary,
+            .btn-secondary {
+                width: 100%;
+            }
+        }
+
+        /* Estilos para el logo */
+    </style>
+</head>
+<body>
+    <div class="container">
+        <img src="https://images.seeklogo.com/logo-png/34/1/secrets-resorts-spas-logo-png_seeklogo-344670.png" alt="Secrets Royal Beach Logo" class="logo">
+        <h1>Secrets Royal Beach - Survey Dashboard</h1>
+        <p class="description">Vista General de los Comentarios de Satisfacción del Huésped</p>
+
+        <div id="loading" class="loading-message">Cargando datos...</div>
+        <div id="noData" class="no-data-message" style="display:none;">No hay datos de encuestas disponibles todavía.</div>
+        <div id="error" class="error-message" style="display: none;"></div>
+
+        <div class="filter-controls" id="filterControls" style="display: none;">
+            <h3>🔍 Filtros Avanzados</h3>
+            
+            <!-- Filtros de Fecha -->
+            <div class="filter-section">
+                <h4>📅 Filtros de Fecha</h4>
+                <div class="filter-row">
+                    <div class="filter-group">
+                        <label for="startDate">Fecha Inicio:</label>
+                        <input type="date" id="startDate">
+                    </div>
+                    <div class="filter-group">
+                        <label for="endDate">Fecha Fin:</label>
+                        <input type="date" id="endDate">
+                    </div>
+                    <div class="filter-group">
+                        <label for="datePreset">Presets Rápidos:</label>
+                        <select id="datePreset">
+                            <option value="">Seleccionar período</option>
+                            <option value="today">Hoy</option>
+                            <option value="yesterday">Ayer</option>
+                            <option value="last7days">Últimos 7 días</option>
+                            <option value="last30days">Últimos 30 días</option>
+                            <option value="thisWeek">Esta semana</option>
+                            <option value="lastWeek">Semana pasada</option>
+                            <option value="thisMonth">Este mes</option>
+                            <option value="lastMonth">Mes pasado</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Filtros de Personal -->
+            <div class="filter-section">
+                <h4>👥 Filtros de Personal</h4>
+                <div class="filter-row">
+                    <div class="filter-group">
+                        <label for="butlerFilter">Mayordomo:</label>
+                        <select id="butlerFilter">
+                            <option value="">Todos los Mayordomos</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label for="roomFilter">Número de Habitación:</label>
+                        <input type="text" id="roomFilter" placeholder="Ej: 101, 102, 103...">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Filtros de Calificaciones -->
+            <div class="filter-section">
+                <h4>⭐ Filtros de Calificaciones</h4>
+                <div class="filter-row">
+                    <div class="filter-group">
+                        <label for="overallStaffFilter">Servicio General del Personal:</label>
+                        <select id="overallStaffFilter">
+                            <option value="">Todas las calificaciones</option>
+                            <option value="Excellent">Excellent</option>
+                            <option value="Good">Good</option>
+                            <option value="Regular">Regular</option>
+                            <option value="Poor">Poor</option>
+                            <option value="Bad">Bad</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label for="foodQualityFilter">Calidad de Comida:</label>
+                        <select id="foodQualityFilter">
+                            <option value="">Todas las calificaciones</option>
+                            <option value="Excellent">Excellent</option>
+                            <option value="Good">Good</option>
+                            <option value="Regular">Regular</option>
+                            <option value="Poor">Poor</option>
+                            <option value="Bad">Bad</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label for="roomConditionFilter">Condición de Habitación:</label>
+                        <select id="roomConditionFilter">
+                            <option value="">Todas las calificaciones</option>
+                            <option value="Excellent">Excellent</option>
+                            <option value="Good">Good</option>
+                            <option value="Regular">Regular</option>
+                            <option value="Poor">Poor</option>
+                            <option value="Bad">Bad</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="filter-row">
+                    <div class="filter-group">
+                        <label for="preferredClubFilter">Servicio Preferred Club:</label>
+                        <select id="preferredClubFilter">
+                            <option value="">Todas las calificaciones</option>
+                            <option value="Excellent">Excellent</option>
+                            <option value="Good">Good</option>
+                            <option value="Regular">Regular</option>
+                            <option value="Poor">Poor</option>
+                            <option value="Bad">Bad</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label for="butlerServiceFilter">Servicio de Mayordomo:</label>
+                        <select id="butlerServiceFilter">
+                            <option value="">Todas las calificaciones</option>
+                            <option value="Excellent">Excellent</option>
+                            <option value="Good">Good</option>
+                            <option value="Regular">Regular</option>
+                            <option value="Poor">Poor</option>
+                            <option value="Bad">Bad</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label for="ratingRangeFilter">Rango de Calificación Mínima:</label>
+                        <select id="ratingRangeFilter">
+                            <option value="">Sin filtro</option>
+                            <option value="Excellent">Solo Excellent</option>
+                            <option value="Good">Good o superior</option>
+                            <option value="Regular">Regular o superior</option>
+                            <option value="Poor">Poor o superior</option>
+                            <option value="Bad">Cualquier calificación</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Filtros de Comentarios -->
+            <div class="filter-section">
+                <h4>💬 Filtros de Comentarios</h4>
+                <div class="filter-row">
+                    <div class="filter-group">
+                        <label for="commentKeywordFilter">Palabra Clave en Comentarios:</label>
+                        <input type="text" id="commentKeywordFilter" placeholder="Buscar en comentarios...">
+                    </div>
+                    <div class="filter-group">
+                        <label for="commentTypeFilter">Tipo de Comentario:</label>
+                        <select id="commentTypeFilter">
+                            <option value="">Todos los comentarios</option>
+                            <option value="withComments">Con comentarios</option>
+                            <option value="withoutComments">Sin comentarios</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label for="commentLengthFilter">Longitud de Comentario:</label>
+                        <select id="commentLengthFilter">
+                            <option value="">Cualquier longitud</option>
+                            <option value="short">Corto (< 50 caracteres)</option>
+                            <option value="medium">Medio (50-200 caracteres)</option>
+                            <option value="long">Largo (> 200 caracteres)</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Filtros Avanzados -->
+            <div class="filter-section">
+                <h4>⚙️ Filtros Avanzados</h4>
+                <div class="filter-row">
+                    <div class="filter-group">
+                        <label for="surveyCountFilter">Mínimo de Encuestas por Mayordomo:</label>
+                        <input type="number" id="surveyCountFilter" min="1" placeholder="Ej: 5">
+                    </div>
+                    <div class="filter-group">
+                        <label for="timeOfDayFilter">Hora del Día:</label>
+                        <select id="timeOfDayFilter">
+                            <option value="">Cualquier hora</option>
+                            <option value="morning">Mañana (6:00-12:00)</option>
+                            <option value="afternoon">Tarde (12:00-18:00)</option>
+                            <option value="evening">Noche (18:00-24:00)</option>
+                            <option value="night">Madrugada (0:00-6:00)</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label for="dayOfWeekFilter">Día de la Semana:</label>
+                        <select id="dayOfWeekFilter">
+                            <option value="">Cualquier día</option>
+                            <option value="1">Lunes</option>
+                            <option value="2">Martes</option>
+                            <option value="3">Miércoles</option>
+                            <option value="4">Jueves</option>
+                            <option value="5">Viernes</option>
+                            <option value="6">Sábado</option>
+                            <option value="0">Domingo</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Acciones de Filtros -->
+            <div class="filter-actions">
+                <button id="applyFiltersBtn" class="btn-primary">🔍 Aplicar Filtros</button>
+                <button id="resetFiltersBtn" class="btn-secondary">🔄 Limpiar Filtros</button>
+                <button id="saveFilterPresetBtn" class="btn-secondary">💾 Guardar Preset</button>
+                <button id="loadFilterPresetBtn" class="btn-secondary">📂 Cargar Preset</button>
+            </div>
+
+            <!-- Información de Filtros Activos -->
+            <div class="active-filters" id="activeFilters" style="display: none;">
+                <h4>✅ Filtros Activos</h4>
+                <div id="activeFiltersList"></div>
+            </div>
+        </div>
+
+        <div id="dashboardContent" style="display:none;">
+            <div class="dashboard-actions">
+                <button id="exportReportBtn">Exportar Reporte (CSV)</button>
+                <button id="emailReportBtn">📧 Enviar Reporte por Email</button>
+                <button id="viewDetailsBtn">Ver Encuestas a Detalle</button>
+                <button id="viewTableBtn">Ver en Tabla</button> <button id="printReportBtn">Imprimir Reporte</button>
+                <button id="topButlersBtn">Top 10 Mayordomos</button>
+                <button id="butlerEffectivenessBtn">Efectividad de Mayordomos</button>
+            </div>
+
+            <h2>Resumen General</h2>
+            <div class="summary-grid">
+                <div class="summary-card" id="totalSurveysCard">
+                    <h3>Total de Encuestas</h3>
+                    <p class="value" id="totalSurveys">0</p>
+                </div>
+                <div class="summary-card" id="overallStaffRatingCard">
+                    <h3>Calificación Promedio del Personal</h3>
+                    <p class="value" id="avgOverallStaffServiceRating">N/A</p>
+                </div>
+                <div class="summary-card" id="foodQualityRatingCard">
+                    <h3>Calificación Promedio Calidad de Comida</h3>
+                    <p class="value" id="avgFoodQualityRating">N/A</p>
+                </div>
+                <div class="summary-card" id="roomConditionRatingCard">
+                    <h3>Calificación Promedio Condición Habitación</h3>
+                    <p class="value" id="avgRoomConditionRating">N/A</p>
+                </div>
+                <div class="summary-card" id="preferredClubRatingCard">
+                    <h3>Calificación Promedio Preferred Club</h3>
+                    <p class="value" id="avgPreferredClubServiceRating">N/A</p>
+                </div>
+                <div class="summary-card" id="butlerServiceRatingCard">
+                    <h3>Calificación Promedio Servicio Mayordomo</h3>
+                    <p class="value" id="avgButlerServiceRating">N/A</p>
+                </div>
+            </div>
+
+            <h2>Distribución de Calificaciones</h2>
+            <div class="chart-container">
+                <canvas id="ratingsChart"></canvas>
+            </div>
+
+            <h2>Comentarios Recientes</h2>
+            <div class="comments-section" id="commentsSection">
+                <input type="text" id="commentKeywordFilter" placeholder="Filtrar comentarios por palabra clave..." style="margin-bottom:10px; width:100%; padding:8px;">
+                <select id="ratingRangeFilter" style="margin-bottom:10px;">
+                    <option value="">Todas las calificaciones</option>
+                    <option value="Bad">Bad</option>
+                    <option value="Poor">Poor</option>
+                    <option value="Regular">Regular</option>
+                    <option value="Good">Good</option>
+                    <option value="Excellent">Excellent</option>
+                </select>
+                <div style="margin-bottom:10px;">
+                    <label>Comparar del <input type="date" id="compareStart1"> al <input type="date" id="compareEnd1">
+                    vs del <input type="date" id="compareStart2"> al <input type="date" id="compareEnd2"></label>
+                    <button id="compareBtn">Comparar</button>
+                </div>
+                <div id="compareResult"></div>
+            </div>
+        </div>
+    </div>
+
+    <div id="surveyDetailModal" class="modal">
+        <div class="modal-content">
+            <span class="close-button">&times;</span>
+            <h3>Encuestas Recibidas a Detalle (Filtradas)</h3>
+            <div id="detailedSurveysContainer">
+                </div>
+        </div>
+    </div>
+
+    <div id="tableModal" class="modal">
+        <div class="modal-content">
+            <span class="close-button" id="closeTableModal">&times;</span>
+            <h3>Encuestas en Vista de Tabla</h3>
+            <div class="table-controls">
+                <input type="search" id="tableSearchInput" placeholder="Buscar en la tabla...">
+                <div class="pagination-controls">
+                    <button id="prevPageBtn">Anterior</button>
+                    <span id="currentPage">1</span> / <span id="totalPages">1</span>
+                    <button id="nextPageBtn">Siguiente</button>
+                </div>
+                <select id="rowsPerPageSelect">
+                    <option value="10">10 por página</option>
+                    <option value="25">25 por página</option>
+                    <option value="50">50 por página</option>
+                    <option value="100">100 por página</option>
+                </select>
+            </div>
+            <div class="survey-table-container">
+                <table class="survey-table">
+                    <thead>
+                        <tr>
+                            <th>Fecha</th>
+                            <th>Hab.</th>
+                            <th>Mayordomo</th>
+                            <th>Personal General</th>
+                            <th>Comida</th>
+                            <th>Habitación</th>
+                            <th>Preferred Club</th>
+                            <th>Mayordomo Cal.</th>
+                            <th>Comentarios</th>
+                        </tr>
+                    </thead>
+                    <tbody id="surveyTableBody">
+                        </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div id="topButlersModal" class="modal">
+        <div class="modal-content">
+            <span class="close-button" id="closeTopButlersModal">&times;</span>
+            <h3>Top 10 Mayordomos Más Mencionados</h3>
+            <div id="topButlersCards" class="top-butlers-cards"></div>
+            <ul id="topButlersList" class="top-butlers-list"></ul>
+            <button id="sendTopButlersWhatsappBtn" style="background:#25D366; color:#fff; border:none; border-radius:8px; padding:8px 18px; font-size:1em; font-weight:600; margin-top:8px; cursor:pointer; align-self:center;">
+                <span style="font-size:1.2em; vertical-align:middle;">🟢</span> Enviar Top 10 por WhatsApp
+            </button>
+        </div>
+    </div>
+
+    <div id="butlerEffectivenessModal" class="modal">
+        <div class="modal-content">
+            <span class="close-button" id="closeButlerEffectivenessModal">&times;</span>
+            <h3>Efectividad de Mayordomos (Promedio de Servicio)</h3>
+            <div class="butler-effectiveness-legend">
+                <span><span class="butler-effectiveness-dot" style="background:#eafaf1;"></span> Alta (&ge; 4.0)</span>
+                <span><span class="butler-effectiveness-dot" style="background:#fffbe6;"></span> Media (2.5 - 3.99)</span>
+                <span><span class="butler-effectiveness-dot" style="background:#fdeaea;"></span> Baja (&lt; 2.5)</span>
+            </div>
+            <ul id="butlerEffectivenessList" class="butler-effectiveness-list" style="list-style:none; padding:0; margin:0;"></ul>
+        </div>
+    </div>
+
+    <div id="emailReportModal" class="modal">
+        <div class="modal-content">
+            <span class="close-button" id="closeEmailReportModal">&times;</span>
+            <h3>📧 Enviar Reporte por Email</h3>
+            
+            <div class="email-form">
+                <div class="form-group">
+                    <label for="emailRecipient">Destinatario(s):</label>
+                    <input type="email" id="emailRecipient" placeholder="ejemplo@secrets.com" multiple>
+                    <small>Puedes agregar múltiples emails separados por comas</small>
+                </div>
+                
+                <div class="form-group">
+                    <label for="emailSubject">Asunto:</label>
+                    <input type="text" id="emailSubject" placeholder="Reporte de Satisfacción - Secrets Royal Beach">
+                </div>
+                
+                <div class="form-group">
+                    <label for="emailMessage">Mensaje Personalizado:</label>
+                    <textarea id="emailMessage" rows="4" placeholder="Escribe un mensaje personalizado para acompañar el reporte..."></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label for="emailReportType">Tipo de Reporte:</label>
+                    <select id="emailReportType">
+                        <option value="summary">Resumen General</option>
+                        <option value="detailed">Reporte Detallado</option>
+                        <option value="excel">Reporte en Excel</option>
+                        <option value="pdf">Reporte en PDF</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="emailFrequency">Frecuencia de Envío:</label>
+                    <select id="emailFrequency">
+                        <option value="once">Envío Único</option>
+                        <option value="daily">Diario</option>
+                        <option value="weekly">Semanal</option>
+                        <option value="monthly">Mensual</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label>
+                        <input type="checkbox" id="emailIncludeChart"> Incluir gráfico de distribución
+                    </label>
+                </div>
+                
+                <div class="form-group">
+                    <label>
+                        <input type="checkbox" id="emailIncludeComments"> Incluir comentarios recientes
+                    </label>
+                </div>
+                
+                <div class="email-preview">
+                    <h4>📊 Vista Previa del Reporte</h4>
+                    <div id="emailPreviewContent">
+                        <p><strong>Total de Encuestas:</strong> <span id="previewTotalSurveys">0</span></p>
+                        <p><strong>Período:</strong> <span id="previewPeriod">Todos los datos</span></p>
+                        <p><strong>Filtros Aplicados:</strong> <span id="previewFilters">Ninguno</span></p>
+                    </div>
+                </div>
+                
+                <div class="email-actions">
+                    <button id="sendEmailBtn" class="btn-primary">📤 Enviar Reporte</button>
+                    <button id="previewEmailBtn" class="btn-secondary">👁️ Vista Previa</button>
+                    <button id="saveEmailTemplateBtn" class="btn-secondary">💾 Guardar Plantilla</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0/dist/chartjs-plugin-datalabels.min.js"></script>
+
+    <script type="module">
+        // Importa los módulos necesarios de Firebase SDK v9+
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+        // ¡IMPORTANTE! Asegúrate de importar getFirestore y las funciones de Firestore aquí
+        import { getFirestore, collection, getDocs, orderBy, query } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+        // --- Configuración de Firebase (YA ACTUALIZADA CON TUS DATOS) ---
+        const firebaseConfig = {
+            apiKey: "AIzaSyALR-b68phh_u92V3rw9B9Ei7FcexU2xc8",
+            authDomain: "proyectos17-98695.firebaseapp.com",
+            projectId: "proyectos17-98695",
+            storageBucket: "proyectos17-98695.firebasestorage.app",
+            messagingSenderId: "951673973410",
+            appId: "1:951673973410:web:4bc355e825cf86308645fb",
+            measurementId: "G-6YK06W16FZ"
+        };
+
+        // Inicializa la aplicación Firebase
+        const app = initializeApp(firebaseConfig);
+        // ¡IMPORTANTE! Inicializa Firestore
+        const db = getFirestore(app);
+
+        // Variables globales para almacenar los datos
+        // allRawSurveysData: Contiene TODAS las encuestas cargadas desde Firebase (sin filtrar)
+        let allRawSurveysData = [];
+        // filteredSurveysData: Contiene las encuestas actualmente mostradas/filtradas
+        let filteredSurveysData = [];
+        // filteredAndSearchedData: Contiene las encuestas filtradas Y luego buscadas (para la tabla)
+        let filteredAndSearchedData = [];
+
+        // Variables para la paginación de la tabla
+        let currentPage = 1;
+        let rowsPerPage = 10;
+        let totalPages = 1;
+
+        // Mapeo de palabras de calificación a valores numéricos para cálculos
+        const ratingMap = {
+            "Bad": 1,
+            "Poor": 2,
+            "Regular": 3,
+            "Good": 4,
+            "Excellent": 5
+        };
+
+        // --- Funciones Auxiliares ---
+
+        /**
+         * Normaliza un objeto Date o Firebase Timestamp a una cadena de fecha ISO (YYYY-MM-DD).
+         * Esto elimina cualquier componente de hora o zona horaria, permitiendo una comparación simple por día.
+         * @param {Date | firebase.firestore.Timestamp} dateInput
+         * @returns {string | null} Fecha en formato 'YYYY-MM-DD' o null si es inválido.
+         */
+        function normalizeDateToISOString(dateInput) {
+            let date;
+            if (dateInput instanceof Date) {
+                date = dateInput;
+            } else if (dateInput && typeof dateInput.toDate === 'function') {
+                date = dateInput.toDate();
+            } else {
+                return null;
+            }
+            // Usa getFullYear, getMonth, getDate para obtener los componentes de la fecha
+            // en la zona horaria local del objeto Date, y luego construye la cadena ISO.
+            const year = date.getFullYear();
+            const month = (date.getMonth() + 1).toString().padStart(2, '0');
+            const day = date.getDate().toString().padStart(2, '0');
+            return `${year}-${month}-${day}`;
+        }
+
+        // Calcula el promedio de una calificación específica
+        function calculateAverage(data, field) {
+            let total = 0;
+            let count = 0;
+            data.forEach(doc => {
+                const ratingWord = doc[field];
+                if (ratingWord && ratingMap[ratingWord] !== undefined) {
+                    total += ratingMap[ratingWord];
+                    count++;
+                }
+            });
+            return count > 0 ? (total / count).toFixed(2) : "N/A";
+        }
+
+        // Obtiene el emoji de cara según el promedio
+        function getFaceEmoji(avg) {
+            if (avg === "N/A") return "";
+            const numAvg = parseFloat(avg);
+            if (numAvg >= 4.5) return "😄";
+            if (numAvg >= 3.5) return "🙂";
+            if (numAvg >= 2.5) return "😐";
+            if (numAvg >= 1.5) return "🙁";
+            return "😡";
+        }
+
+        // Obtiene el color del texto según el promedio
+        function getRatingColor(avg) {
+            if (avg === "N/A") return "var(--secondary-color)";
+            const numAvg = parseFloat(avg);
+            if (numAvg >= 4.5) return "var(--face-excellent)";
+            if (numAvg >= 3.5) return "var(--face-good)";
+            if (numAvg >= 2.5) return "var(--face-regular)";
+            if (numAvg >= 1.5) return "var(--face-poor)";
+            return "var(--face-bad)";
+        }
+
+        function getRatingBadgeColor(rating) {
+            if (!rating) return '';
+            if (rating === "Bad" || rating === "Poor") return "#dc3545"; // rojo
+            if (rating === "Regular") return "#ffc107"; // amarillo
+            if (rating === "Good" || rating === "Excellent") return "#28a745"; // verde
+            return "";
+        }
+        function getRatingBadgeBg(rating) {
+            if (!rating) return '';
+            if (rating === "Bad" || rating === "Poor") return "#fdeaea"; // fondo rojo suave
+            if (rating === "Regular") return "#fffbe6"; // fondo amarillo suave
+            if (rating === "Good" || rating === "Excellent") return "#eafaf1"; // fondo verde suave
+            return "";
+        }
+
+        // Instancia global del gráfico Chart.js para poder destruirlo y recrearlo
+        let ratingsChartInstance = null;
+
+        // Rellena el menú desplegable de mayordomos con los mayordomos únicos encontrados en las encuestas
+        function populateButlerFilter(surveys) {
+            const butlerFilterSelect = document.getElementById('butlerFilter');
+            butlerFilterSelect.innerHTML = '<option value="">Todos los Mayordomos</option>'; // Opción por defecto
+
+            const uniqueButlers = new Set();
+            surveys.forEach(survey => {
+                if (survey.butler && survey.butler.trim() !== '') {
+                    uniqueButlers.add(survey.butler.trim());
+                }
+            });
+
+            // Ordena los mayordomos alfabéticamente
+            const sortedButlers = Array.from(uniqueButlers).sort();
+
+            sortedButlers.forEach(butler => {
+                const option = document.createElement('option');
+                option.value = butler;
+                option.textContent = butler;
+                butlerFilterSelect.appendChild(option);
+            });
+        }
+
+        // Devuelve el promedio numérico de una lista de encuestas para un campo
+        function getNumericAverage(surveys, field) {
+            const map = { "Bad": 1, "Poor": 2, "Regular": 3, "Good": 4, "Excellent": 5 };
+            const vals = surveys.map(s => map[s[field]]).filter(Boolean);
+            if (!vals.length) return null;
+            return vals.reduce((a, b) => a + b, 0) / vals.length;
+        }
+
+        // Devuelve la tendencia: "up", "down", "same"
+        function getTrend(current, previous) {
+            if (current == null || previous == null) return "same";
+            if (current > previous) return "up";
+            if (current < previous) return "down";
+            return "same";
+        }
+
+        // Devuelve true si hay más de X respuestas "Bad" o "Poor"
+        function hasAlert(surveys, field, threshold = 3) {
+            const count = surveys.filter(s => s[field] === "Bad" || s[field] === "Poor").length;
+            return count >= threshold;
+        }
+
+        // --- Función Principal de Carga y Renderizado del Dashboard ---
+        async function loadDashboard(filters = {}) {
+            const loadingDiv = document.getElementById('loading');
+            const noDataDiv = document.getElementById('noData');
+            const errorDiv = document.getElementById('error');
+            const dashboardContent = document.getElementById('dashboardContent');
+            const filterControls = document.getElementById('filterControls');
+
+            // Muestra el mensaje de carga y oculta el resto
+            loadingDiv.style.display = 'block';
+            dashboardContent.style.display = 'none';
+            noDataDiv.style.display = 'none';
+            errorDiv.style.display = 'none';
+            filterControls.style.display = 'none'; // Oculta los filtros mientras carga para evitar interacción
+
+            try {
+                // Solo cargamos los datos brutos de Firebase una vez
+                if (allRawSurveysData.length === 0) {
+                    // Asegúrate de que 'customer_satisfaction' es el nombre correcto de tu colección en Firestore
+                    const qAll = query(collection(db, "customer_satisfaction"), orderBy("timestamp", "desc"));
+                    const querySnapshotAll = await getDocs(qAll);
+                    querySnapshotAll.forEach((doc) => {
+                        allRawSurveysData.push(doc.data());
+                    });
+
+                    // Si no hay datos en absoluto en Firebase
+                    if (allRawSurveysData.length === 0) {
+                        loadingDiv.style.display = 'none';
+                        noDataDiv.textContent = "No hay datos de encuestas en la base de datos.";
+                        noDataDiv.style.display = 'block';
+                        return; // Salir, no hay nada que mostrar
+                    }
+                    populateButlerFilter(allRawSurveysData); // Rellena el filtro de mayordomos con todos los datos
+                }
+
+                // Aplica los filtros a los datos brutos (allRawSurveysData)
+                filteredSurveysData = allRawSurveysData.filter(survey => {
+                    // Normaliza la fecha de la encuesta a su formato ISO de día (ej. "2025-07-08")
+                    const surveyDateISO = normalizeDateToISOString(survey.timestamp);
+                    const surveyDateTime = survey.timestamp && survey.timestamp.toDate ? survey.timestamp.toDate() : new Date(survey.timestamp);
+
+                    // === FILTROS DE FECHA ===
+                    const filterStartDateISO = filters.startDate ? filters.startDate : null;
+                    const filterEndDateISO = filters.endDate ? filters.endDate : null;
+
+                    if (filterStartDateISO && surveyDateISO) {
+                        if (surveyDateISO < filterStartDateISO) return false;
+                    }
+                    if (filterEndDateISO && surveyDateISO) {
+                        if (surveyDateISO > filterEndDateISO) return false;
+                    }
+
+                    // === FILTROS DE PERSONAL ===
+                    if (filters.butler && filters.butler !== "" && survey.butler !== filters.butler) {
+                        return false;
+                    }
+
+                    if (filters.roomFilter && filters.roomFilter !== "") {
+                        const roomNumbers = filters.roomFilter.split(',').map(r => r.trim());
+                        if (!roomNumbers.includes(survey.room_number)) {
+                            return false;
+                        }
+                    }
+
+                    // === FILTROS DE CALIFICACIONES ===
+                    if (filters.overallStaffFilter && filters.overallStaffFilter !== "" && survey.overall_staff_service !== filters.overallStaffFilter) {
+                        return false;
+                    }
+
+                    if (filters.foodQualityFilter && filters.foodQualityFilter !== "" && survey.food_quality !== filters.foodQualityFilter) {
+                        return false;
+                    }
+
+                    if (filters.roomConditionFilter && filters.roomConditionFilter !== "" && survey.room_condition !== filters.roomConditionFilter) {
+                        return false;
+                    }
+
+                    if (filters.preferredClubFilter && filters.preferredClubFilter !== "" && survey.preferred_club_service !== filters.preferredClubFilter) {
+                        return false;
+                    }
+
+                    if (filters.butlerServiceFilter && filters.butlerServiceFilter !== "" && survey.butler_service_rating !== filters.butlerServiceFilter) {
+                        return false;
+                    }
+
+                    // === FILTRO DE RANGO DE CALIFICACIÓN MÍNIMA ===
+                    if (filters.ratingRangeFilter && filters.ratingRangeFilter !== "") {
+                        const ratingOrder = { "Bad": 1, "Poor": 2, "Regular": 3, "Good": 4, "Excellent": 5 };
+                        const minRating = ratingOrder[filters.ratingRangeFilter];
+                        
+                        const surveyRatings = [
+                            ratingOrder[survey.overall_staff_service],
+                            ratingOrder[survey.food_quality],
+                            ratingOrder[survey.room_condition],
+                            ratingOrder[survey.preferred_club_service],
+                            ratingOrder[survey.butler_service_rating]
+                        ].filter(r => r !== undefined);
+
+                        if (surveyRatings.length > 0 && Math.min(...surveyRatings) < minRating) {
+                            return false;
+                        }
+                    }
+
+                    // === FILTROS DE COMENTARIOS ===
+                    if (filters.commentKeywordFilter && filters.commentKeywordFilter !== "") {
+                        const keyword = filters.commentKeywordFilter.toLowerCase();
+                        if (!survey.comments || !survey.comments.toLowerCase().includes(keyword)) {
+                            return false;
+                        }
+                    }
+
+                    if (filters.commentTypeFilter && filters.commentTypeFilter !== "") {
+                        const hasComments = survey.comments && survey.comments.trim() !== '';
+                        if (filters.commentTypeFilter === "withComments" && !hasComments) {
+                            return false;
+                        }
+                        if (filters.commentTypeFilter === "withoutComments" && hasComments) {
+                            return false;
+                        }
+                    }
+
+                    if (filters.commentLengthFilter && filters.commentLengthFilter !== "") {
+                        const commentLength = survey.comments ? survey.comments.length : 0;
+                        if (filters.commentLengthFilter === "short" && commentLength >= 50) {
+                            return false;
+                        }
+                        if (filters.commentLengthFilter === "medium" && (commentLength < 50 || commentLength > 200)) {
+                            return false;
+                        }
+                        if (filters.commentLengthFilter === "long" && commentLength <= 200) {
+                            return false;
+                        }
+                    }
+
+                    // === FILTROS AVANZADOS ===
+                    if (filters.timeOfDayFilter && filters.timeOfDayFilter !== "") {
+                        const hour = surveyDateTime.getHours();
+                        if (filters.timeOfDayFilter === "morning" && (hour < 6 || hour >= 12)) {
+                            return false;
+                        }
+                        if (filters.timeOfDayFilter === "afternoon" && (hour < 12 || hour >= 18)) {
+                            return false;
+                        }
+                        if (filters.timeOfDayFilter === "evening" && (hour < 18 || hour >= 24)) {
+                            return false;
+                        }
+                        if (filters.timeOfDayFilter === "night" && (hour >= 6)) {
+                            return false;
+                        }
+                    }
+
+                    if (filters.dayOfWeekFilter && filters.dayOfWeekFilter !== "") {
+                        const dayOfWeek = surveyDateTime.getDay().toString();
+                        if (dayOfWeek !== filters.dayOfWeekFilter) {
+                            return false;
+                        }
+                    }
+
+                    return true; // La encuesta pasa todos los filtros
+                });
+
+                // === FILTRO DE MÍNIMO DE ENCUESTAS POR MAYORDOMO ===
+                if (filters.surveyCountFilter && filters.surveyCountFilter !== "") {
+                    const minCount = parseInt(filters.surveyCountFilter);
+                    const butlerCounts = {};
+                    
+                    filteredSurveysData.forEach(survey => {
+                        if (survey.butler) {
+                            butlerCounts[survey.butler] = (butlerCounts[survey.butler] || 0) + 1;
+                        }
+                    });
+
+                    filteredSurveysData = filteredSurveysData.filter(survey => {
+                        return !survey.butler || butlerCounts[survey.butler] >= minCount;
+                    });
+                }
+
+                // Inicializa filteredAndSearchedData con los datos filtrados para la tabla
+                filteredAndSearchedData = [...filteredSurveysData];
+
+                // Si no hay datos después de aplicar los filtros
+                if (filteredSurveysData.length === 0) {
+                    loadingDiv.style.display = 'none';
+                    noDataDiv.textContent = "No hay datos que coincidan con los filtros aplicados.";
+                    noDataDiv.style.display = 'block';
+                    filterControls.style.display = 'flex'; // Mostrar filtros para que el usuario pueda ajustarlos
+                    return;
+                }
+
+                // --- Actualizar el Dashboard con datos filtrados ---
+                document.getElementById('totalSurveys').textContent = filteredSurveysData.length;
+
+                const fieldsToAverage = [
+                    { fieldName: 'overall_staff_service', elementSuffix: 'OverallStaffServiceRating', title: 'Servicio General del Personal' },
+                    { fieldName: 'food_quality', elementSuffix: 'FoodQualityRating', title: 'Calidad de la Comida' },
+                    { fieldName: 'room_condition', elementSuffix: 'RoomConditionRating', title: 'Condición de la Habitación' },
+                    { fieldName: 'preferred_club_service', elementSuffix: 'PreferredClubServiceRating', title: 'Servicio Preferred Club' },
+                    { fieldName: 'butler_service_rating', elementSuffix: 'ButlerServiceRating', title: 'Calificación del Servicio del Mayordomo' }
+                ];
+
+                fieldsToAverage.forEach(item => {
+                    const avg = calculateAverage(filteredSurveysData, item.fieldName);
+                    const emoji = getFaceEmoji(avg);
+                    const color = getRatingColor(avg);
+                    const targetElement = document.getElementById(`avg${item.elementSuffix}`);
+                    if (targetElement) {
+                        targetElement.innerHTML = `<span style="color: ${color};">${emoji} ${avg}</span>`;
+                    }
+
+                    // --- BADGE DE TENDENCIA Y ALERTA ---
+                    // 1. Encuestas de la semana actual y anterior
+                    const today = new Date();
+                    const getWeek = d => {
+                        const date = new Date(d);
+                        date.setHours(0,0,0,0);
+                        const firstDay = new Date(date.getFullYear(), 0, 1);
+                        return Math.ceil((((date - firstDay) / 86400000) + firstDay.getDay() + 1) / 7);
+                    };
+                    const weekNow = getWeek(today);
+                    const yearNow = today.getFullYear();
+
+                    // Encuestas de esta semana y la anterior
+                    const surveysThisWeek = filteredSurveysData.filter(s => {
+                        const d = s.timestamp ? new Date(s.timestamp.toDate ? s.timestamp.toDate() : s.timestamp) : null;
+                        return d && getWeek(d) === weekNow && d.getFullYear() === yearNow;
+                    });
+                    const surveysLastWeek = filteredSurveysData.filter(s => {
+                        const d = s.timestamp ? new Date(s.timestamp.toDate ? s.timestamp.toDate() : s.timestamp) : null;
+                        return d && getWeek(d) === weekNow - 1 && d.getFullYear() === yearNow;
+                    });
+
+                    const avgThis = getNumericAverage(surveysThisWeek, item.fieldName);
+                    const avgLast = getNumericAverage(surveysLastWeek, item.fieldName);
+                    const trend = getTrend(avgThis, avgLast);
+
+                    // Badge de tendencia
+                    let trendBadge = "";
+                    if (trend === "up") trendBadge = `<span title="Mejoró respecto a la semana pasada" style="color: #28a745; font-size:1.2em; margin-left:8px;">▲</span>`;
+                    else if (trend === "down") trendBadge = `<span title="Empeoró respecto a la semana pasada" style="color: #dc3545; font-size:1.2em; margin-left:8px;">▼</span>`;
+                    else trendBadge = `<span title="Sin cambio respecto a la semana pasada" style="color: #ffc107; font-size:1.2em; margin-left:8px;">●</span>`;
+
+                    // Badge de alerta
+                    const alert = hasAlert(surveysThisWeek, item.fieldName, 3); // 3 o más "Bad"/"Poor"
+                    let alertBadge = "";
+                    if (alert) alertBadge = `<span title="¡Alerta! Muchas respuestas negativas esta semana" style="background:#dc3545; color:#fff; border-radius:8px; padding:2px 8px; margin-left:8px; font-size:0.9em;">ALERTA</span>`;
+
+                    // Inserta los badges en la tarjeta
+                    if (targetElement) {
+                        targetElement.innerHTML += trendBadge + alertBadge;
+                    }
+                });
+
+                // --- Configuración y actualización del gráfico ---
+                const chartLabels = ["Bad", "Poor", "Regular", "Good", "Excellent"];
+                const chartData = {
+                    'overall_staff_service': Array(5).fill(0),
+                    'food_quality': Array(5).fill(0),
+                    'room_condition': Array(5).fill(0),
+                    'preferred_club_service': Array(5).fill(0),
+                    'butler_service_rating': Array(5).fill(0)
+                };
+
+                filteredSurveysData.forEach(survey => {
+                    fieldsToAverage.forEach(item => {
+                        const ratingWord = survey[item.fieldName];
+                        const numericRating = ratingMap[ratingWord];
+                        if (numericRating !== undefined) {
+                            chartData[item.fieldName][numericRating - 1]++;
+                        }
+                    });
+                });
+
+                const ctx = document.getElementById('ratingsChart').getContext('2d');
+                if (ratingsChartInstance) {
+                    ratingsChartInstance.destroy(); // Destruye la instancia anterior del gráfico
+                }
+
+                // Calcula el máximo valor para el eje Y del gráfico
+                let maxCount = 0;
+                Object.values(chartData).forEach(dataArray => {
+                    const currentMax = Math.max(...dataArray);
+                    if (currentMax > maxCount) {
+                        maxCount = currentMax;
+                    }
+                });
+                const dynamicSuggestedMax = maxCount + (maxCount * 0.2); // Añade un 20% de padding
+                const finalSuggestedMax = Math.max(dynamicSuggestedMax, 5); // Asegura un mínimo de 5
+
+                ratingsChartInstance = new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: chartLabels,
+                        datasets: [
+                            { label: 'Servicio General del Personal', data: chartData['overall_staff_service'], backgroundColor: 'rgba(0, 123, 255, 0.7)', borderColor: 'rgba(0, 123, 255, 1)', borderWidth: 1 },
+                            { label: 'Calidad de la Comida', data: chartData['food_quality'], backgroundColor: 'rgba(255, 193, 7, 0.7)', borderColor: 'rgba(255, 193, 7, 1)', borderWidth: 1 },
+                            { label: 'Condición de la Habitación', data: chartData['room_condition'], backgroundColor: 'rgba(40, 167, 69, 0.7)', borderColor: 'rgba(40, 167, 69, 1)', borderWidth: 1 },
+                            { label: 'Servicio Preferred Club', data: chartData['preferred_club_service'], backgroundColor: 'rgba(23, 162, 184, 0.7)', borderColor: 'rgba(23, 162, 184, 1)', borderWidth: 1 },
+                            { label: 'Servicio del Mayordomo', data: chartData['butler_service_rating'], backgroundColor: 'rgba(220, 53, 69, 0.7)', borderColor: 'rgba(220, 53, 69, 1)', borderWidth: 1 }
+                        ]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: { display: true, position: 'top', labels: { font: { size: 14, family: 'Nunito' } } },
+                            title: { display: false }, // El título del gráfico se gestiona con h2
+                            datalabels: { // Plugin para mostrar el valor sobre las barras
+                                anchor: 'end',
+                                align: 'top',
+                                formatter: (value) => value > 0 ? value : '', // Muestra solo si es > 0
+                                font: { weight: 'bold', size: 12 },
+                                color: 'var(--text-color)'
+                            }
+                        },
+                        scales: {
+                            x: { beginAtZero: true, title: { display: true, text: 'Calificación', font: { size: 14, family: 'Nunito', weight: '600' } }, ticks: { font: { size: 12, family: 'Nunito' } } },
+                            y: {
+                                beginAtZero: true,
+                                title: { display: true, text: 'Número de Respuestas', font: { size: 14, family: 'Nunito', weight: '600' } },
+                                ticks: { precision: 0, font: { size: 12, family: 'Nunito' } },
+                                suggestedMax: finalSuggestedMax // Aplica el máximo dinámico
+                            }
+                        }
+                    },
+                    plugins: [ChartDataLabels] // Habilita el plugin datalabels
+                });
+
+                // --- Renderizar Comentarios Recientes ---
+                const commentsSection = document.getElementById('commentsSection');
+                commentsSection.innerHTML = '';
+                // Filtra comentarios vacíos o solo con espacios en blanco
+                const comments = filteredSurveysData.filter(s => s.comments && s.comments.trim() !== '');
+
+                if (comments.length > 0) {
+                    comments.forEach(comment => {
+                        const commentCard = document.createElement('div');
+                        commentCard.classList.add('comment-card');
+                        const formattedTimestamp = comment.timestamp && comment.timestamp.toDate ? new Date(comment.timestamp.toDate()).toLocaleString('es-DO') : 'N/A';
+                        const isNew = isCommentNew(comment.timestamp ? (comment.timestamp.toDate ? comment.timestamp.toDate() : comment.timestamp) : null);
+                        commentCard.innerHTML = `
+                            <p>${comment.comments}</p>
+                            ${isNew ? '<span style="background:#28a745; color:#fff; border-radius:8px; padding:2px 8px; margin-left:8px; font-size:0.9em;">Nuevo</span>' : ''}
+                            <small>Habitación: ${comment.room_number || 'N/A'} - Mayordomo: ${comment.butler || 'N/A'} - Enviado: ${formattedTimestamp}</small>
+                            <button class="whatsapp-comment-btn" 
+                                data-comment="${encodeURIComponent(comment.comments)}"
+                                data-room="${encodeURIComponent(comment.room_number || 'N/A')}"
+                                data-butler="${encodeURIComponent(comment.butler || 'N/A')}"
+                                data-date="${encodeURIComponent(formattedTimestamp)}"
+                                style="background:#25D366; color:#fff; border:none; border-radius:6px; padding:6px 14px; margin-top:8px; cursor:pointer;">
+                                <span style="font-size:1.2em; vertical-align:middle;">🟢</span> Enviar a WhatsApp
+                            </button>
+                        `;
+                        commentsSection.appendChild(commentCard);
+                    });
+                } else {
+                    commentsSection.innerHTML = '<p style="text-align: center; color: var(--secondary-color);">No hay comentarios adicionales con los filtros actuales.</p>';
+                }
+
+                // Oculta el mensaje de carga y muestra el contenido del dashboard y los filtros
+                loadingDiv.style.display = 'none';
+                dashboardContent.style.display = 'block';
+                filterControls.style.display = 'flex';
+
+            } catch (error) {
+                console.error("Error al cargar los datos del dashboard: ", error);
+                loadingDiv.style.display = 'none';
+                errorDiv.textContent = `Error al cargar los datos: ${error.message}. Por favor, revisa tu conexión a Firebase y las Reglas de Seguridad de Firestore.`;
+                errorDiv.style.display = 'block';
+                noDataDiv.style.display = 'none';
+                filterControls.style.display = 'flex'; // Mostrar filtros incluso en caso de error para permitir reintentar
+            }
+        }
+
+        // --- Función para Exportar a CSV (Reporte Bonito y Organizado) ---
+        // Esta función ahora toma 'data' como parámetro, que será 'filteredSurveysData'
+        function exportToCsv(filename, data) {
+            if (!data || data.length === 0) {
+                alert('No hay datos para generar el reporte. Aplica filtros o asegúrate de tener encuestas.');
+                return;
+            }
+
+            // Define el orden y los títulos de las columnas para el CSV
+            const columnOrder = [
+                'timestamp',
+                'room_number',
+                'butler',
+                'overall_staff_service',
+                'food_quality',
+                'room_condition',
+                'preferred_club_service',
+                'butler_service_rating',
+                'comments'
+            ];
+
+            const columnTitles = {
+                'timestamp': 'Fecha y Hora',
+                'room_number': 'Número de Habitación',
+                'butler': 'Mayordomo Asignado',
+                'overall_staff_service': 'Servicio General del Personal',
+                'food_quality': 'Calidad de la Comida',
+                'room_condition': 'Condición de la Habitación',
+                'preferred_club_service': 'Servicio Preferred Club',
+                'butler_service_rating': 'Calificación del Servicio del Mayordomo',
+                'comments': 'Comentarios Adicionales'
+            };
+
+            // Función para formatear valores para el CSV
+            const replacer = (key, value) => {
+                // Formatear objetos Timestamp de Firebase a una cadena legible (ej. "DD/MM/YYYY HH:MM:SS")
+                if (value && typeof value.toDate === 'function') {
+                    return value.toDate().toLocaleString('es-DO', {
+                        year: 'numeric', month: '2-digit', day: '2-digit',
+                        hour: '2-digit', minute: '2-digit', second: '2-digit',
+                        hour12: false // Formato 24 horas
+                    });
+                }
+                // Reemplazar valores nulos o indefinidos con una cadena vacía
+                if (value === null || value === undefined) {
+                    return '';
+                }
+                // Para asegurar que el texto con comas o comillas dobles no rompa el CSV
+                if (typeof value === 'string') {
+                    return `"${value.replace(/"/g, '""')}"`; // Escapar comillas dobles y encerrar en comillas
+                }
+                return value;
+            };
+
+            // Generar la fila de encabezados
+            const header = columnOrder.map(col => `"${columnTitles[col] || col}"`).join(',');
+
+            // Generar las filas de datos
+            const csvRows = data.map(row =>
+                columnOrder.map(col => replacer(col, row[col])).join(',')
+            );
+
+            // Unir encabezados y filas
+            const csv = [header, ...csvRows].join('\r\n');
+
+            // Crear y descargar el archivo Blob
+            const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+            const link = document.createElement('a');
+
+            if (link.download !== undefined) { // Asegura compatibilidad con el navegador
+                const url = URL.createObjectURL(blob);
+                link.setAttribute('href', url);
+                link.setAttribute('download', filename);
+                link.style.visibility = 'hidden'; // Oculta el enlace
+                document.body.appendChild(link);
+                link.click(); // Simula un clic
+                document.body.removeChild(link);
+                URL.revokeObjectURL(url); // Limpia la URL del objeto Blob
+            } else {
+                alert('Tu navegador no soporta la descarga directa de archivos.');
+            }
+        }
+
+        // --- Funcionalidad del Modal para Ver Detalles de Encuestas (Formato Tarjeta) ---
+        const modal = document.getElementById("surveyDetailModal");
+        const viewDetailsBtn = document.getElementById("viewDetailsBtn");
+        const closeModalSpan = document.getElementsByClassName("close-button")[0];
+        const detailedSurveysContainer = document.getElementById("detailedSurveysContainer");
+        const modalTitle = modal.querySelector('h3');
+
+        // Abre el modal para ver todas las encuestas detalladas (las que están filtradas actualmente)
+        viewDetailsBtn.onclick = function() {
+            modalTitle.textContent = "Encuestas Recibidas a Detalle (Filtradas)";
+            modal.style.display = "flex";
+            displayDetailedSurveys(filteredSurveysData); // Muestra datos filtrados
+        }
+
+        // Cierra el modal al hacer clic en la "x"
+        closeModalSpan.onclick = function() {
+            modal.style.display = "none";
+            detailedSurveysContainer.innerHTML = ''; // Limpia el contenido al cerrar
+        }
+
+        // Cierra el modal al hacer clic fuera de él
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+                detailedSurveysContainer.innerHTML = ''; // Limpia el contenido al cerrar
+            }
+        }
+
+        // Función para mostrar encuestas detalladas (puede recibir datos filtrados o todos)
+        function displayDetailedSurveys(dataToDisplay) {
+            detailedSurveysContainer.innerHTML = ''; // Limpia contenido anterior
+
+            if (!dataToDisplay || dataToDisplay.length === 0) {
+                detailedSurveysContainer.innerHTML = '<p style="text-align: center; color: var(--secondary-color);">No hay encuestas para mostrar a detalle con los filtros actuales.</p>';
+                return;
+            }
+
+            dataToDisplay.forEach((survey, index) => {
+                const surveyCard = document.createElement('div');
+                surveyCard.classList.add('survey-detail-card');
+
+                const formattedTimestamp = survey.timestamp && survey.timestamp.toDate
+                    ? new Date(survey.timestamp.toDate()).toLocaleString('es-DO')
+                    : 'N/A';
+
+                // Colores para cada calificación
+                const staffColor = getRatingBadgeColor(survey.overall_staff_service);
+                const foodColor = getRatingBadgeColor(survey.food_quality);
+                const roomColor = getRatingBadgeColor(survey.room_condition);
+                const clubColor = getRatingBadgeColor(survey.preferred_club_service);
+                const butlerColor = getRatingBadgeColor(survey.butler_service_rating);
+
+                // Mensaje bonito y organizado para WhatsApp
+                const whatsappMsg =
+                    `📋 *Encuesta #${dataToDisplay.length - index}*%0A` +
+                    `🏨 *Habitación:* ${survey.room_number || 'N/A'}%0A` +
+                    `🧑‍💼 *Mayordomo:* ${survey.butler || 'N/A'}%0A` +
+                    `🕒 *Enviado:* ${formattedTimestamp}%0A%0A` +
+                    `⭐ *Servicio General del Personal:* ${survey.overall_staff_service || 'N/A'}%0A` +
+                    `🍽️ *Calidad de la Comida:* ${survey.food_quality || 'N/A'}%0A` +
+                    `🛏️ *Condición de la Habitación:* ${survey.room_condition || 'N/A'}%0A` +
+                    `🏷️ *Servicio Preferred Club:* ${survey.preferred_club_service || 'N/A'}%0A` +
+                    `🤵 *Calificación del Mayordomo:* ${survey.butler_service_rating || 'N/A'}%0A%0A` +
+                    `💬 *Comentario:*%0A${survey.comments || 'No hay comentarios.'}`;
+
+                surveyCard.innerHTML = `
+                    <h4>Encuesta #${dataToDisplay.length - index} (Enviada: ${formattedTimestamp})</h4>
+                    <p><strong>Número de Habitación:</strong> ${survey.room_number || 'N/A'}</p>
+                    <p><strong>Mayordomo:</strong> ${survey.butler || 'N/A'}</p>
+                    <p><strong>Servicio General del Personal:</strong> <span class="rating-value" style="color:${staffColor}; font-weight:700;">${survey.overall_staff_service || 'N/A'}</span></p>
+                    <p><strong>Calidad de la Comida:</strong> <span class="rating-value" style="color:${foodColor}; font-weight:700;">${survey.food_quality || 'N/A'}</span></p>
+                    <p><strong>Condición de la Habitación:</strong> <span class="rating-value" style="color:${roomColor}; font-weight:700;">${survey.room_condition || 'N/A'}</span></p>
+                    <p><strong>Servicio Preferred Club:</strong> <span class="rating-value" style="color:${clubColor}; font-weight:700;">${survey.preferred_club_service || 'N/A'}</span></p>
+                    <p><strong>Calificación del Servicio del Mayordomo:</strong> <span class="rating-value" style="color:${butlerColor}; font-weight:700;">${survey.butler_service_rating || 'N/A'}</span></p>
+                    <p><strong>Comentarios Adicionales:</strong> ${survey.comments || 'No hay comentarios.'}</p>
+                    <button class="whatsapp-survey-btn" 
+                        data-msg="${whatsappMsg}"
+                        style="background:#25D366; color:#fff; border:none; border-radius:6px; padding:6px 14px; margin-top:8px; cursor:pointer;">
+                        <span style="font-size:1.2em; vertical-align:middle;">🟢</span> Enviar a WhatsApp
+                    </button>
+                `;
+                detailedSurveysContainer.appendChild(surveyCard);
+            });
+        }
+
+        // Función para mostrar un resumen detallado de una métrica específica (utiliza datos filtrados)
+        function displayMetricSummary(metricName, metricField, title) {
+            modalTitle.textContent = `Resumen Detallado: ${title} (Filtrado)`; // Título dinámico
+            detailedSurveysContainer.innerHTML = ''; // Limpia contenido anterior
+
+            if (filteredSurveysData.length === 0) {
+                detailedSurveysContainer.innerHTML = `<p style="text-align: center; color: var(--secondary-color);">No hay datos para mostrar el resumen de ${title} con los filtros actuales.</p>`;
+                modal.style.display = "flex";
+                return;
+            }
+
+            const ratingCounts = { "Bad": 0, "Poor": 0, "Regular": 0, "Good": 0, "Excellent": 0 };
+            const commentsForMetric = [];
+
+            filteredSurveysData.forEach(survey => {
+                const rating = survey[metricField];
+                if (rating && ratingCounts.hasOwnProperty(rating)) {
+                    ratingCounts[rating]++;
+                }
+                // Recopila comentarios, pueden ser generales o específicos
+                if (survey.comments && survey.comments.trim() !== '') {
+                    commentsForMetric.push({
+                        comment: survey.comments,
+                        ratingForMetric: survey[metricField] || 'N/A', // Calificación específica de esta métrica
+                        // Incluye otras calificaciones para contexto
+                        overallStaffRating: survey.overall_staff_service || 'N/A',
+                        foodQualityRating: survey.food_quality || 'N/A',
+                        roomConditionRating: survey.room_condition || 'N/A',
+                        preferredClubService: survey.preferred_club_service || 'N/A',
+                        butlerServiceRating: survey.butler_service_rating || 'N/A',
+                        room: survey.room_number || 'N/A',
+                        butler: survey.butler || 'N/A',
+                        timestamp: survey.timestamp && survey.timestamp.toDate ? new Date(survey.timestamp.toDate()).toLocaleString('es-DO') : 'N/A'
+                    });
+                }
+            });
+
+            // HTML para la distribución de calificaciones
+            let summaryHtml = `<h4>Distribución de Calificaciones para "${title}":</h4>`;
+            summaryHtml += '<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 10px; margin-bottom: 20px;">';
+            for (const rating of ["Excellent", "Good", "Regular", "Poor", "Bad"]) {
+                const color = getRatingColor(ratingMap[rating]);
+                const emoji = getFaceEmoji(ratingMap[rating]);
+                summaryHtml += `
+                    <div style="text-align: center; background-color: var(--background-color); padding: 10px; border-radius: 8px; border: 1px solid var(--border-color); box-shadow: 0 1px 3px rgba(0,0,0,0.05);">
+                        <p style="margin: 0; font-size: 1.1em; font-weight: bold; color: ${color};">${emoji} ${rating}</p>
+                        <p style="margin: 5px 0 0; font-size: 1.2em; font-weight: bold;">${ratingCounts[rating]}</p>
+                    </div>
+                `;
+            }
+            summaryHtml += '</div>';
+
+            // HTML para comentarios relevantes
+            summaryHtml += `<h4>Comentarios (pueden ser generales o relacionados):</h4>`;
+            if (commentsForMetric.length > 0) {
+                commentsForMetric.forEach(c => {
+                    summaryHtml += `
+                        <div class="comment-card">
+                            <p><strong>Comentario:</strong> ${c.comment}</p>
+                            <p><small>Calificación (${title}): ${c.ratingForMetric}</small></p>
+                            <small>
+                                Personal General: ${c.overallStaffRating} | Comida: ${c.foodQualityRating} | Habitación: ${c.roomConditionRating} | Club: ${c.preferredClubService} | Mayordomo: ${c.butlerServiceRating}<br>
+                                Habitación: ${c.room} | Mayordomo: ${c.butler} | Enviado: ${c.timestamp}
+                            </small>
+                        </div>
+                    `;
+                });
+            } else {
+                detailedSurveysContainer.innerHTML += '<p style="text-align: center; color: var(--secondary-color);">No hay comentarios disponibles con los filtros actuales.</p>';
+            }
+
+            detailedSurveysContainer.innerHTML = summaryHtml;
+            modal.style.display = "flex"; // Mostrar el modal
+        }
+
+        // --- Funcionalidad del Nuevo Modal de Tabla ---
+        const tableModal = document.getElementById("tableModal");
+        const viewTableBtn = document.getElementById("viewTableBtn");
+        const closeTableModalSpan = document.getElementById("closeTableModal");
+        const surveyTableBody = document.getElementById("surveyTableBody");
+        const tableSearchInput = document.getElementById("tableSearchInput");
+        const prevPageBtn = document.getElementById("prevPageBtn");
+        const nextPageBtn = document.getElementById("nextPageBtn");
+        const currentPageSpan = document.getElementById("currentPage");
+        const totalPagesSpan = document.getElementById("totalPages");
+        const rowsPerPageSelect = document.getElementById("rowsPerPageSelect");
+
+        function renderTable() {
+            surveyTableBody.innerHTML = ''; // Limpiar tabla actual
+
+            if (filteredAndSearchedData.length === 0) {
+                surveyTableBody.innerHTML = '<tr><td colspan="9" style="text-align: center; color: var(--secondary-color);">No hay encuestas para mostrar en la tabla con la búsqueda actual.</td></tr>';
+                currentPageSpan.textContent = 0;
+                totalPagesSpan.textContent = 0;
+                prevPageBtn.disabled = true;
+                nextPageBtn.disabled = true;
+                return;
+            }
+
+            // Calcular paginación
+            totalPages = Math.ceil(filteredAndSearchedData.length / rowsPerPage);
+            currentPage = Math.min(Math.max(1, currentPage), totalPages); // Asegurar que currentPage sea válida
+
+            const startIndex = (currentPage - 1) * rowsPerPage;
+            const endIndex = startIndex + rowsPerPage;
+            const paginatedData = filteredAndSearchedData.slice(startIndex, endIndex);
+
+            paginatedData.forEach(survey => {
+                const row = surveyTableBody.insertRow();
+                const formattedTimestamp = survey.timestamp && survey.timestamp.toDate ? new Date(survey.timestamp.toDate()).toLocaleString('es-DO') : 'N/A';
+
+                row.insertCell().textContent = formattedTimestamp;
+                row.insertCell().textContent = survey.room_number || 'N/A';
+                row.insertCell().textContent = survey.butler || 'N/A';
+
+                // Calificaciones con color, fondo y tooltip
+                function addRatingCell(value) {
+                    const cell = row.insertCell();
+                    cell.textContent = value || 'N/A';
+                    cell.style.color = getRatingBadgeColor(value);
+                    cell.style.background = getRatingBadgeBg(value);
+                    cell.style.fontWeight = "700";
+                    cell.title = value ? ({
+                        "Bad": "Muy insatisfecho",
+                        "Poor": "Insatisfecho",
+                        "Regular": "Regular",
+                        "Good": "Satisfecho",
+                        "Excellent": "Muy satisfecho"
+                    }[value] || value) : "";
+                    return cell;
+                }
+                addRatingCell(survey.overall_staff_service);
+                addRatingCell(survey.food_quality);
+                addRatingCell(survey.room_condition);
+                addRatingCell(survey.preferred_club_service);
+                addRatingCell(survey.butler_service_rating);
+
+                row.insertCell().textContent = survey.comments || '';
+
+                // Click en fila para ver detalle
+                row.style.cursor = "pointer";
+                row.addEventListener('click', () => {
+                    // Antes de mostrar el modal de detalle, cierra el de tabla
+                    document.getElementById('tableModal').style.display = "none";
+                    document.getElementById('surveyDetailModal').style.display = "flex";
+                    displayDetailedSurveys([survey]);
+                });
+            });
+
+            currentPageSpan.textContent = currentPage;
+            totalPagesSpan.textContent = totalPages;
+            prevPageBtn.disabled = currentPage === 1;
+            nextPageBtn.disabled = currentPage === totalPages;
+        }
+
+        function applyTableSearch() {
+            const searchTerm = tableSearchInput.value.toLowerCase().trim();
+            if (searchTerm === '') {
+                filteredAndSearchedData = [...filteredSurveysData]; // Restablecer si la búsqueda está vacía
+            } else {
+                filteredAndSearchedData = filteredSurveysData.filter(survey => {
+                    // Busca en todas las columnas relevantes
+                    return (survey.room_number && String(survey.room_number).toLowerCase().includes(searchTerm)) ||
+                           (survey.butler && survey.butler.toLowerCase().includes(searchTerm)) ||
+                           (survey.comments && survey.comments.toLowerCase().includes(searchTerm)) ||
+                           (survey.overall_staff_service && survey.overall_staff_service.toLowerCase().includes(searchTerm)) ||
+                           (survey.food_quality && survey.food_quality.toLowerCase().includes(searchTerm)) ||
+                           (survey.room_condition && survey.room_condition.toLowerCase().includes(searchTerm)) ||
+                           (survey.preferred_club_service && survey.preferred_club_service.toLowerCase().includes(searchTerm)) ||
+                           (survey.butler_service_rating && survey.butler_service_rating.toLowerCase().includes(searchTerm));
+                });
+            }
+            currentPage = 1; // Reiniciar página al buscar
+            renderTable();
+        }
+
+        // Eventos para el modal de tabla
+        viewTableBtn.onclick = function() {
+            tableModal.style.display = "flex";
+            // Asegurarse de que el input de búsqueda esté vacío al abrir el modal
+            tableSearchInput.value = '';
+            // Restablecer los datos de búsqueda a los filtrados actuales
+            filteredAndSearchedData = [...filteredSurveysData];
+            currentPage = 1; // Reiniciar página
+            renderTable();
+        }
+
+        closeTableModalSpan.onclick = function() {
+            tableModal.style.display = "none";
+        }
+
+        tableSearchInput.addEventListener('input', applyTableSearch);
+
+        prevPageBtn.addEventListener('click', () => {
+            if (currentPage > 1) {
+                currentPage--;
+                renderTable();
+            }
+        });
+
+        nextPageBtn.addEventListener('click', () => {
+            if (currentPage < totalPages) {
+                currentPage++;
+                renderTable();
+            }
+        });
+
+        rowsPerPageSelect.addEventListener('change', (event) => {
+            rowsPerPage = parseInt(event.target.value);
+            currentPage = 1; // Reiniciar página al cambiar el número de filas
+            renderTable();
+        });
+
+
+        // Cierra el modal de tabla al hacer clic fuera de él (manejar ambos modales)
+        window.addEventListener('click', function(event) {
+            if (event.target == modal) { // Modal de detalles
+                modal.style.display = "none";
+                detailedSurveysContainer.innerHTML = '';
+            }
+            if (event.target == tableModal) { // Modal de tabla
+                tableModal.style.display = "none";
+            }
+        });
+
+        // --- Event Listeners (Controladores de Eventos) ---
+        document.addEventListener('DOMContentLoaded', () => {
+            // Carga el dashboard inicialmente sin filtros
+            loadDashboard();
+
+            // Referencias a los elementos de filtro
+            const startDateInput = document.getElementById('startDate');
+            const endDateInput = document.getElementById('endDate');
+            const butlerFilterSelect = document.getElementById('butlerFilter');
+            const applyFiltersBtn = document.getElementById('applyFiltersBtn');
+            const resetFiltersBtn = document.getElementById('resetFiltersBtn');
+            const printReportBtn = document.getElementById('printReportBtn');
+
+            // Event listener para el botón "Aplicar Filtros"
+            applyFiltersBtn.addEventListener('click', () => {
+                const filters = {};
+                
+                // === FILTROS DE FECHA ===
+                if (startDateInput.value) {
+                    filters.startDate = startDateInput.value;
+                }
+                if (endDateInput.value) {
+                    filters.endDate = endDateInput.value;
+                }
+
+                // === FILTROS DE PERSONAL ===
+                if (butlerFilterSelect.value) {
+                    filters.butler = butlerFilterSelect.value;
+                }
+                const roomFilter = document.getElementById('roomFilter');
+                if (roomFilter && roomFilter.value) {
+                    filters.roomFilter = roomFilter.value;
+                }
+
+                // === FILTROS DE CALIFICACIONES ===
+                const overallStaffFilter = document.getElementById('overallStaffFilter');
+                if (overallStaffFilter && overallStaffFilter.value) {
+                    filters.overallStaffFilter = overallStaffFilter.value;
+                }
+
+                const foodQualityFilter = document.getElementById('foodQualityFilter');
+                if (foodQualityFilter && foodQualityFilter.value) {
+                    filters.foodQualityFilter = foodQualityFilter.value;
+                }
+
+                const roomConditionFilter = document.getElementById('roomConditionFilter');
+                if (roomConditionFilter && roomConditionFilter.value) {
+                    filters.roomConditionFilter = roomConditionFilter.value;
+                }
+
+                const preferredClubFilter = document.getElementById('preferredClubFilter');
+                if (preferredClubFilter && preferredClubFilter.value) {
+                    filters.preferredClubFilter = preferredClubFilter.value;
+                }
+
+                const butlerServiceFilter = document.getElementById('butlerServiceFilter');
+                if (butlerServiceFilter && butlerServiceFilter.value) {
+                    filters.butlerServiceFilter = butlerServiceFilter.value;
+                }
+
+                const ratingRangeFilter = document.getElementById('ratingRangeFilter');
+                if (ratingRangeFilter && ratingRangeFilter.value) {
+                    filters.ratingRangeFilter = ratingRangeFilter.value;
+                }
+
+                // === FILTROS DE COMENTARIOS ===
+                const commentKeywordFilter = document.getElementById('commentKeywordFilter');
+                if (commentKeywordFilter && commentKeywordFilter.value) {
+                    filters.commentKeywordFilter = commentKeywordFilter.value;
+                }
+
+                const commentTypeFilter = document.getElementById('commentTypeFilter');
+                if (commentTypeFilter && commentTypeFilter.value) {
+                    filters.commentTypeFilter = commentTypeFilter.value;
+                }
+
+                const commentLengthFilter = document.getElementById('commentLengthFilter');
+                if (commentLengthFilter && commentLengthFilter.value) {
+                    filters.commentLengthFilter = commentLengthFilter.value;
+                }
+
+                // === FILTROS AVANZADOS ===
+                const surveyCountFilter = document.getElementById('surveyCountFilter');
+                if (surveyCountFilter && surveyCountFilter.value) {
+                    filters.surveyCountFilter = surveyCountFilter.value;
+                }
+
+                const timeOfDayFilter = document.getElementById('timeOfDayFilter');
+                if (timeOfDayFilter && timeOfDayFilter.value) {
+                    filters.timeOfDayFilter = timeOfDayFilter.value;
+                }
+
+                const dayOfWeekFilter = document.getElementById('dayOfWeekFilter');
+                if (dayOfWeekFilter && dayOfWeekFilter.value) {
+                    filters.dayOfWeekFilter = dayOfWeekFilter.value;
+                }
+
+                loadDashboard(filters);
+                updateActiveFilters(filters);
+            });
+
+            // Event listener para el botón "Limpiar Filtros"
+            resetFiltersBtn.addEventListener('click', () => {
+                // Limpiar todos los campos de filtro
+                const filterInputs = document.querySelectorAll('.filter-controls input, .filter-controls select');
+                filterInputs.forEach(input => {
+                    input.value = '';
+                });
+                
+                loadDashboard({}); // Recarga el dashboard sin ningún filtro
+                updateActiveFilters({});
+            });
+
+            // Función para actualizar filtros activos
+            function updateActiveFilters(filters) {
+                const activeFiltersDiv = document.getElementById('activeFilters');
+                const activeFiltersList = document.getElementById('activeFiltersList');
+                
+                const activeFilters = [];
+                
+                if (filters.startDate || filters.endDate) {
+                    let dateFilter = '';
+                    if (filters.startDate && filters.endDate) {
+                        dateFilter = `Fecha: ${filters.startDate} - ${filters.endDate}`;
+                    } else if (filters.startDate) {
+                        dateFilter = `Desde: ${filters.startDate}`;
+                    } else if (filters.endDate) {
+                        dateFilter = `Hasta: ${filters.endDate}`;
+                    }
+                    activeFilters.push({ type: 'date', label: dateFilter, key: 'date' });
+                }
+
+                if (filters.butler) {
+                    activeFilters.push({ type: 'butler', label: `Mayordomo: ${filters.butler}`, key: 'butler' });
+                }
+
+                if (filters.roomFilter) {
+                    activeFilters.push({ type: 'room', label: `Habitación: ${filters.roomFilter}`, key: 'roomFilter' });
+                }
+
+                if (filters.overallStaffFilter) {
+                    activeFilters.push({ type: 'rating', label: `Personal: ${filters.overallStaffFilter}`, key: 'overallStaffFilter' });
+                }
+
+                if (filters.foodQualityFilter) {
+                    activeFilters.push({ type: 'rating', label: `Comida: ${filters.foodQualityFilter}`, key: 'foodQualityFilter' });
+                }
+
+                if (filters.roomConditionFilter) {
+                    activeFilters.push({ type: 'rating', label: `Habitación: ${filters.roomConditionFilter}`, key: 'roomConditionFilter' });
+                }
+
+                if (filters.preferredClubFilter) {
+                    activeFilters.push({ type: 'rating', label: `Club: ${filters.preferredClubFilter}`, key: 'preferredClubFilter' });
+                }
+
+                if (filters.butlerServiceFilter) {
+                    activeFilters.push({ type: 'rating', label: `Mayordomo: ${filters.butlerServiceFilter}`, key: 'butlerServiceFilter' });
+                }
+
+                if (filters.ratingRangeFilter) {
+                    activeFilters.push({ type: 'rating', label: `Mínimo: ${filters.ratingRangeFilter}`, key: 'ratingRangeFilter' });
+                }
+
+                if (filters.commentKeywordFilter) {
+                    activeFilters.push({ type: 'comment', label: `Palabra: "${filters.commentKeywordFilter}"`, key: 'commentKeywordFilter' });
+                }
+
+                if (filters.commentTypeFilter) {
+                    activeFilters.push({ type: 'comment', label: `Tipo: ${filters.commentTypeFilter}`, key: 'commentTypeFilter' });
+                }
+
+                if (filters.commentLengthFilter) {
+                    activeFilters.push({ type: 'comment', label: `Longitud: ${filters.commentLengthFilter}`, key: 'commentLengthFilter' });
+                }
+
+                if (filters.surveyCountFilter) {
+                    activeFilters.push({ type: 'advanced', label: `Mínimo encuestas: ${filters.surveyCountFilter}`, key: 'surveyCountFilter' });
+                }
+
+                if (filters.timeOfDayFilter) {
+                    activeFilters.push({ type: 'advanced', label: `Hora: ${filters.timeOfDayFilter}`, key: 'timeOfDayFilter' });
+                }
+
+                if (filters.dayOfWeekFilter) {
+                    const days = ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'];
+                    activeFilters.push({ type: 'advanced', label: `Día: ${days[filters.dayOfWeekFilter]}`, key: 'dayOfWeekFilter' });
+                }
+
+                if (activeFilters.length > 0) {
+                    activeFiltersList.innerHTML = '';
+                    activeFilters.forEach(filter => {
+                        const filterTag = document.createElement('div');
+                        filterTag.className = 'active-filter-tag';
+                        filterTag.innerHTML = `
+                            ${filter.label}
+                            <button class="remove-filter" onclick="removeFilter('${filter.key}')">&times;</button>
+                        `;
+                        activeFiltersList.appendChild(filterTag);
+                    });
+                    activeFiltersDiv.style.display = 'block';
+                } else {
+                    activeFiltersDiv.style.display = 'none';
+                }
+            }
+
+            // Función para remover filtro individual
+            window.removeFilter = function(filterKey) {
+                const filterElement = document.getElementById(filterKey.replace(/([A-Z])/g, (match, p1) => p1.toLowerCase()));
+                if (filterElement) {
+                    filterElement.value = '';
+                }
+                // Reaplicar filtros
+                applyFiltersBtn.click();
+            };
+
+            // Event listener para presets de fecha
+            const datePresetSelect = document.getElementById('datePreset');
+            if (datePresetSelect) {
+                datePresetSelect.addEventListener('change', function() {
+                    const today = new Date();
+                    const startDateInput = document.getElementById('startDate');
+                    const endDateInput = document.getElementById('endDate');
+                    
+                    switch (this.value) {
+                        case 'today':
+                            const todayStr = today.toISOString().split('T')[0];
+                            startDateInput.value = todayStr;
+                            endDateInput.value = todayStr;
+                            break;
+                        case 'yesterday':
+                            const yesterday = new Date(today);
+                            yesterday.setDate(yesterday.getDate() - 1);
+                            const yesterdayStr = yesterday.toISOString().split('T')[0];
+                            startDateInput.value = yesterdayStr;
+                            endDateInput.value = yesterdayStr;
+                            break;
+                        case 'last7days':
+                            const last7Days = new Date(today);
+                            last7Days.setDate(last7Days.getDate() - 7);
+                            startDateInput.value = last7Days.toISOString().split('T')[0];
+                            endDateInput.value = today.toISOString().split('T')[0];
+                            break;
+                        case 'last30days':
+                            const last30Days = new Date(today);
+                            last30Days.setDate(last30Days.getDate() - 30);
+                            startDateInput.value = last30Days.toISOString().split('T')[0];
+                            endDateInput.value = today.toISOString().split('T')[0];
+                            break;
+                        case 'thisWeek':
+                            const startOfWeek = new Date(today);
+                            startOfWeek.setDate(today.getDate() - today.getDay());
+                            const endOfWeek = new Date(startOfWeek);
+                            endOfWeek.setDate(startOfWeek.getDate() + 6);
+                            startDateInput.value = startOfWeek.toISOString().split('T')[0];
+                            endDateInput.value = endOfWeek.toISOString().split('T')[0];
+                            break;
+                        case 'lastWeek':
+                            const startOfLastWeek = new Date(today);
+                            startOfLastWeek.setDate(today.getDate() - today.getDay() - 7);
+                            const endOfLastWeek = new Date(startOfLastWeek);
+                            endOfLastWeek.setDate(startOfLastWeek.getDate() + 6);
+                            startDateInput.value = startOfLastWeek.toISOString().split('T')[0];
+                            endDateInput.value = endOfLastWeek.toISOString().split('T')[0];
+                            break;
+                        case 'thisMonth':
+                            const startOfMonth = new Date(today.getFullYear(), today.getMonth(), 1);
+                            const endOfMonth = new Date(today.getFullYear(), today.getMonth() + 1, 0);
+                            startDateInput.value = startOfMonth.toISOString().split('T')[0];
+                            endDateInput.value = endOfMonth.toISOString().split('T')[0];
+                            break;
+                        case 'lastMonth':
+                            const startOfLastMonth = new Date(today.getFullYear(), today.getMonth() - 1, 1);
+                            const endOfLastMonth = new Date(today.getFullYear(), today.getMonth(), 0);
+                            startDateInput.value = startOfLastMonth.toISOString().split('T')[0];
+                            endDateInput.value = endOfLastMonth.toISOString().split('T')[0];
+                            break;
+                    }
+                });
+            }
+
+            // Event listeners para guardar y cargar presets de filtros
+            const saveFilterPresetBtn = document.getElementById('saveFilterPresetBtn');
+            const loadFilterPresetBtn = document.getElementById('loadFilterPresetBtn');
+
+            if (saveFilterPresetBtn) {
+                saveFilterPresetBtn.addEventListener('click', function() {
+                    const presetName = prompt('Nombre para el preset de filtros:');
+                    if (presetName) {
+                        const filterInputs = document.querySelectorAll('.filter-controls input, .filter-controls select');
+                        const preset = {};
+                        filterInputs.forEach(input => {
+                            if (input.value) {
+                                preset[input.id] = input.value;
+                            }
+                        });
+                        
+                        const savedPresets = JSON.parse(localStorage.getItem('filterPresets') || '{}');
+                        savedPresets[presetName] = preset;
+                        localStorage.setItem('filterPresets', JSON.stringify(savedPresets));
+                        alert(`Preset "${presetName}" guardado exitosamente.`);
+                    }
+                });
+            }
+
+            if (loadFilterPresetBtn) {
+                loadFilterPresetBtn.addEventListener('click', function() {
+                    const savedPresets = JSON.parse(localStorage.getItem('filterPresets') || '{}');
+                    const presetNames = Object.keys(savedPresets);
+                    
+                    if (presetNames.length === 0) {
+                        alert('No hay presets guardados.');
+                        return;
+                    }
+                    
+                    const presetName = prompt(`Presets disponibles: ${presetNames.join(', ')}\n\nIngresa el nombre del preset a cargar:`);
+                    if (presetName && savedPresets[presetName]) {
+                        const preset = savedPresets[presetName];
+                        Object.keys(preset).forEach(inputId => {
+                            const input = document.getElementById(inputId);
+                            if (input) {
+                                input.value = preset[inputId];
+                            }
+                        });
+                        alert(`Preset "${presetName}" cargado exitosamente.`);
+                    }
+                });
+            }
+
+            // Event listener para el botón "Exportar Reporte (CSV)"
+            document.getElementById('exportReportBtn').addEventListener('click', () => {
+                if (filteredSurveysData.length > 0) {
+                    exportToCsv('secrets_royal_beach_reporte_encuestas_filtrado.csv', filteredSurveysData);
+                } else {
+                    alert('No hay datos filtrados para exportar. Aplica filtros o asegúrate de tener datos.');
+                }
+            });
+
+            // Event listener para el botón "Imprimir Reporte"
+            printReportBtn.addEventListener('click', () => {
+                window.print();
+            });
+
+            // Event listeners para las tarjetas de resumen (para abrir el modal con el resumen de la métrica)
+            const summaryCards = document.querySelectorAll('.summary-card');
+            summaryCards.forEach(card => {
+                card.addEventListener('click', () => {
+                    const cardId = card.id;
+                    let metricField = '';
+                    let displayTitle = '';
+
+                    switch (cardId) {
+                        case 'totalSurveysCard':
+                            viewDetailsBtn.click(); // Abrir modal de detalles
+                            return;
+                        case 'overallStaffRatingCard':
+                            metricField = 'overall_staff_service';
+                            displayTitle = 'Servicio General del Personal';
+                            break;
+                        case 'foodQualityRatingCard':
+                            metricField = 'food_quality';
+                            displayTitle = 'Calidad de la Comida';
+                            break;
+                        case 'roomConditionRatingCard':
+                            metricField = 'room_condition';
+                            displayTitle = 'Condición de la Habitación';
+                            break;
+                        case 'preferredClubRatingCard':
+                            metricField = 'preferred_club_service';
+                            displayTitle = 'Servicio Preferred Club';
+                            break;
+                        case 'butlerServiceRatingCard':
+                            metricField = 'butler_service_rating';
+                            displayTitle = 'Calificación del Servicio del Mayordomo';
+                            break;
+                        default:
+                            console.warn('Tarjeta de resumen desconocida clicada:', cardId);
+                            return;
+                    }
+                    displayMetricSummary(cardId, metricField, displayTitle);
+                });
+            });
+
+            // Event listeners para el filtro de comentarios por palabra clave
+            const commentKeywordFilterInput = document.getElementById('commentKeywordFilter');
+            commentKeywordFilterInput.addEventListener('input', function() {
+                const keyword = this.value.toLowerCase();
+                // Filtra los comentarios y vuelve a renderizar la sección
+                renderCommentsSection(filteredSurveysData.filter(s => (s.comments || '').toLowerCase().includes(keyword)));
+            });
+
+            // Event listeners para el filtro de rango de calificación
+            document.getElementById('ratingRangeFilter').addEventListener('change', function() {
+                const value = this.value;
+                let filtered = filteredSurveysData;
+                if (value) {
+                    filtered = filtered.filter(s => 
+                        s.overall_staff_service === value ||
+                        s.food_quality === value ||
+                        s.room_condition === value ||
+                        s.preferred_club_service === value ||
+                        s.butler_service_rating === value
+                    );
+                }
+                // Vuelve a renderizar la tabla y los comentarios con el filtro aplicado
+                renderTable(filtered);
+                renderCommentsSection(filtered);
+            });
+
+            // Event listeners para el comparador de periodos
+            const compareStart1 = document.getElementById('compareStart1');
+            const compareEnd1 = document.getElementById('compareEnd1');
+            const compareStart2 = document.getElementById('compareStart2');
+            const compareEnd2 = document.getElementById('compareEnd2');
+            const compareBtn = document.getElementById('compareBtn');
+            const compareResultDiv = document.getElementById('compareResult');
+
+            function filterByRange(data, start, end) {
+                return data.filter(s => {
+                    const d = s.timestamp ? new Date(s.timestamp.toDate ? s.timestamp.toDate() : s.timestamp) : null;
+                    if (!d) return false;
+                    const iso = d.toISOString().slice(0,10);
+                    return iso >= start && iso <= end;
+                });
+            }
+
+            compareBtn.addEventListener('click', function() {
+                const s1 = document.getElementById('compareStart1').value;
+                const e1 = document.getElementById('compareEnd1').value;
+                const s2 = document.getElementById('compareStart2').value;
+                const e2 = document.getElementById('compareEnd2').value;
+                if (!s1 || !e1 || !s2 || !e2) return;
+
+                const group1 = filterByRange(filteredSurveysData, s1, e1);
+                const group2 = filterByRange(filteredSurveysData, s2, e2);
+
+                let html = "<b>Comparación de promedios:</b><br>";
+                ['overall_staff_service','food_quality','room_condition','preferred_club_service','butler_service_rating'].forEach(field => {
+                    const avg1 = getNumericAverage(group1, field) || 0;
+                    const avg2 = getNumericAverage(group2, field) || 0;
+                    const diff = (avg1 - avg2).toFixed(2);
+                    html += `${field}: ${avg1.toFixed(2)} vs ${avg2.toFixed(2)} <span style="color:${diff>0?'#28a745':diff<0?'#dc3545':'#ffc107'};">(${diff>0?'+':''}${diff})</span><br>`;
+                });
+                compareResultDiv.innerHTML = html;
+            });
+
+            // Event listeners para el botón de copiar comentario
+            document.addEventListener('click', function(event) {
+                const whatsappButton = event.target.closest('.whatsapp-comment-btn');
+                if (whatsappButton) {
+                    const comment = whatsappButton.dataset.comment;
+                    const room = whatsappButton.dataset.room;
+                    const butler = whatsappButton.dataset.butler;
+                    const date = whatsappButton.dataset.date;
+                    // Mensaje completo en el formato solicitado
+                    const message = `${decodeURIComponent(comment)}\n\nHabitación: ${decodeURIComponent(room)} - Mayordomo: ${decodeURIComponent(butler)} - Enviado: ${decodeURIComponent(date)}`;
+                    const phone = ""; // Si quieres un número fijo, ponlo aquí. Si no, deja vacío.
+                    const url = `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
+                    window.open(url, '_blank');
+                }
+                const whatsappSurveyBtn = event.target.closest('.whatsapp-survey-btn');
+                if (whatsappSurveyBtn) {
+                    const msg = whatsappSurveyBtn.dataset.msg;
+                    const phone = ""; // Si quieres un número fijo, ponlo aquí. Si no, deja vacío.
+                    const url = `https://wa.me/${phone}?text=${msg}`;
+                    window.open(url, '_blank');
+                }
+            });
+
+            const topButlersBtn = document.getElementById('topButlersBtn');
+            const topButlersModal = document.getElementById('topButlersModal');
+            const closeTopButlersModal = document.getElementById('closeTopButlersModal');
+            const topButlersCards = document.getElementById('topButlersCards');
+            const topButlersList = document.getElementById('topButlersList');
+            const sendTopButlersWhatsappBtn = document.getElementById('sendTopButlersWhatsappBtn');
+
+            function showTopButlers() {
+                // Cuenta menciones de mayordomos en los datos filtrados
+                const butlerCounts = {};
+                filteredSurveysData.forEach(s => {
+                    if (s.butler && s.butler.trim() !== '') {
+                        const name = s.butler.trim();
+                        butlerCounts[name] = (butlerCounts[name] || 0) + 1;
+                    }
+                });
+                // Ordena por menciones descendente
+                const sorted = Object.entries(butlerCounts).sort((a, b) => b[1] - a[1]);
+                // Top 10
+                const top10 = sorted.slice(0, 10);
+                // Cartas para los 3 primeros
+                topButlersCards.innerHTML = '';
+                const medals = ['🥇', '🥈', '🥉'];
+                for (let i = 0; i < 3 && i < top10.length; i++) {
+                    const [name, count] = top10[i];
+                    const card = document.createElement('div');
+                    card.className = 'top-butler-card';
+                    card.innerHTML = `
+                        <div class="top-butler-medal">${medals[i]}</div>
+                        <div class="top-butler-avatar">${name[0] ? name[0].toUpperCase() : '?'}</div>
+                        <div class="top-butler-name">${name}</div>
+                        <div class="top-butler-count">${count} menciones</div>
+                    `;
+                    topButlersCards.appendChild(card);
+                }
+                // Listado del top 10 con barra de progreso
+                topButlersList.innerHTML = '';
+                const maxCount = top10.length > 0 ? top10[0][1] : 1;
+                top10.forEach(([name, count], idx) => {
+                    const li = document.createElement('li');
+                    li.innerHTML = `
+                        <span class="top-butler-rank">${idx+1}</span>
+                        <span class="top-butler-list-name">${name}</span>
+                        <div class="top-butler-bar"><div class="top-butler-bar-inner" style="width:${(count/maxCount*100).toFixed(0)}%"></div></div>
+                        <span class="top-butler-list-count">${count}</span>
+                    `;
+                    if (idx < 3) li.style.background = '#fffbe6';
+                    topButlersList.appendChild(li);
+                });
+                // Habilita el botón de WhatsApp solo si hay datos
+                sendTopButlersWhatsappBtn.style.display = top10.length > 0 ? 'block' : 'none';
+                sendTopButlersWhatsappBtn.onclick = function() {
+                    if (top10.length === 0) return;
+                    let msg = '🏆 *Top 10 Mayordomos Más Mencionados* 🏆%0A%0A';
+                    top10.forEach(([name, count], idx) => {
+                        const medal = idx === 0 ? '🥇' : idx === 1 ? '🥈' : idx === 2 ? '🥉' : `${idx+1}°`;
+                        msg += `${medal} ${name}: ${count} menciones%0A`;
+                    });
+                    const phone = '';
+                    const url = `https://wa.me/${phone}?text=${msg}`;
+                    window.open(url, '_blank');
+                };
+                topButlersModal.style.display = 'flex';
+            }
+            topButlersBtn.addEventListener('click', showTopButlers);
+            closeTopButlersModal.addEventListener('click', () => {
+                topButlersModal.style.display = 'none';
+            });
+            window.addEventListener('click', function(event) {
+                if (event.target == topButlersModal) {
+                    topButlersModal.style.display = 'none';
+                }
+            });
+
+            const butlerEffectivenessBtn = document.getElementById('butlerEffectivenessBtn');
+            const butlerEffectivenessModal = document.getElementById('butlerEffectivenessModal');
+            const closeButlerEffectivenessModal = document.getElementById('closeButlerEffectivenessModal');
+            const butlerEffectivenessList = document.getElementById('butlerEffectivenessList');
+
+            function showButlerEffectiveness() {
+                // Agrupa por mayordomo y calcula promedio de servicio
+                const map = { "Bad": 1, "Poor": 2, "Regular": 3, "Good": 4, "Excellent": 5 };
+                const butlerStats = {};
+                filteredSurveysData.forEach(s => {
+                    if (s.butler && s.butler_service_rating && map[s.butler_service_rating]) {
+                        const name = s.butler.trim();
+                        if (!butlerStats[name]) butlerStats[name] = { sum: 0, count: 0 };
+                        butlerStats[name].sum += map[s.butler_service_rating];
+                        butlerStats[name].count++;
+                    }
+                });
+                // Calcula promedios y ordena
+                const effectiveness = Object.entries(butlerStats)
+                    .map(([name, stat]) => ({
+                        name,
+                        avg: stat.count ? (stat.sum/stat.count) : 0,
+                        count: stat.count
+                    }))
+                    .filter(b => b.count > 0)
+                    .sort((a, b) => b.avg - a.avg);
+                // Renderiza lista
+                butlerEffectivenessList.innerHTML = '';
+                effectiveness.forEach((b, idx) => {
+                    let nivel = 'media', badge = 'Media';
+                    if (b.avg >= 4.0) { nivel = 'alta'; badge = 'Alta'; }
+                    else if (b.avg < 2.5) { nivel = 'baja'; badge = 'Baja'; }
+                    const li = document.createElement('li');
+                    li.className = nivel;
+                    // Barra de progreso: 1-5 mapeado a 0-100%
+                    const barWidth = ((b.avg-1)/4*100).toFixed(0);
+                    li.innerHTML = `
+                        <span class="butler-effectiveness-rank">${idx+1}</span>
+                        <span class="butler-effectiveness-avatar">${b.name[0] ? b.name[0].toUpperCase() : '?'}</span>
+                        <span class="butler-effectiveness-name">${b.name}</span>
+                        <span class="butler-effectiveness-avg">${b.avg.toFixed(2)}</span>
+                        <div class="butler-effectiveness-bar"><div class="butler-effectiveness-bar-inner" style="width:${barWidth}%"></div></div>
+                        <span class="butler-effectiveness-badge ${nivel}">${badge}</span>
+                        <span style="color:#888; font-size:0.95em; margin-left:8px;">(${b.count} respuestas)</span>
+                    `;
+                    butlerEffectivenessList.appendChild(li);
+                });
+                butlerEffectivenessModal.style.display = 'flex';
+            }
+            butlerEffectivenessBtn.addEventListener('click', showButlerEffectiveness);
+            closeButlerEffectivenessModal.addEventListener('click', () => {
+                butlerEffectivenessModal.style.display = 'none';
+            });
+            window.addEventListener('click', function(event) {
+                if (event.target == butlerEffectivenessModal) {
+                    butlerEffectivenessModal.style.display = 'none';
+                }
+            });
+
+            // --- Funcionalidad del Modal de Email ---
+            const emailReportBtn = document.getElementById('emailReportBtn');
+            const emailReportModal = document.getElementById('emailReportModal');
+            const closeEmailReportModal = document.getElementById('closeEmailReportModal');
+            const sendEmailBtn = document.getElementById('sendEmailBtn');
+            const previewEmailBtn = document.getElementById('previewEmailBtn');
+            const saveEmailTemplateBtn = document.getElementById('saveEmailTemplateBtn');
+
+            // Función para actualizar la vista previa del reporte
+            function updateEmailPreview() {
+                const totalSurveys = filteredSurveysData.length;
+                const startDate = document.getElementById('startDate').value;
+                const endDate = document.getElementById('endDate').value;
+                const butlerFilter = document.getElementById('butlerFilter').value;
+
+                document.getElementById('previewTotalSurveys').textContent = totalSurveys;
+
+                let period = 'Todos los datos';
+                if (startDate && endDate) {
+                    period = `Del ${startDate} al ${endDate}`;
+                } else if (startDate) {
+                    period = `Desde ${startDate}`;
+                } else if (endDate) {
+                    period = `Hasta ${endDate}`;
+                }
+                document.getElementById('previewPeriod').textContent = period;
+
+                let filters = 'Ninguno';
+                if (butlerFilter) {
+                    filters = `Mayordomo: ${butlerFilter}`;
+                }
+                document.getElementById('previewFilters').textContent = filters;
+            }
+
+            // Función para generar el contenido del reporte
+            function generateEmailReport() {
+                const reportType = document.getElementById('emailReportType').value;
+                const includeChart = document.getElementById('emailIncludeChart').checked;
+                const includeComments = document.getElementById('emailIncludeComments').checked;
+                const customMessage = document.getElementById('emailMessage').value;
+
+                let reportContent = `
+                    <h2>📊 Reporte de Satisfacción - Secrets Royal Beach</h2>
+                    <p><strong>Fecha de generación:</strong> ${new Date().toLocaleString('es-DO')}</p>
+                    <p><strong>Total de encuestas:</strong> ${filteredSurveysData.length}</p>
+                `;
+
+                // Agregar mensaje personalizado
+                if (customMessage) {
+                    reportContent += `<p><strong>Mensaje:</strong> ${customMessage}</p>`;
+                }
+
+                // Agregar resumen de métricas
+                const fieldsToAverage = [
+                    { fieldName: 'overall_staff_service', title: 'Servicio General del Personal' },
+                    { fieldName: 'food_quality', title: 'Calidad de la Comida' },
+                    { fieldName: 'room_condition', title: 'Condición de la Habitación' },
+                    { fieldName: 'preferred_club_service', title: 'Servicio Preferred Club' },
+                    { fieldName: 'butler_service_rating', title: 'Calificación del Servicio del Mayordomo' }
+                ];
+
+                reportContent += '<h3>📈 Resumen de Calificaciones</h3><ul>';
+                fieldsToAverage.forEach(item => {
+                    const avg = calculateAverage(filteredSurveysData, item.fieldName);
+                    const emoji = getFaceEmoji(avg);
+                    reportContent += `<li><strong>${item.title}:</strong> ${emoji} ${avg}</li>`;
+                });
+                reportContent += '</ul>';
+
+                // Agregar comentarios si está seleccionado
+                if (includeComments) {
+                    const comments = filteredSurveysData.filter(s => s.comments && s.comments.trim() !== '');
+                    if (comments.length > 0) {
+                        reportContent += '<h3>💬 Comentarios Recientes</h3><ul>';
+                        comments.slice(0, 10).forEach(comment => {
+                            const timestamp = comment.timestamp && comment.timestamp.toDate 
+                                ? new Date(comment.timestamp.toDate()).toLocaleString('es-DO')
+                                : 'N/A';
+                            reportContent += `<li><strong>Habitación ${comment.room_number || 'N/A'}</strong> - ${comment.comments}<br><small>${timestamp}</small></li>`;
+                        });
+                        reportContent += '</ul>';
+                    }
+                }
+
+                return reportContent;
+            }
+
+            // Función para enviar el reporte por email
+            function sendEmailReport() {
+                const recipient = document.getElementById('emailRecipient').value;
+                const subject = document.getElementById('emailSubject').value;
+                const reportContent = generateEmailReport();
+
+                if (!recipient) {
+                    alert('Por favor, ingresa al menos un destinatario.');
+                    return;
+                }
+
+                if (!subject) {
+                    alert('Por favor, ingresa un asunto para el email.');
+                    return;
+                }
+
+                // Crear el enlace mailto con el contenido del reporte
+                const mailtoLink = `mailto:${recipient}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(reportContent)}`;
+                
+                // Abrir el cliente de email predeterminado
+                window.open(mailtoLink);
+                
+                // Cerrar el modal
+                emailReportModal.style.display = 'none';
+                
+                // Mostrar mensaje de confirmación
+                alert('Se ha abierto tu cliente de email con el reporte preparado. Revisa y envía el email.');
+            }
+
+            // Función para mostrar vista previa
+            function showEmailPreview() {
+                const reportContent = generateEmailReport();
+                const previewWindow = window.open('', '_blank', 'width=800,height=600');
+                previewWindow.document.write(`
+                    <!DOCTYPE html>
+                    <html>
+                    <head>
+                        <title>Vista Previa del Reporte</title>
+                        <style>
+                            body { font-family: Arial, sans-serif; margin: 20px; line-height: 1.6; }
+                            h2, h3 { color: #333; }
+                            ul { padding-left: 20px; }
+                            li { margin-bottom: 10px; }
+                            small { color: #666; }
+                        </style>
+                    </head>
+                    <body>
+                        ${reportContent}
+                    </body>
+                    </html>
+                `);
+                previewWindow.document.close();
+            }
+
+            // Función para guardar plantilla
+            function saveEmailTemplate() {
+                const template = {
+                    recipient: document.getElementById('emailRecipient').value,
+                    subject: document.getElementById('emailSubject').value,
+                    message: document.getElementById('emailMessage').value,
+                    reportType: document.getElementById('emailReportType').value,
+                    frequency: document.getElementById('emailFrequency').value,
+                    includeChart: document.getElementById('emailIncludeChart').checked,
+                    includeComments: document.getElementById('emailIncludeComments').checked
+                };
+
+                localStorage.setItem('emailTemplate', JSON.stringify(template));
+                alert('Plantilla guardada exitosamente.');
+            }
+
+            // Función para cargar plantilla guardada
+            function loadEmailTemplate() {
+                const savedTemplate = localStorage.getItem('emailTemplate');
+                if (savedTemplate) {
+                    const template = JSON.parse(savedTemplate);
+                    document.getElementById('emailRecipient').value = template.recipient || '';
+                    document.getElementById('emailSubject').value = template.subject || '';
+                    document.getElementById('emailMessage').value = template.message || '';
+                    document.getElementById('emailReportType').value = template.reportType || 'summary';
+                    document.getElementById('emailFrequency').value = template.frequency || 'once';
+                    document.getElementById('emailIncludeChart').checked = template.includeChart || false;
+                    document.getElementById('emailIncludeComments').checked = template.includeComments || false;
+                }
+            }
+
+            // Event listeners para el modal de email
+            emailReportBtn.addEventListener('click', () => {
+                emailReportModal.style.display = 'flex';
+                updateEmailPreview();
+                loadEmailTemplate();
+            });
+
+            closeEmailReportModal.addEventListener('click', () => {
+                emailReportModal.style.display = 'none';
+            });
+
+            sendEmailBtn.addEventListener('click', sendEmailReport);
+            previewEmailBtn.addEventListener('click', showEmailPreview);
+            saveEmailTemplateBtn.addEventListener('click', saveEmailTemplate);
+
+            // Cerrar modal al hacer clic fuera
+            window.addEventListener('click', function(event) {
+                if (event.target == emailReportModal) {
+                    emailReportModal.style.display = 'none';
+                }
+            });
+
+            // Actualizar vista previa cuando cambien los filtros
+            document.getElementById('startDate').addEventListener('change', updateEmailPreview);
+            document.getElementById('endDate').addEventListener('change', updateEmailPreview);
+            document.getElementById('butlerFilter').addEventListener('change', updateEmailPreview);
+        });
+
+        // Guardar la fecha de la última visita en localStorage
+        function markCommentsAsSeen() {
+            localStorage.setItem('lastSeenComments', new Date().toISOString());
+        }
+
+        // Devuelve true si el comentario es nuevo desde la última visita
+        function isCommentNew(commentTimestamp) {
+            const lastSeen = localStorage.getItem('lastSeenComments');
+            if (!lastSeen) return true;
+            return new Date(commentTimestamp) > new Date(lastSeen);
+        }
+
+        // Llama a esta función cuando el usuario abre el dashboard
+        markCommentsAsSeen();
+    </script>
+</body>
+</html>
