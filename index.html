@@ -4,168 +4,200 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Satisfaction Survey - Secrets Royal Beach</title>
-    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            /* Base Colors */
-            --primary-color: #007bff; /* Vibrant Blue */
-            --secondary-color: #6c757d; /* Gray for secondary text */
-            --background-color: #f8f9fa; /* Light background */
-            --card-background: #fff; /* Card/form background */
-            --text-color: #343a40; /* Main text color */
-            --border-color: #dee2e6; /* Border color */
-            --shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1); /* Soft shadow */
+            /* Modern Color Palette */
+            --primary-color: #6366f1; /* Modern Indigo */
+            --primary-dark: #4f46e5;
+            --primary-light: #818cf8;
+            --secondary-color: #64748b; /* Slate */
+            --background-color: #f8fafc; /* Slate 50 */
+            --card-background: #ffffff;
+            --text-color: #1e293b; /* Slate 800 */
+            --text-muted: #64748b; /* Slate 500 */
+            --border-color: #e2e8f0; /* Slate 200 */
+            --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+            --shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+            --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+            --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
 
             /* Message Colors */
-            --success-bg: #d4edda;
-            --success-text: #155724;
-            --success-border: #c3e6cb;
-            --error-bg: #f8d7da;
-            --error-text: #721c24;
-            --error-border: #f5c6cb;
+            --success-bg: #f0fdf4;
+            --success-text: #166534;
+            --success-border: #bbf7d0;
+            --error-bg: #fef2f2;
+            --error-text: #dc2626;
+            --error-border: #fecaca;
 
-            /* Face Colors (red to green gradient) */
-            --face-bad: #dc3545; /* Red */
-            --face-poor: #fd7e14; /* Orange */
-            --face-regular: #ffc107; /* Yellow */
-            --face-good: #17a2b8; /* Turquoise */
-            --face-excellent: #28a745; /* Green */
-            --face-default: #ced4da; /* Light gray for unselected faces */
-            --selected-border: 2px solid var(--primary-color); /* Selection border */
-            --selected-shadow: 0 0 0 3px rgba(0, 123, 255, 0.3); /* Selection shadow */
+            /* Face Colors (modern gradient) */
+            --face-bad: #ef4444; /* Red 500 */
+            --face-poor: #f97316; /* Orange 500 */
+            --face-regular: #eab308; /* Yellow 500 */
+            --face-good: #06b6d4; /* Cyan 500 */
+            --face-excellent: #10b981; /* Emerald 500 */
+            --face-default: #cbd5e1; /* Slate 300 */
+            --selected-border: 2px solid var(--primary-color);
+            --selected-shadow: 0 0 0 4px rgb(99 102 241 / 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
 
         body {
-            font-family: 'Nunito', sans-serif;
-            background-color: var(--background-color);
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: var(--text-color);
-            margin: 0;
-            padding: 20px;
+            min-height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
-            min-height: 100vh;
-            box-sizing: border-box;
+            padding: 20px;
             line-height: 1.6;
-            overflow-x: hidden; /* Prevent horizontal scroll on mobile */
+            overflow-x: hidden;
         }
 
         .container {
-            background-color: var(--card-background);
-            border-radius: 15px;
-            box-shadow: var(--shadow);
-            padding: 40px;
+            background: var(--card-background);
+            border-radius: 24px;
+            box-shadow: var(--shadow-xl);
+            padding: 48px;
             width: 100%;
-            max-width: 650px; /* Slightly wider max width for the form */
+            max-width: 700px;
             text-align: center;
-            animation: fadeIn 0.8s ease-out;
+            animation: slideUp 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+            position: relative;
+            overflow: hidden;
         }
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
+        .container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary-color), var(--primary-light));
+        }
+
+        @keyframes slideUp {
+            from { 
+                opacity: 0; 
+                transform: translateY(30px) scale(0.95); 
+            }
+            to { 
+                opacity: 1; 
+                transform: translateY(0) scale(1); 
+            }
         }
 
         .logo {
-            max-width: 180px;
-            margin-bottom: 5px; /* Reduced space */
+            max-width: 200px;
+            margin-bottom: 16px;
+            filter: drop-shadow(0 4px 6px rgb(0 0 0 / 0.1));
         }
 
         h1 {
-            color: var(--primary-color);
-            font-size: 2.4em;
-            margin-top: 15px; /* Reduced space */
-            margin-bottom: 15px;
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-size: 2.5rem;
             font-weight: 700;
+            margin-bottom: 16px;
+            letter-spacing: -0.025em;
         }
 
         p.description {
-            color: var(--secondary-color);
-            font-size: 1.1em;
-            margin-bottom: 30px;
+            color: var(--text-muted);
+            font-size: 1.125rem;
+            margin-bottom: 40px;
+            font-weight: 400;
         }
 
         .form-group {
-            margin-bottom: 30px; /* More space between groups */
-            text-align: left; /* Alinea los labels y los inputs que son block o tienen un ancho definido a la izquierda */
+            margin-bottom: 32px;
+            text-align: left;
         }
 
         .form-group label {
             display: block;
-            margin-bottom: 12px; /* More space for label */
+            margin-bottom: 12px;
             font-weight: 600;
             color: var(--text-color);
-            font-size: 1.25em; /* Question size */
+            font-size: 1.125rem;
+            letter-spacing: -0.025em;
         }
 
         .form-group input[type="text"],
         .form-group input[type="email"],
         .form-group textarea {
-            width: calc(100% - 24px); /* Adjust for padding */
-            padding: 12px;
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
-            font-size: 1em;
-            transition: border-color 0.3s ease, box-shadow 0.3s ease;
-            -webkit-appearance: none;
-            -moz-appearance: none;
-            appearance: none;
-            resize: vertical;
-            min-height: 80px;
+            width: 100%;
+            padding: 16px;
+            border: 2px solid var(--border-color);
+            border-radius: 12px;
+            font-size: 1rem;
+            font-family: inherit;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            background: var(--card-background);
+            color: var(--text-color);
             box-sizing: border-box;
         }
-
-        /* --- CAMBIOS AQUÍ: Alineando a la izquierda y redefiniendo el tamaño --- */
-        #roomNumber,
-        #butlerName {
-            max-width: 150px; /* Mantener el tamaño compacto */
-            width: 100%; /* Asegura responsividad */
-            display: block; /* Sigue siendo block para que max-width funcione */
-            margin: 0; /* ¡Remueve el margen auto para des-centrar! */
-            text-align: left; /* ¡Alinea el texto dentro del campo a la izquierda! */
-        }
-        /* --- FIN DE CAMBIOS --- */
 
         .form-group input[type="text"]:focus,
         .form-group input[type="email"]:focus,
         .form-group textarea:focus {
-            border-color: var(--primary-color);
-            box-shadow: 0 0 0 4px rgba(0, 123, 255, 0.2);
             outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 4px rgb(99 102 241 / 0.1);
+            transform: translateY(-1px);
+        }
+
+        #roomNumber,
+        #butlerName,
+        #email {
+            max-width: 200px;
+            width: 100%;
+            display: block;
+            margin: 0;
+        }
+
+        .form-group textarea {
+            min-height: 120px;
+            resize: vertical;
         }
 
         .rating-faces {
-            display: flex;
-            flex-direction: row;
-            justify-content: space-between;
-            flex-wrap: wrap;
-            margin-top: 15px;
-            gap: 10px;
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 12px;
+            margin-top: 16px;
         }
 
         .rating-faces label {
             cursor: pointer;
             position: relative;
-            transition: transform 0.2s ease, color 0.2s ease, border 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
             color: var(--face-default);
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
             text-align: center;
-            flex-basis: calc(20% - 10px);
-            max-width: calc(20% - 10px);
-            min-width: 60px;
-            padding: 10px 5px;
+            padding: 16px 8px;
             border: 2px solid transparent;
-            border-radius: 10px;
-            box-sizing: border-box;
+            border-radius: 16px;
+            background: var(--card-background);
+            box-shadow: var(--shadow-sm);
         }
 
         .rating-faces label .face-icon {
-            font-size: 1.4em;
-            margin-bottom: 5px;
-            margin-right: 0;
+            font-size: 1.75rem;
+            margin-bottom: 8px;
+            transition: transform 0.2s ease;
         }
 
         .rating-faces input[type="radio"] {
@@ -173,16 +205,18 @@
         }
 
         .rating-faces label:hover {
-            transform: scale(1.1);
-            background-color: rgba(0, 123, 255, 0.05);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow);
+            background: linear-gradient(135deg, rgb(99 102 241 / 0.05), rgb(99 102 241 / 0.02));
         }
 
         .rating-faces input[type="radio"]:checked + label {
-            transform: scale(1.1);
+            transform: translateY(-2px);
             border: var(--selected-border);
             box-shadow: var(--selected-shadow);
-            background-color: rgba(0, 123, 255, 0.1);
+            background: linear-gradient(135deg, rgb(99 102 241 / 0.1), rgb(99 102 241 / 0.05));
         }
+
         .rating-faces input[type="radio"]:checked + label[for*="-1"] { color: var(--face-bad); }
         .rating-faces input[type="radio"]:checked + label[for*="-2"] { color: var(--face-poor); }
         .rating-faces input[type="radio"]:checked + label[for*="-3"] { color: var(--face-regular); }
@@ -190,56 +224,59 @@
         .rating-faces input[type="radio"]:checked + label[for*="-5"] { color: var(--face-excellent); }
 
         .rating-faces small {
-            font-size: 0.85em;
-            font-weight: 600;
-            display: block;
-            margin-top: 0;
+            font-size: 0.875rem;
+            font-weight: 500;
             color: var(--text-color);
+            margin-top: 4px;
         }
 
         button[type="submit"] {
-            background-color: var(--primary-color);
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
             color: white;
-            padding: 16px 35px;
+            padding: 18px 40px;
             border: none;
-            border-radius: 10px;
-            font-size: 1.3em;
-            font-weight: 700;
+            border-radius: 16px;
+            font-size: 1.125rem;
+            font-weight: 600;
             cursor: pointer;
-            transition: background-color 0.3s ease, transform 0.2s ease;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
             width: 100%;
-            margin-top: 40px;
+            margin-top: 48px;
             box-shadow: var(--shadow);
-            -webkit-appearance: none;
-            -moz-appearance: none;
-            appearance: none;
+            font-family: inherit;
+            letter-spacing: -0.025em;
         }
 
         button[type="submit"]:hover {
-            background-color: #0056b3;
-            transform: translateY(-3px);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        button[type="submit"]:active {
+            transform: translateY(0);
         }
 
         .message {
-            margin-top: 25px;
-            padding: 18px;
-            border-radius: 10px;
-            font-weight: 600;
-            font-size: 1.1em;
-            animation: slideIn 0.5s ease-out;
+            margin-top: 24px;
+            padding: 20px;
+            border-radius: 12px;
+            font-weight: 500;
+            font-size: 1rem;
+            animation: slideIn 0.3s ease-out;
             text-align: left;
+            border: 1px solid;
         }
 
         .message.success {
             background-color: var(--success-bg);
             color: var(--success-text);
-            border: 1px solid var(--success-border);
+            border-color: var(--success-border);
         }
 
         .message.error {
             background-color: var(--error-bg);
             color: var(--error-text);
-            border: 1px solid var(--error-border);
+            border-color: var(--error-border);
         }
 
         @keyframes slideIn {
@@ -247,149 +284,159 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* Button loading state styles */
         button[type="submit"].loading {
-            background-color: var(--secondary-color);
+            background: var(--secondary-color);
             cursor: not-allowed;
             opacity: 0.8;
             transform: none;
         }
 
-        /* Thank you message after submission */
         .thank-you-message {
             display: none;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            min-height: 350px;
+            min-height: 400px;
             text-align: center;
-            animation: fadeIn 0.8s ease-out;
+            animation: slideUp 0.8s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
         .thank-you-message h2 {
-            color: var(--success-text);
-            font-size: 2.8em;
-            margin-bottom: 20px;
+            background: linear-gradient(135deg, var(--success-text), #059669);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-size: 2.5rem;
+            margin-bottom: 24px;
+            font-weight: 700;
         }
 
         .thank-you-message p {
-            font-size: 1.4em;
-            color: var(--text-color);
-            margin-bottom: 40px;
+            font-size: 1.25rem;
+            color: var(--text-muted);
+            margin-bottom: 48px;
             max-width: 80%;
+            line-height: 1.7;
         }
 
         .new-survey-button {
-            background-color: var(--primary-color);
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
             color: white;
-            padding: 14px 28px;
+            padding: 16px 32px;
             border: none;
-            border-radius: 8px;
-            font-size: 1.1em;
+            border-radius: 12px;
+            font-size: 1rem;
             font-weight: 600;
             cursor: pointer;
-            transition: background-color 0.3s ease, transform 0.2s ease;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
             box-shadow: var(--shadow);
-            -webkit-appearance: none;
-            -moz-appearance: none;
-            appearance: none;
+            font-family: inherit;
         }
 
         .new-survey-button:hover {
-            background-color: #0056b3;
             transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
         }
 
-        /* Media Queries for responsiveness */
+        /* Responsive Design */
         @media (max-width: 768px) {
             body {
-                padding: 15px;
+                padding: 16px;
             }
+            
             .container {
-                padding: 30px 20px;
+                padding: 32px 24px;
+                border-radius: 20px;
             }
+            
             .logo {
-                max-width: 150px;
-                margin-bottom: 2px;
+                max-width: 160px;
             }
+            
             h1 {
-                font-size: 2em;
-                margin-top: 10px;
+                font-size: 2rem;
             }
+            
             p.description {
-                font-size: 1em;
+                font-size: 1rem;
             }
+            
             .form-group label {
-                font-size: 1.1em;
-                margin-bottom: 10px;
+                font-size: 1rem;
             }
-            /* --- CAMBIOS AQUÍ: Ajuste en móviles --- */
+            
             #roomNumber,
-            #butlerName {
-                max-width: 120px;
-                margin: 0; /* Alineado a la izquierda */
+            #butlerName,
+            #email {
+                max-width: 160px;
             }
-            /* --- FIN DE CAMBIOS --- */
+            
             .rating-faces {
-                justify-content: center;
+                grid-template-columns: repeat(5, 1fr);
                 gap: 8px;
             }
+            
             .rating-faces label {
-                padding: 8px 4px;
-                min-width: 50px;
+                padding: 12px 6px;
             }
+            
             .rating-faces label .face-icon {
-                font-size: 1.2em;
-                margin-bottom: 3px;
+                font-size: 1.5rem;
             }
+            
             .rating-faces small {
-                font-size: 0.8em;
+                font-size: 0.75rem;
             }
+            
             button[type="submit"] {
-                font-size: 1.1em;
-                padding: 14px 25px;
+                font-size: 1rem;
+                padding: 16px 32px;
             }
-            .message {
-                font-size: 1em;
-                padding: 15px;
-            }
+            
             .thank-you-message h2 {
-                font-size: 2em;
+                font-size: 2rem;
             }
+            
             .thank-you-message p {
-                font-size: 1.2em;
+                font-size: 1.125rem;
             }
         }
 
         @media (max-width: 480px) {
             .container {
-                padding: 25px 15px;
+                padding: 24px 20px;
             }
+            
             h1 {
-                font-size: 1.8em;
+                font-size: 1.75rem;
             }
-            /* --- CAMBIOS AQUÍ: Ajuste en móviles muy pequeños --- */
+            
             #roomNumber,
-            #butlerName {
-                max-width: 100px;
-                margin: 0; /* Alineado a la izquierda */
+            #butlerName,
+            #email {
+                max-width: 140px;
             }
-            /* --- FIN DE CAMBIOS --- */
+            
+            .rating-faces {
+                grid-template-columns: repeat(3, 1fr);
+                gap: 6px;
+            }
+            
             .rating-faces label {
-                flex-basis: calc(33.33% - 8px);
-                max-width: calc(33.33% - 8px);
-                padding: 6px 3px;
+                padding: 10px 4px;
             }
+            
             .rating-faces label .face-icon {
-                font-size: 1em;
-                margin-bottom: 2px;
+                font-size: 1.25rem;
             }
+            
             .rating-faces small {
-                font-size: 0.75em;
+                font-size: 0.7rem;
             }
+            
             button[type="submit"] {
-                font-size: 1em;
-                padding: 12px 20px;
+                font-size: 0.95rem;
+                padding: 14px 24px;
             }
         }
     </style>
@@ -407,7 +454,12 @@
             </div>
 
             <div class="form-group">
-                <label for="butlerName"><strong>Butler's Name (Optional):</strong></label>
+                <label for="email"><strong>Email Address:</strong></label>
+                <input type="email" id="email" name="email" placeholder="your.email@example.com" autocomplete="email">
+            </div>
+
+            <div class="form-group">
+                <label for="butlerName"><strong>Butler's Name:</strong></label>
                 <input type="text" id="butlerName" name="butlerName" placeholder="Ex. John Doe" autocomplete="off">
             </div>
 
@@ -467,7 +519,7 @@
             </div>
 
             <div class="form-group">
-                <label for="comments"><strong>Any additional comments or suggestions? (Optional)</strong></label>
+                <label for="comments"><strong>Is there anything that we can improve?</strong></label>
                 <textarea id="comments" name="comments" rows="4" placeholder="Share your thoughts here..."></textarea>
             </div>
 
@@ -510,7 +562,6 @@
         const thankYouMessage = document.getElementById('thankYouMessage');
         const newSurveyBtn = document.getElementById('newSurveyBtn');
 
-
         // Function to show a message (success/error)
         function showMessage(msg, type) {
             messageDiv.textContent = msg;
@@ -548,6 +599,7 @@
             const formData = new FormData(satisfactionForm);
             const data = {
                 room_number: formData.get('roomNumber') ? formData.get('roomNumber').trim() : '',
+                email: formData.get('email') ? formData.get('email').trim() : '',
                 butler: formData.get('butlerName') ? formData.get('butlerName').trim() : '',
                 overall_staff_service: formData.get('overall_staff_service') || '',
                 food_quality: formData.get('food_quality') || '',
@@ -577,7 +629,6 @@
             location.reload();
         });
 
-
         document.querySelectorAll('.rating-faces input[type="radio"]').forEach(radio => {
             radio.addEventListener('change', () => {
                 const groupName = radio.name;
@@ -593,7 +644,7 @@
                 if (selectedLabel) {
                     selectedLabel.style.border = 'var(--selected-border)';
                     selectedLabel.style.boxShadow = 'var(--selected-shadow)';
-                    selectedLabel.style.backgroundColor = 'rgba(0, 123, 255, 0.1)';
+                    selectedLabel.style.backgroundColor = 'rgba(99, 102, 241, 0.1)';
                 }
             });
         });
