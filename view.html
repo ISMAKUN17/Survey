@@ -273,6 +273,117 @@
             font-size: 0.875rem;
         }
 
+        /* Estilos para paginación de comentarios */
+        .comments-pagination {
+            margin-top: var(--spacing-xl);
+            padding: var(--spacing-lg);
+            background: var(--surface-color);
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--border-light);
+        }
+
+        .pagination-info {
+            text-align: center;
+            margin-bottom: var(--spacing-md);
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        .pagination-controls {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: var(--spacing-md);
+            margin-bottom: var(--spacing-md);
+        }
+
+        .pagination-btn {
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+            color: white;
+            border: none;
+            padding: var(--spacing-sm) var(--spacing-md);
+            border-radius: var(--radius-md);
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .pagination-btn:hover:not(:disabled) {
+            transform: translateY(-1px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .pagination-btn:disabled {
+            background: var(--text-muted);
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .page-numbers {
+            display: flex;
+            gap: var(--spacing-xs);
+            align-items: center;
+        }
+
+        .page-number {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 32px;
+            height: 32px;
+            border-radius: var(--radius-md);
+            background: var(--card-background);
+            color: var(--text-primary);
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-size: 0.9rem;
+            font-weight: 500;
+            border: 1px solid var(--border-light);
+        }
+
+        .page-number:hover {
+            background: var(--primary-color);
+            color: white;
+            transform: translateY(-1px);
+        }
+
+        .page-number.active {
+            background: var(--primary-color);
+            color: white;
+            font-weight: 600;
+        }
+
+        .page-ellipsis {
+            color: var(--text-muted);
+            font-weight: 600;
+            padding: 0 var(--spacing-xs);
+        }
+
+        .pagination-size {
+            text-align: center;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        .pagination-size select {
+            background: var(--card-background);
+            border: 1px solid var(--border-light);
+            border-radius: var(--radius-md);
+            padding: var(--spacing-xs) var(--spacing-sm);
+            color: var(--text-primary);
+            font-size: 0.9rem;
+            margin-left: var(--spacing-xs);
+        }
+
+        .pagination-size select:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.1);
+        }
+
         /* Mensajes de estado */
         .loading-message, .no-data-message, .error-message {
             text-align: center;
@@ -1864,6 +1975,34 @@
             }
         }
 
+        /* Responsive para paginación de comentarios */
+        @media (max-width: 768px) {
+            .pagination-controls {
+                flex-direction: column;
+                gap: var(--spacing-sm);
+            }
+            
+            .page-numbers {
+                order: -1;
+                margin-bottom: var(--spacing-sm);
+            }
+            
+            .pagination-btn {
+                width: 100%;
+                max-width: 200px;
+            }
+            
+            .page-number {
+                width: 28px;
+                height: 28px;
+                font-size: 0.8rem;
+            }
+            
+            .pagination-size {
+                margin-top: var(--spacing-md);
+            }
+        }
+
         /* Estilos para el logo */
     </style>
 </head>
@@ -1933,21 +2072,7 @@
 
             <h2>Comentarios Recientes</h2>
             <div class="comments-section" id="commentsSection">
-                <input type="text" id="commentKeywordFilter" placeholder="Filtrar comentarios por palabra clave..." style="margin-bottom:10px; width:100%; padding:8px;">
-                <select id="ratingRangeFilter" style="margin-bottom:10px;">
-                    <option value="">Todas las calificaciones</option>
-                    <option value="Bad">Bad</option>
-                    <option value="Poor">Poor</option>
-                    <option value="Regular">Regular</option>
-                    <option value="Good">Good</option>
-                    <option value="Excellent">Excellent</option>
-                </select>
-                <div style="margin-bottom:10px;">
-                    <label>Comparar del <input type="date" id="compareStart1"> al <input type="date" id="compareEnd1">
-                    vs del <input type="date" id="compareStart2"> al <input type="date" id="compareEnd2"></label>
-                    <button id="compareBtn">Comparar</button>
-                </div>
-                <div id="compareResult"></div>
+                <!-- Los comentarios se cargarán dinámicamente con paginación -->
             </div>
         </div>
     </div>
@@ -3530,7 +3655,7 @@
                 document.getElementById('previewFilters').textContent = filters;
             }
 
-            // Función para generar el contenido del reporte
+            // Función para generar el contenido del reporte mejorado
             function generateEmailReport() {
                 const reportType = document.getElementById('emailReportType').value;
                 const includeChart = document.getElementById('emailIncludeChart').checked;
@@ -3541,6 +3666,7 @@
                     <h2>📊 Reporte de Satisfacción - Secrets Royal Beach</h2>
                     <p><strong>Fecha de generación:</strong> ${new Date().toLocaleString('es-DO')}</p>
                     <p><strong>Total de encuestas:</strong> ${filteredSurveysData.length}</p>
+                    <p><strong>Período analizado:</strong> ${getDateRange()}</p>
                 `;
 
                 // Agregar mensaje personalizado
@@ -3548,47 +3674,427 @@
                     reportContent += `<p><strong>Mensaje:</strong> ${customMessage}</p>`;
                 }
 
-                // Agregar resumen de métricas
-                const fieldsToAverage = [
-                    { fieldName: 'overall_staff_service', title: 'Servicio General del Personal' },
-                    { fieldName: 'food_quality', title: 'Calidad de la Comida' },
-                    { fieldName: 'room_condition', title: 'Condición de la Habitación' },
-                    { fieldName: 'preferred_club_service', title: 'Servicio Preferred Club' },
-                    { fieldName: 'butler_service_rating', title: 'Calificación del Servicio del Mayordomo' }
-                ];
+                // === ANÁLISIS DETALLADO DE RESULTADOS ===
+                reportContent += generateDetailedAnalysis();
 
-                reportContent += '<h3>📈 Resumen de Calificaciones</h3><ul>';
-                fieldsToAverage.forEach(item => {
-                    const avg = calculateAverage(filteredSurveysData, item.fieldName);
-                    const emoji = getFaceEmoji(avg);
-                    reportContent += `<li><strong>${item.title}:</strong> ${emoji} ${avg}</li>`;
-                });
-                reportContent += '</ul>';
+                // === GRÁFICAS Y ESTADÍSTICAS ===
+                if (includeChart) {
+                    reportContent += generateChartSection();
+                }
 
-                // Agregar comentarios si está seleccionado
+                // === COMENTARIOS CON PUNTUACIONES BAJAS ===
+                reportContent += generateLowRatingCommentsSection();
+
+                // === RECOMENDACIONES DE MEJORA ===
+                reportContent += generateRecommendationsSection();
+
+                // === COMENTARIOS GENERALES ===
                 if (includeComments) {
-                    const comments = filteredSurveysData.filter(s => s.comments && s.comments.trim() !== '');
-                    if (comments.length > 0) {
-                        reportContent += '<h3>💬 Comentarios Recientes</h3><ul>';
-                        comments.slice(0, 10).forEach(comment => {
-                            const timestamp = comment.timestamp && comment.timestamp.toDate 
-                                ? new Date(comment.timestamp.toDate()).toLocaleString('es-DO')
-                                : 'N/A';
-                            reportContent += `<li><strong>Habitación ${comment.room_number || 'N/A'}</strong> - ${comment.comments}<br><small>${timestamp}</small></li>`;
-                        });
-                        reportContent += '</ul>';
-                    }
+                    reportContent += generateGeneralCommentsSection();
                 }
 
                 return reportContent;
             }
 
-            // Función para enviar el reporte por email
+            // Función para obtener el rango de fechas
+            function getDateRange() {
+                if (filteredSurveysData.length === 0) return 'Sin datos';
+                
+                const dates = filteredSurveysData
+                    .map(s => s.timestamp ? (s.timestamp.toDate ? s.timestamp.toDate() : new Date(s.timestamp)) : null)
+                    .filter(d => d)
+                    .sort((a, b) => a - b);
+                
+                if (dates.length === 0) return 'Sin fechas válidas';
+                
+                const startDate = dates[0].toLocaleDateString('es-DO');
+                const endDate = dates[dates.length - 1].toLocaleDateString('es-DO');
+                
+                return startDate === endDate ? startDate : `${startDate} - ${endDate}`;
+            }
+
+            // Función para generar análisis detallado
+            function generateDetailedAnalysis() {
+                const fieldsToAverage = [
+                    { fieldName: 'overall_staff_service', title: 'Servicio General del Personal', icon: '👥' },
+                    { fieldName: 'food_quality', title: 'Calidad de la Comida', icon: '🍽️' },
+                    { fieldName: 'room_condition', title: 'Condición de la Habitación', icon: '🏠' },
+                    { fieldName: 'preferred_club_service', title: 'Servicio Preferred Club', icon: '⭐' },
+                    { fieldName: 'butler_service_rating', title: 'Calificación del Servicio del Mayordomo', icon: '👔' }
+                ];
+
+                let analysis = `
+                    <h3>📈 Análisis Detallado de Resultados</h3>
+                    <div style="background: #f8f9fa; padding: 20px; border-radius: 10px; margin: 20px 0;">
+                `;
+
+                fieldsToAverage.forEach(item => {
+                    const avg = calculateAverage(filteredSurveysData, item.fieldName);
+                    const emoji = getFaceEmoji(avg);
+                    const color = getRatingColor(avg);
+                    const distribution = getRatingDistribution(filteredSurveysData, item.fieldName);
+                    const trend = getTrendAnalysis(filteredSurveysData, item.fieldName);
+                    
+                    analysis += `
+                        <div style="margin-bottom: 20px; padding: 15px; background: white; border-radius: 8px; border-left: 4px solid ${color};">
+                            <h4 style="margin: 0 0 10px 0; color: ${color};">${item.icon} ${item.title}</h4>
+                            <p style="font-size: 1.2em; margin: 5px 0;"><strong>Calificación Promedio:</strong> ${emoji} ${avg}</p>
+                            <p style="margin: 5px 0;"><strong>Distribución:</strong> ${distribution}</p>
+                            <p style="margin: 5px 0;"><strong>Tendencia:</strong> ${trend}</p>
+                        </div>
+                    `;
+                });
+
+                analysis += '</div>';
+                return analysis;
+            }
+
+            // Función para obtener distribución de calificaciones
+            function getRatingDistribution(data, field) {
+                const ratings = { 'Bad': 0, 'Poor': 0, 'Regular': 0, 'Good': 0, 'Excellent': 0 };
+                data.forEach(survey => {
+                    const rating = survey[field];
+                    if (rating && ratings.hasOwnProperty(rating)) {
+                        ratings[rating]++;
+                    }
+                });
+
+                const total = data.length;
+                if (total === 0) return 'Sin datos';
+
+                return Object.entries(ratings)
+                    .map(([rating, count]) => `${rating}: ${count} (${((count/total)*100).toFixed(1)}%)`)
+                    .join(' | ');
+            }
+
+            // Función para análisis de tendencias
+            function getTrendAnalysis(data, field) {
+                if (data.length < 2) return 'Insuficientes datos para análisis de tendencia';
+
+                const sortedData = data
+                    .map(s => ({
+                        rating: s[field],
+                        date: s.timestamp ? (s.timestamp.toDate ? s.timestamp.toDate() : new Date(s.timestamp)) : null
+                    }))
+                    .filter(s => s.date && s.rating)
+                    .sort((a, b) => a.date - b.date);
+
+                if (sortedData.length < 2) return 'Datos insuficientes';
+
+                const midPoint = Math.floor(sortedData.length / 2);
+                const firstHalf = sortedData.slice(0, midPoint);
+                const secondHalf = sortedData.slice(midPoint);
+
+                const avgFirst = getNumericAverage(firstHalf.map(s => s.rating), 'rating');
+                const avgSecond = getNumericAverage(secondHalf.map(s => s.rating), 'rating');
+
+                if (avgSecond > avgFirst + 0.5) return '📈 Mejorando';
+                if (avgSecond < avgFirst - 0.5) return '📉 Deteriorando';
+                return '➡️ Estable';
+            }
+
+            // Función para generar sección de gráficas
+            function generateChartSection() {
+                return `
+                    <h3>📊 Distribución de Calificaciones</h3>
+                    <div style="background: #f8f9fa; padding: 20px; border-radius: 10px; margin: 20px 0;">
+                        <p><strong>Nota:</strong> Las gráficas detalladas se incluyen como archivos adjuntos o se pueden generar desde el dashboard.</p>
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-top: 15px;">
+                            ${generateChartSummary()}
+                        </div>
+                    </div>
+                `;
+            }
+
+            // Función para generar resumen de gráficas
+            function generateChartSummary() {
+                const fields = [
+                    { field: 'overall_staff_service', title: 'Personal', icon: '👥' },
+                    { field: 'food_quality', title: 'Comida', icon: '🍽️' },
+                    { field: 'room_condition', title: 'Habitación', icon: '🏠' },
+                    { field: 'preferred_club_service', title: 'Club', icon: '⭐' },
+                    { field: 'butler_service_rating', title: 'Mayordomo', icon: '👔' }
+                ];
+
+                return fields.map(item => {
+                    const distribution = getRatingDistribution(filteredSurveysData, item.field);
+                    const avg = calculateAverage(filteredSurveysData, item.field);
+                    const color = getRatingColor(avg);
+                    
+                    return `
+                        <div style="background: white; padding: 15px; border-radius: 8px; border: 2px solid ${color};">
+                            <h4 style="margin: 0 0 10px 0; color: ${color};">${item.icon} ${item.title}</h4>
+                            <p style="margin: 5px 0;"><strong>Promedio:</strong> ${avg}</p>
+                            <p style="margin: 5px 0; font-size: 0.9em;">${distribution}</p>
+                        </div>
+                    `;
+                }).join('');
+            }
+
+            // Función para generar sección de comentarios con puntuaciones bajas
+            function generateLowRatingCommentsSection() {
+                const lowRatingComments = filteredSurveysData.filter(survey => {
+                    if (!survey.comments || survey.comments.trim() === '') return false;
+                    
+                    // Verificar si tiene alguna calificación baja (Bad, Poor, Regular)
+                    const ratings = [
+                        survey.overall_staff_service,
+                        survey.food_quality,
+                        survey.room_condition,
+                        survey.preferred_club_service,
+                        survey.butler_service_rating
+                    ];
+                    
+                    return ratings.some(rating => ['Bad', 'Poor', 'Regular'].includes(rating));
+                });
+
+                if (lowRatingComments.length === 0) {
+                    return `
+                        <h3>✅ Comentarios con Puntuaciones Bajas</h3>
+                        <div style="background: #e8f5e8; padding: 20px; border-radius: 10px; margin: 20px 0;">
+                            <p style="margin: 0; color: #2d5a2d;"><strong>¡Excelente!</strong> No se encontraron comentarios con puntuaciones bajas en este período.</p>
+                        </div>
+                    `;
+                }
+
+                let section = `
+                    <h3>⚠️ Comentarios con Puntuaciones Bajas - Áreas de Mejora</h3>
+                    <div style="background: #fff3cd; padding: 20px; border-radius: 10px; margin: 20px 0; border-left: 4px solid #ffc107;">
+                        <p style="margin: 0 0 15px 0; color: #856404;"><strong>Se encontraron ${lowRatingComments.length} comentarios con puntuaciones bajas que requieren atención inmediata.</strong></p>
+                `;
+
+                // Agrupar por tipo de problema
+                const problemCategories = {
+                    'Servicio General': [],
+                    'Calidad de Comida': [],
+                    'Condición de Habitación': [],
+                    'Servicio Preferred Club': [],
+                    'Servicio de Mayordomo': [],
+                    'Múltiples Problemas': []
+                };
+
+                lowRatingComments.forEach(comment => {
+                    const lowRatings = [];
+                    if (['Bad', 'Poor', 'Regular'].includes(comment.overall_staff_service)) {
+                        lowRatings.push('Servicio General');
+                    }
+                    if (['Bad', 'Poor', 'Regular'].includes(comment.food_quality)) {
+                        lowRatings.push('Calidad de Comida');
+                    }
+                    if (['Bad', 'Poor', 'Regular'].includes(comment.room_condition)) {
+                        lowRatings.push('Condición de Habitación');
+                    }
+                    if (['Bad', 'Poor', 'Regular'].includes(comment.preferred_club_service)) {
+                        lowRatings.push('Servicio Preferred Club');
+                    }
+                    if (['Bad', 'Poor', 'Regular'].includes(comment.butler_service_rating)) {
+                        lowRatings.push('Servicio de Mayordomo');
+                    }
+
+                    if (lowRatings.length > 1) {
+                        problemCategories['Múltiples Problemas'].push({ comment, lowRatings });
+                    } else if (lowRatings.length === 1) {
+                        problemCategories[lowRatings[0]].push({ comment, lowRatings });
+                    }
+                });
+
+                // Mostrar comentarios por categoría
+                Object.entries(problemCategories).forEach(([category, comments]) => {
+                    if (comments.length > 0) {
+                        section += `
+                            <div style="margin: 20px 0; padding: 15px; background: white; border-radius: 8px;">
+                                <h4 style="margin: 0 0 15px 0; color: #dc3545;">🚨 ${category} (${comments.length} casos)</h4>
+                        `;
+
+                        comments.forEach(({ comment, lowRatings }) => {
+                            const timestamp = comment.timestamp && comment.timestamp.toDate 
+                                ? new Date(comment.timestamp.toDate()).toLocaleString('es-DO')
+                                : 'N/A';
+                            
+                            section += `
+                                <div style="margin: 10px 0; padding: 10px; background: #f8f9fa; border-radius: 5px; border-left: 3px solid #dc3545;">
+                                    <p style="margin: 5px 0;"><strong>Comentario:</strong> ${comment.comments}</p>
+                                    <p style="margin: 5px 0; font-size: 0.9em;"><strong>Problemas identificados:</strong> ${lowRatings.join(', ')}</p>
+                                    <p style="margin: 5px 0; font-size: 0.9em;"><strong>Habitación:</strong> ${comment.room_number || 'N/A'} | <strong>Mayordomo:</strong> ${comment.butler || 'N/A'}</p>
+                                    <p style="margin: 5px 0; font-size: 0.9em;"><strong>Fecha:</strong> ${timestamp}</p>
+                                    <div style="margin: 5px 0; font-size: 0.9em;">
+                                        <strong>Calificaciones:</strong> 
+                                        Personal: ${comment.overall_staff_service || 'N/A'} | 
+                                        Comida: ${comment.food_quality || 'N/A'} | 
+                                        Habitación: ${comment.room_condition || 'N/A'} | 
+                                        Club: ${comment.preferred_club_service || 'N/A'} | 
+                                        Mayordomo: ${comment.butler_service_rating || 'N/A'}
+                                    </div>
+                                </div>
+                            `;
+                        });
+
+                        section += '</div>';
+                    }
+                });
+
+                section += '</div>';
+                return section;
+            }
+
+            // Función para generar recomendaciones
+            function generateRecommendationsSection() {
+                const recommendations = [];
+                
+                // Analizar cada área y generar recomendaciones
+                const fields = [
+                    { field: 'overall_staff_service', title: 'Servicio General del Personal', icon: '👥' },
+                    { field: 'food_quality', title: 'Calidad de la Comida', icon: '🍽️' },
+                    { field: 'room_condition', title: 'Condición de la Habitación', icon: '🏠' },
+                    { field: 'preferred_club_service', title: 'Servicio Preferred Club', icon: '⭐' },
+                    { field: 'butler_service_rating', title: 'Servicio de Mayordomo', icon: '👔' }
+                ];
+
+                fields.forEach(item => {
+                    const avg = calculateAverage(filteredSurveysData, item.field);
+                    const distribution = getRatingDistribution(filteredSurveysData, item.field);
+                    const lowRatings = filteredSurveysData.filter(s => ['Bad', 'Poor', 'Regular'].includes(s[item.field])).length;
+                    
+                    if (lowRatings > 0) {
+                        const percentage = ((lowRatings / filteredSurveysData.length) * 100).toFixed(1);
+                        recommendations.push({
+                            area: item.title,
+                            icon: item.icon,
+                            priority: lowRatings > 5 ? 'ALTA' : lowRatings > 2 ? 'MEDIA' : 'BAJA',
+                            description: `${percentage}% de calificaciones bajas (${lowRatings} casos)`,
+                            suggestions: getSuggestionsForArea(item.field, lowRatings)
+                        });
+                    }
+                });
+
+                if (recommendations.length === 0) {
+                    return `
+                        <h3>🎯 Recomendaciones de Mejora</h3>
+                        <div style="background: #e8f5e8; padding: 20px; border-radius: 10px; margin: 20px 0;">
+                            <p style="margin: 0; color: #2d5a2d;"><strong>¡Excelente trabajo!</strong> No se identificaron áreas críticas que requieran mejora inmediata.</p>
+                        </div>
+                    `;
+                }
+
+                // Ordenar por prioridad
+                recommendations.sort((a, b) => {
+                    const priorityOrder = { 'ALTA': 3, 'MEDIA': 2, 'BAJA': 1 };
+                    return priorityOrder[b.priority] - priorityOrder[a.priority];
+                });
+
+                let section = `
+                    <h3>🎯 Recomendaciones de Mejora - Plan de Acción</h3>
+                    <div style="background: #f8f9fa; padding: 20px; border-radius: 10px; margin: 20px 0;">
+                        <p style="margin: 0 0 15px 0;"><strong>Prioridades identificadas basadas en el análisis de comentarios y calificaciones:</strong></p>
+                `;
+
+                recommendations.forEach((rec, index) => {
+                    const priorityColor = rec.priority === 'ALTA' ? '#dc3545' : rec.priority === 'MEDIA' ? '#ffc107' : '#28a745';
+                    
+                    section += `
+                        <div style="margin: 15px 0; padding: 15px; background: white; border-radius: 8px; border-left: 4px solid ${priorityColor};">
+                            <h4 style="margin: 0 0 10px 0; color: ${priorityColor};">${index + 1}. ${rec.icon} ${rec.area}</h4>
+                            <p style="margin: 5px 0;"><strong>Prioridad:</strong> <span style="color: ${priorityColor}; font-weight: bold;">${rec.priority}</span></p>
+                            <p style="margin: 5px 0;"><strong>Problema:</strong> ${rec.description}</p>
+                            <div style="margin: 10px 0;">
+                                <strong>Acciones sugeridas:</strong>
+                                <ul style="margin: 5px 0; padding-left: 20px;">
+                                    ${rec.suggestions.map(suggestion => `<li>${suggestion}</li>`).join('')}
+                                </ul>
+                            </div>
+                        </div>
+                    `;
+                });
+
+                section += '</div>';
+                return section;
+            }
+
+            // Función para obtener sugerencias por área
+            function getSuggestionsForArea(field, lowRatingCount) {
+                const suggestions = {
+                    'overall_staff_service': [
+                        'Implementar programa de capacitación para el personal',
+                        'Revisar protocolos de atención al cliente',
+                        'Establecer sistema de feedback interno',
+                        'Realizar encuestas de satisfacción del personal'
+                    ],
+                    'food_quality': [
+                        'Revisar menús y variedad de opciones',
+                        'Capacitar al personal de cocina',
+                        'Mejorar control de calidad de ingredientes',
+                        'Implementar sistema de feedback de cocina'
+                    ],
+                    'room_condition': [
+                        'Programar mantenimiento preventivo',
+                        'Actualizar mobiliario y decoración',
+                        'Mejorar protocolos de limpieza',
+                        'Implementar checklist de inspección'
+                    ],
+                    'preferred_club_service': [
+                        'Revisar beneficios del Preferred Club',
+                        'Capacitar personal especializado',
+                        'Mejorar comunicación de servicios exclusivos',
+                        'Implementar sistema de reservas prioritarias'
+                    ],
+                    'butler_service_rating': [
+                        'Capacitar mayordomos en atención personalizada',
+                        'Implementar sistema de asignación inteligente',
+                        'Establecer protocolos de seguimiento',
+                        'Mejorar comunicación entre mayordomos y huéspedes'
+                    ]
+                };
+
+                return suggestions[field] || ['Revisar procesos internos', 'Implementar mejoras específicas'];
+            }
+
+            // Función para generar sección de comentarios generales
+            function generateGeneralCommentsSection() {
+                const comments = filteredSurveysData.filter(s => s.comments && s.comments.trim() !== '');
+                
+                if (comments.length === 0) {
+                    return `
+                        <h3>💬 Comentarios Generales</h3>
+                        <div style="background: #f8f9fa; padding: 20px; border-radius: 10px; margin: 20px 0;">
+                            <p style="margin: 0; color: #6c757d;">No hay comentarios adicionales en este período.</p>
+                        </div>
+                    `;
+                }
+
+                let section = `
+                    <h3>💬 Comentarios Generales</h3>
+                    <div style="background: #f8f9fa; padding: 20px; border-radius: 10px; margin: 20px 0;">
+                        <p style="margin: 0 0 15px 0;"><strong>Total de comentarios:</strong> ${comments.length}</p>
+                `;
+
+                comments.slice(0, 15).forEach(comment => {
+                    const timestamp = comment.timestamp && comment.timestamp.toDate 
+                        ? new Date(comment.timestamp.toDate()).toLocaleString('es-DO')
+                        : 'N/A';
+                    
+                    section += `
+                        <div style="margin: 10px 0; padding: 10px; background: white; border-radius: 5px;">
+                            <p style="margin: 5px 0;"><strong>Comentario:</strong> ${comment.comments}</p>
+                            <p style="margin: 5px 0; font-size: 0.9em;"><strong>Habitación:</strong> ${comment.room_number || 'N/A'} | <strong>Mayordomo:</strong> ${comment.butler || 'N/A'}</p>
+                            <p style="margin: 5px 0; font-size: 0.9em;"><strong>Fecha:</strong> ${timestamp}</p>
+                        </div>
+                    `;
+                });
+
+                if (comments.length > 15) {
+                    section += `<p style="margin: 10px 0; font-style: italic; color: #6c757d;">... y ${comments.length - 15} comentarios adicionales.</p>`;
+                }
+
+                section += '</div>';
+                return section;
+            }
+
+            // Función para enviar el reporte por email mejorado
             function sendEmailReport() {
                 const recipient = document.getElementById('emailRecipient').value;
                 const subject = document.getElementById('emailSubject').value;
-                const reportContent = generateEmailReport();
-
+                const includeChart = document.getElementById('emailIncludeChart').checked;
+                
                 if (!recipient) {
                     alert('Por favor, ingresa al menos un destinatario.');
                     return;
@@ -3599,6 +4105,57 @@
                     return;
                 }
 
+                // Generar reporte con gráficas si está seleccionado
+                let reportContent = generateEmailReport();
+                
+                // Si incluye gráficas, agregar instrucciones para adjuntar
+                if (includeChart) {
+                    reportContent += `
+                        
+                        <h3>📊 Gráficas Detalladas</h3>
+                        <div style="background: #f8f9fa; padding: 20px; border-radius: 10px; margin: 20px 0;">
+                            <p><strong>Nota importante:</strong> Para obtener las gráficas detalladas en alta calidad:</p>
+                            <ol style="margin: 10px 0; padding-left: 20px;">
+                                <li>Abre el dashboard en tu navegador</li>
+                                <li>Haz clic derecho en la gráfica de "Distribución de Calificaciones"</li>
+                                <li>Selecciona "Guardar imagen como..."</li>
+                                <li>Adjunta la imagen a este email</li>
+                            </ol>
+                            <p style="color: #666; font-style: italic;">Alternativamente, puedes hacer una captura de pantalla del dashboard completo.</p>
+                        </div>
+                    `;
+                }
+
+                // Agregar instrucciones de formato
+                reportContent += `
+                    
+                    <div style="background: #e3f2fd; padding: 15px; border-radius: 8px; margin: 20px 0; border-left: 4px solid #2196f3;">
+                        <h4 style="margin: 0 0 10px 0; color: #1976d2;">📋 Instrucciones para el Reporte</h4>
+                        <ul style="margin: 0; padding-left: 20px;">
+                            <li>Este reporte incluye análisis detallado de satisfacción del cliente</li>
+                            <li>Las áreas con puntuaciones bajas están marcadas con prioridad</li>
+                            <li>Se incluyen recomendaciones específicas de mejora</li>
+                            <li>Los comentarios críticos están categorizados por tipo de problema</li>
+                        </ul>
+                    </div>
+                    
+                    <div style="background: #fff3e0; padding: 15px; border-radius: 8px; margin: 20px 0; border-left: 4px solid #ff9800;">
+                        <h4 style="margin: 0 0 10px 0; color: #f57c00;">🎯 Próximos Pasos Sugeridos</h4>
+                        <ol style="margin: 0; padding-left: 20px;">
+                            <li>Revisar las áreas de prioridad ALTA identificadas</li>
+                            <li>Implementar las acciones sugeridas en el plan de mejora</li>
+                            <li>Programar seguimiento en 2-4 semanas</li>
+                            <li>Compartir este reporte con el equipo correspondiente</li>
+                        </ol>
+                    </div>
+                    
+                    <p style="text-align: center; color: #666; font-style: italic; margin-top: 30px;">
+                        ---<br>
+                        Reporte generado automáticamente por el Sistema de Satisfacción del Cliente<br>
+                        Secrets Royal Beach - ${new Date().toLocaleDateString('es-DO')}
+                    </p>
+                `;
+
                 // Crear el enlace mailto con el contenido del reporte
                 const mailtoLink = `mailto:${recipient}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(reportContent)}`;
                 
@@ -3608,29 +4165,166 @@
                 // Cerrar el modal
                 emailReportModal.style.display = 'none';
                 
-                // Mostrar mensaje de confirmación
-                alert('Se ha abierto tu cliente de email con el reporte preparado. Revisa y envía el email.');
+                // Mostrar mensaje de confirmación mejorado
+                const confirmationMessage = includeChart 
+                    ? 'Se ha abierto tu cliente de email con el reporte completo. Recuerda adjuntar las gráficas del dashboard para mejor visualización.'
+                    : 'Se ha abierto tu cliente de email con el reporte preparado. Revisa y envía el email.';
+                
+                alert(confirmationMessage);
             }
 
-            // Función para mostrar vista previa
+            // Función para mostrar vista previa mejorada
             function showEmailPreview() {
                 const reportContent = generateEmailReport();
-                const previewWindow = window.open('', '_blank', 'width=800,height=600');
+                const includeChart = document.getElementById('emailIncludeChart').checked;
+                
+                let fullContent = reportContent;
+                
+                // Si incluye gráficas, agregar instrucciones
+                if (includeChart) {
+                    fullContent += `
+                        <h3>📊 Gráficas Detalladas</h3>
+                        <div style="background: #f8f9fa; padding: 20px; border-radius: 10px; margin: 20px 0;">
+                            <p><strong>Nota importante:</strong> Para obtener las gráficas detalladas en alta calidad:</p>
+                            <ol style="margin: 10px 0; padding-left: 20px;">
+                                <li>Abre el dashboard en tu navegador</li>
+                                <li>Haz clic derecho en la gráfica de "Distribución de Calificaciones"</li>
+                                <li>Selecciona "Guardar imagen como..."</li>
+                                <li>Adjunta la imagen a este email</li>
+                            </ol>
+                            <p style="color: #666; font-style: italic;">Alternativamente, puedes hacer una captura de pantalla del dashboard completo.</p>
+                        </div>
+                    `;
+                }
+
+                // Agregar instrucciones y formato final
+                fullContent += `
+                    <div style="background: #e3f2fd; padding: 15px; border-radius: 8px; margin: 20px 0; border-left: 4px solid #2196f3;">
+                        <h4 style="margin: 0 0 10px 0; color: #1976d2;">📋 Instrucciones para el Reporte</h4>
+                        <ul style="margin: 0; padding-left: 20px;">
+                            <li>Este reporte incluye análisis detallado de satisfacción del cliente</li>
+                            <li>Las áreas con puntuaciones bajas están marcadas con prioridad</li>
+                            <li>Se incluyen recomendaciones específicas de mejora</li>
+                            <li>Los comentarios críticos están categorizados por tipo de problema</li>
+                        </ul>
+                    </div>
+                    
+                    <div style="background: #fff3e0; padding: 15px; border-radius: 8px; margin: 20px 0; border-left: 4px solid #ff9800;">
+                        <h4 style="margin: 0 0 10px 0; color: #f57c00;">🎯 Próximos Pasos Sugeridos</h4>
+                        <ol style="margin: 0; padding-left: 20px;">
+                            <li>Revisar las áreas de prioridad ALTA identificadas</li>
+                            <li>Implementar las acciones sugeridas en el plan de mejora</li>
+                            <li>Programar seguimiento en 2-4 semanas</li>
+                            <li>Compartir este reporte con el equipo correspondiente</li>
+                        </ol>
+                    </div>
+                    
+                    <p style="text-align: center; color: #666; font-style: italic; margin-top: 30px;">
+                        ---<br>
+                        Reporte generado automáticamente por el Sistema de Satisfacción del Cliente<br>
+                        Secrets Royal Beach - ${new Date().toLocaleDateString('es-DO')}
+                    </p>
+                `;
+
+                const previewWindow = window.open('', '_blank', 'width=1000,height=800');
                 previewWindow.document.write(`
                     <!DOCTYPE html>
                     <html>
                     <head>
-                        <title>Vista Previa del Reporte</title>
+                        <title>Vista Previa del Reporte - Secrets Royal Beach</title>
                         <style>
-                            body { font-family: Arial, sans-serif; margin: 20px; line-height: 1.6; }
-                            h2, h3 { color: #333; }
-                            ul { padding-left: 20px; }
-                            li { margin-bottom: 10px; }
-                            small { color: #666; }
+                            body { 
+                                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+                                margin: 0; 
+                                padding: 20px; 
+                                line-height: 1.6; 
+                                background: #f5f5f5;
+                                color: #333;
+                            }
+                            .container {
+                                max-width: 900px;
+                                margin: 0 auto;
+                                background: white;
+                                padding: 30px;
+                                border-radius: 10px;
+                                box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+                            }
+                            h2, h3, h4 { 
+                                color: #2c3e50; 
+                                margin-top: 30px;
+                                margin-bottom: 15px;
+                            }
+                            h2 { 
+                                border-bottom: 3px solid #3498db; 
+                                padding-bottom: 10px;
+                                font-size: 1.8em;
+                            }
+                            h3 { 
+                                color: #2980b9; 
+                                font-size: 1.4em;
+                            }
+                            h4 { 
+                                color: #34495e; 
+                                font-size: 1.2em;
+                            }
+                            ul, ol { 
+                                padding-left: 25px; 
+                                margin: 10px 0;
+                            }
+                            li { 
+                                margin-bottom: 8px; 
+                                line-height: 1.5;
+                            }
+                            small { 
+                                color: #7f8c8d; 
+                                font-size: 0.9em;
+                            }
+                            .highlight {
+                                background: #ecf0f1;
+                                padding: 15px;
+                                border-radius: 8px;
+                                border-left: 4px solid #3498db;
+                                margin: 15px 0;
+                            }
+                            .warning {
+                                background: #fff3cd;
+                                padding: 15px;
+                                border-radius: 8px;
+                                border-left: 4px solid #ffc107;
+                                margin: 15px 0;
+                            }
+                            .success {
+                                background: #d4edda;
+                                padding: 15px;
+                                border-radius: 8px;
+                                border-left: 4px solid #28a745;
+                                margin: 15px 0;
+                            }
+                            .info {
+                                background: #d1ecf1;
+                                padding: 15px;
+                                border-radius: 8px;
+                                border-left: 4px solid #17a2b8;
+                                margin: 15px 0;
+                            }
+                            .footer {
+                                text-align: center;
+                                margin-top: 40px;
+                                padding-top: 20px;
+                                border-top: 1px solid #ecf0f1;
+                                color: #7f8c8d;
+                                font-style: italic;
+                            }
+                            @media print {
+                                body { background: white; }
+                                .container { box-shadow: none; }
+                            }
                         </style>
                     </head>
                     <body>
-                        ${reportContent}
+                        <div class="container">
+                            ${fullContent}
+                        </div>
                     </body>
                     </html>
                 `);
@@ -3769,14 +4463,27 @@
                 ratingsChartInstance.update();
             }
 
-            // Función para renderizar sección de comentarios
+            // Variables de paginación para comentarios
+            let currentCommentsPage = 1;
+            let commentsPerPage = 5; // Mostrar 5 comentarios por página
+
+            // Función para renderizar sección de comentarios con paginación
             function renderCommentsSection(data) {
                 const commentsSection = document.getElementById('commentsSection');
                 const comments = data.filter(s => s.comments && s.comments.trim() !== '');
 
                 if (comments.length > 0) {
+                    // Calcular paginación
+                    const totalPages = Math.ceil(comments.length / commentsPerPage);
+                    const startIndex = (currentCommentsPage - 1) * commentsPerPage;
+                    const endIndex = startIndex + commentsPerPage;
+                    const commentsToShow = comments.slice(startIndex, endIndex);
+
+                    // Limpiar sección
                     commentsSection.innerHTML = '';
-                    comments.forEach(comment => {
+
+                    // Renderizar comentarios de la página actual
+                    commentsToShow.forEach(comment => {
                         const commentCard = document.createElement('div');
                         commentCard.classList.add('comment-card');
                         const formattedTimestamp = comment.timestamp && comment.timestamp.toDate ? new Date(comment.timestamp.toDate()).toLocaleString('es-DO') : 'N/A';
@@ -3796,10 +4503,114 @@
                         `;
                         commentsSection.appendChild(commentCard);
                     });
+
+                    // Agregar controles de paginación
+                    if (totalPages > 1) {
+                        const paginationContainer = document.createElement('div');
+                        paginationContainer.className = 'comments-pagination';
+                        paginationContainer.innerHTML = `
+                            <div class="pagination-info">
+                                <span>Mostrando ${startIndex + 1}-${Math.min(endIndex, comments.length)} de ${comments.length} comentarios</span>
+                            </div>
+                            <div class="pagination-controls">
+                                <button class="pagination-btn" id="prevCommentsPage" ${currentCommentsPage === 1 ? 'disabled' : ''}>
+                                    ← Anterior
+                                </button>
+                                <span class="page-numbers">
+                                    ${generatePageNumbers(currentCommentsPage, totalPages)}
+                                </span>
+                                <button class="pagination-btn" id="nextCommentsPage" ${currentCommentsPage === totalPages ? 'disabled' : ''}>
+                                    Siguiente →
+                                </button>
+                            </div>
+                            <div class="pagination-size">
+                                <label>Comentarios por página: 
+                                    <select id="commentsPerPageSelect">
+                                        <option value="3" ${commentsPerPage === 3 ? 'selected' : ''}>3</option>
+                                        <option value="5" ${commentsPerPage === 5 ? 'selected' : ''}>5</option>
+                                        <option value="10" ${commentsPerPage === 10 ? 'selected' : ''}>10</option>
+                                        <option value="15" ${commentsPerPage === 15 ? 'selected' : ''}>15</option>
+                                    </select>
+                                </label>
+                            </div>
+                        `;
+                        commentsSection.appendChild(paginationContainer);
+
+                        // Event listeners para paginación
+                        document.getElementById('prevCommentsPage').addEventListener('click', () => {
+                            if (currentCommentsPage > 1) {
+                                currentCommentsPage--;
+                                renderCommentsSection(data);
+                            }
+                        });
+
+                        document.getElementById('nextCommentsPage').addEventListener('click', () => {
+                            if (currentCommentsPage < totalPages) {
+                                currentCommentsPage++;
+                                renderCommentsSection(data);
+                            }
+                        });
+
+                        // Event listener para cambiar número de comentarios por página
+                        document.getElementById('commentsPerPageSelect').addEventListener('change', (e) => {
+                            commentsPerPage = parseInt(e.target.value);
+                            currentCommentsPage = 1; // Volver a la primera página
+                            renderCommentsSection(data);
+                        });
+                    }
                 } else {
-                    commentsSection.innerHTML = '<p style="text-align: center; color: var(--secondary-color);">No hay comentarios adicionales con los filtros actuales.</p>';
+                    commentsSection.innerHTML = `
+                        <div style="text-align: center; padding: var(--spacing-xl); color: var(--text-secondary);">
+                            <p style="font-size: 1.1rem; margin-bottom: var(--spacing-sm);">📝 No hay comentarios adicionales</p>
+                            <p style="font-size: 0.9rem;">No se encontraron comentarios con los filtros aplicados actualmente.</p>
+                        </div>
+                    `;
                 }
             }
+
+            // Función para generar números de página
+            function generatePageNumbers(currentPage, totalPages) {
+                let pageNumbers = '';
+                const maxVisiblePages = 5;
+                
+                if (totalPages <= maxVisiblePages) {
+                    // Mostrar todas las páginas si hay 5 o menos
+                    for (let i = 1; i <= totalPages; i++) {
+                        pageNumbers += `<span class="page-number ${i === currentPage ? 'active' : ''}" onclick="goToCommentsPage(${i})">${i}</span>`;
+                    }
+                } else {
+                    // Mostrar páginas con elipsis
+                    if (currentPage <= 3) {
+                        for (let i = 1; i <= 4; i++) {
+                            pageNumbers += `<span class="page-number ${i === currentPage ? 'active' : ''}" onclick="goToCommentsPage(${i})">${i}</span>`;
+                        }
+                        pageNumbers += '<span class="page-ellipsis">...</span>';
+                        pageNumbers += `<span class="page-number" onclick="goToCommentsPage(${totalPages})">${totalPages}</span>`;
+                    } else if (currentPage >= totalPages - 2) {
+                        pageNumbers += `<span class="page-number" onclick="goToCommentsPage(1)">1</span>`;
+                        pageNumbers += '<span class="page-ellipsis">...</span>';
+                        for (let i = totalPages - 3; i <= totalPages; i++) {
+                            pageNumbers += `<span class="page-number ${i === currentPage ? 'active' : ''}" onclick="goToCommentsPage(${i})">${i}</span>`;
+                        }
+                    } else {
+                        pageNumbers += `<span class="page-number" onclick="goToCommentsPage(1)">1</span>`;
+                        pageNumbers += '<span class="page-ellipsis">...</span>';
+                        for (let i = currentPage - 1; i <= currentPage + 1; i++) {
+                            pageNumbers += `<span class="page-number ${i === currentPage ? 'active' : ''}" onclick="goToCommentsPage(${i})">${i}</span>`;
+                        }
+                        pageNumbers += '<span class="page-ellipsis">...</span>';
+                        pageNumbers += `<span class="page-number" onclick="goToCommentsPage(${totalPages})">${totalPages}</span>`;
+                    }
+                }
+                
+                return pageNumbers;
+            }
+
+            // Función global para ir a una página específica
+            window.goToCommentsPage = function(pageNumber) {
+                currentCommentsPage = pageNumber;
+                renderCommentsSection(filteredSurveysData);
+            };
 
             // --- Funcionalidad del Modal de Filtros ---
             const filterBtn = document.getElementById('filterBtn');
@@ -3974,9 +4785,7 @@
             const tabBtns = document.querySelectorAll('.tab-btn');
             const tabPanels = document.querySelectorAll('.tab-panel');
 
-            // Variables para paginación de comentarios
-            let currentCommentsPage = 1;
-            let commentsPerPage = 10;
+            // Variables para el modal de comentarios
             let filteredComments = [];
             let filteredEmails = [];
 
