@@ -3999,7 +3999,7 @@
                             <div style="margin: 10px 0;">
                                 <strong>Acciones sugeridas:</strong>
                                 <ul style="margin: 5px 0; padding-left: 20px;">
-                                    ${rec.suggestions.map(suggestion => `<li>${suggestion}</li>`).join('')}
+                                    <li>Se le dará seguimiento</li>
                                 </ul>
                             </div>
                         </div>
@@ -5075,8 +5075,8 @@
                     alert('No hay correos para copiar.');
                     return;
                 }
-
-                const emailList = filteredEmails.map(e => e.email).join(', ');
+                // Nuevo formato: email (Habitación: X, Mayordomo: Y)
+                const emailList = filteredEmails.map(e => `${e.email} (Habitación: ${e.room || 'N/A'}, Mayordomo: ${e.butler || 'N/A'})`).join(', ');
                 navigator.clipboard.writeText(emailList).then(() => {
                     alert('Lista de correos copiada al portapapeles.');
                 }).catch(() => {
