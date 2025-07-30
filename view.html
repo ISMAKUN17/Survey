@@ -1207,23 +1207,39 @@
             text-align: right;
         }
 
-        /* BUTLER EFFECTIVENESS MODAL - Diseño Moderno */
+        /* BUTLER EFFECTIVENESS MODAL - Diseño Profesional Moderno */
         #butlerEffectivenessModal .modal-content {
-            max-width: 800px;
+            max-width: 900px;
             padding: var(--spacing-2xl);
+            background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(20px);
+        }
+        
+        #butlerEffectivenessModal h3 {
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-size: 2rem;
+            font-weight: 800;
+            text-align: center;
+            margin-bottom: var(--spacing-xl);
+            letter-spacing: -0.02em;
         }
         
         .butler-effectiveness-legend {
             display: flex;
-            gap: var(--spacing-md);
-            margin-bottom: var(--spacing-lg);
-            font-size: 1rem;
+            gap: var(--spacing-lg);
+            margin-bottom: var(--spacing-2xl);
+            font-size: 0.95rem;
             align-items: center;
             justify-content: center;
-            background: var(--surface-color);
-            border-radius: var(--radius-lg);
-            padding: var(--spacing-md);
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            border-radius: var(--radius-xl);
+            padding: var(--spacing-lg);
             border: 1px solid var(--border-light);
+            box-shadow: var(--shadow-sm);
         }
         
         .butler-effectiveness-legend span {
@@ -1231,36 +1247,63 @@
             align-items: center;
             gap: var(--spacing-sm);
             font-weight: 600;
+            color: var(--text-primary);
+            padding: var(--spacing-sm) var(--spacing-md);
+            border-radius: var(--radius-lg);
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(10px);
         }
         
         .butler-effectiveness-dot {
-            width: 16px;
-            height: 16px;
+            width: 12px;
+            height: 12px;
             border-radius: 50%;
             display: inline-block;
             border: 2px solid white;
             box-shadow: var(--shadow-sm);
         }
         
+        .butler-effectiveness-list {
+            display: flex;
+            flex-direction: column;
+            gap: var(--spacing-lg);
+        }
+        
         .butler-effectiveness-list li {
             display: flex;
             align-items: center;
-            gap: var(--spacing-md);
-            margin-bottom: var(--spacing-lg);
-            border-radius: var(--radius-xl);
+            gap: var(--spacing-lg);
+            border-radius: var(--radius-2xl);
             padding: var(--spacing-xl);
-            font-size: 1.125rem;
-            box-shadow: var(--shadow-md);
+            font-size: 1.1rem;
+            box-shadow: var(--shadow-lg);
             font-weight: 500;
             background: var(--card-background);
             border: 1px solid var(--border-light);
             position: relative;
-            transition: all 0.3s ease;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            overflow: hidden;
+        }
+        
+        .butler-effectiveness-list li::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary-color), var(--primary-dark));
+            opacity: 0;
+            transition: opacity 0.3s ease;
         }
         
         .butler-effectiveness-list li:hover {
-            transform: translateY(-2px);
-            box-shadow: var(--shadow-lg);
+            transform: translateY(-4px) scale(1.02);
+            box-shadow: var(--shadow-xl);
+        }
+        
+        .butler-effectiveness-list li:hover::before {
+            opacity: 1;
         }
         
         .butler-effectiveness-list li.baja {
@@ -1282,63 +1325,113 @@
         }
         
         .butler-effectiveness-avatar {
-            width: 56px;
-            height: 56px;
+            width: 64px;
+            height: 64px;
             background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.5rem;
+            font-size: 1.75rem;
             font-weight: 800;
             color: white;
             margin-right: var(--spacing-lg);
-            border: 3px solid white;
-            box-shadow: var(--shadow-md);
+            border: 4px solid white;
+            box-shadow: var(--shadow-lg);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .butler-effectiveness-avatar::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transform: rotate(45deg);
+            transition: transform 0.6s ease;
+        }
+        
+        .butler-effectiveness-list li:hover .butler-effectiveness-avatar::after {
+            transform: rotate(45deg) translate(50%, 50%);
         }
         
         .butler-effectiveness-rank {
             font-weight: 900;
             color: var(--primary-color);
-            width: 28px;
+            width: 40px;
+            height: 40px;
             text-align: center;
-            font-size: 1.25rem;
-            margin-right: var(--spacing-md);
+            font-size: 1.5rem;
+            margin-right: var(--spacing-lg);
+            background: linear-gradient(135deg, #f8fafc, #e2e8f0);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid var(--border-light);
+            box-shadow: var(--shadow-sm);
         }
         
         .butler-effectiveness-name {
             font-weight: 700;
-            min-width: 140px;
+            min-width: 160px;
             color: var(--text-primary);
-            font-size: 1.125rem;
-            margin-right: var(--spacing-md);
+            font-size: 1.25rem;
+            margin-right: var(--spacing-lg);
+            letter-spacing: -0.01em;
         }
         
         .butler-effectiveness-avg {
-            font-size: 1.25rem;
+            font-size: 1.5rem;
             font-weight: 800;
             margin-left: var(--spacing-sm);
-            min-width: 56px;
-            text-align: right;
+            min-width: 80px;
+            text-align: center;
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
         
         .butler-effectiveness-bar {
             flex: 1;
-            height: 12px;
-            border-radius: var(--radius-md);
+            height: 16px;
+            border-radius: var(--radius-xl);
             background: var(--border-light);
-            margin: 0 var(--spacing-md);
+            margin: 0 var(--spacing-lg);
             position: relative;
             overflow: hidden;
-            min-width: 140px;
-            max-width: 360px;
+            min-width: 200px;
+            max-width: 400px;
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
         }
         
         .butler-effectiveness-bar-inner {
             height: 100%;
-            border-radius: var(--radius-md);
+            border-radius: var(--radius-xl);
             background: linear-gradient(90deg, var(--success-color) 0%, #34d399 100%);
-            transition: width 0.5s ease;
+            transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .butler-effectiveness-bar-inner::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+            animation: shimmer 2s infinite;
+        }
+        
+        @keyframes shimmer {
+            0% { left: -100%; }
+            100% { left: 100%; }
         }
         
         .butler-effectiveness-list li.baja .butler-effectiveness-bar-inner {
@@ -1352,26 +1445,42 @@
         .butler-effectiveness-badge {
             font-size: 0.875rem;
             font-weight: 700;
-            border-radius: var(--radius-lg);
-            padding: var(--spacing-xs) var(--spacing-md);
+            border-radius: var(--radius-xl);
+            padding: var(--spacing-sm) var(--spacing-lg);
             margin-left: var(--spacing-lg);
             color: white;
             background: var(--text-muted);
             letter-spacing: 0.05em;
-            box-shadow: var(--shadow-sm);
+            box-shadow: var(--shadow-md);
+            text-transform: uppercase;
+            min-width: 80px;
+            text-align: center;
         }
         
         .butler-effectiveness-badge.baja {
-            background: var(--error-color);
+            background: linear-gradient(135deg, var(--error-color), #dc2626);
         }
         
         .butler-effectiveness-badge.media {
-            background: var(--warning-color);
-            color: var(--text-primary);
+            background: linear-gradient(135deg, var(--warning-color), #d97706);
+            color: white;
         }
         
         .butler-effectiveness-badge.alta {
-            background: var(--success-color);
+            background: linear-gradient(135deg, var(--success-color), #059669);
+        }
+        
+        /* Estilos para la información de encuestas */
+        .butler-effectiveness-list li span:last-child {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            font-weight: 500;
+            margin-left: var(--spacing-lg);
+            padding: var(--spacing-sm) var(--spacing-md);
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: var(--radius-lg);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--border-light);
         }
 
         .description {
@@ -2004,6 +2113,261 @@
         }
 
         /* Estilos para el logo */
+        .logo {
+            max-width: 200px;
+            margin-bottom: var(--spacing-md);
+            filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.1));
+        }
+
+        /* Estilos para la información de encuestas */
+        .butler-effectiveness-list li span:last-child {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            font-weight: 500;
+            margin-left: var(--spacing-lg);
+            padding: var(--spacing-sm) var(--spacing-md);
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: var(--radius-lg);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--border-light);
+        }
+
+        /* BUTLER DETAIL MODAL - Diseño Profesional */
+        .butler-detail-content {
+            max-width: 600px;
+            padding: var(--spacing-2xl);
+            background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(20px);
+        }
+
+        .butler-detail-header {
+            text-align: center;
+            margin-bottom: var(--spacing-2xl);
+            padding-bottom: var(--spacing-xl);
+            border-bottom: 2px solid var(--border-light);
+        }
+
+        .butler-detail-avatar {
+            width: 120px;
+            height: 120px;
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            font-weight: 800;
+            color: white;
+            margin: 0 auto var(--spacing-lg);
+            border: 6px solid white;
+            box-shadow: var(--shadow-xl);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .butler-detail-avatar::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transform: rotate(45deg);
+            animation: shimmer 3s infinite;
+        }
+
+        .butler-detail-name {
+            font-size: 2rem;
+            font-weight: 800;
+            color: var(--text-primary);
+            margin-bottom: var(--spacing-sm);
+            letter-spacing: -0.02em;
+        }
+
+        .butler-detail-nps {
+            font-size: 3rem;
+            font-weight: 900;
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .butler-detail-level {
+            font-size: 1.1rem;
+            font-weight: 600;
+            padding: var(--spacing-sm) var(--spacing-lg);
+            border-radius: var(--radius-xl);
+            display: inline-block;
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .butler-detail-level.alta {
+            background: linear-gradient(135deg, var(--success-color), #059669);
+            color: white;
+        }
+
+        .butler-detail-level.media {
+            background: linear-gradient(135deg, var(--warning-color), #d97706);
+            color: white;
+        }
+
+        .butler-detail-level.baja {
+            background: linear-gradient(135deg, var(--error-color), #dc2626);
+            color: white;
+        }
+
+        .butler-stats-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: var(--spacing-lg);
+            margin-bottom: var(--spacing-2xl);
+        }
+
+        .butler-stat-card {
+            background: var(--card-background);
+            border-radius: var(--radius-xl);
+            padding: var(--spacing-xl);
+            text-align: center;
+            border: 1px solid var(--border-light);
+            box-shadow: var(--shadow-md);
+            transition: all 0.3s ease;
+        }
+
+        .butler-stat-card:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .butler-stat-icon {
+            font-size: 2rem;
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .butler-stat-number {
+            font-size: 2rem;
+            font-weight: 800;
+            color: var(--text-primary);
+            margin-bottom: var(--spacing-xs);
+        }
+
+        .butler-stat-label {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .butler-stat-percentage {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--primary-color);
+            margin-top: var(--spacing-xs);
+        }
+
+        .butler-chart-container {
+            background: var(--card-background);
+            border-radius: var(--radius-xl);
+            padding: var(--spacing-xl);
+            border: 1px solid var(--border-light);
+            box-shadow: var(--shadow-md);
+            margin-bottom: var(--spacing-xl);
+        }
+
+        .butler-chart-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: var(--spacing-lg);
+            text-align: center;
+        }
+
+        .butler-chart-bars {
+            display: flex;
+            align-items: end;
+            gap: var(--spacing-md);
+            height: 120px;
+            padding: var(--spacing-lg) 0;
+        }
+
+        .butler-chart-bar {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: var(--spacing-sm);
+        }
+
+        .butler-chart-bar-fill {
+            width: 100%;
+            border-radius: var(--radius-md) var(--radius-md) 0 0;
+            transition: height 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .butler-chart-bar-fill::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+            animation: shimmer 2s infinite;
+        }
+
+        .butler-chart-bar-fill.promoters {
+            background: linear-gradient(180deg, var(--success-color) 0%, #059669 100%);
+        }
+
+        .butler-chart-bar-fill.passives {
+            background: linear-gradient(180deg, var(--warning-color) 0%, #d97706 100%);
+        }
+
+        .butler-chart-bar-fill.detractors {
+            background: linear-gradient(180deg, var(--error-color) 0%, #dc2626 100%);
+        }
+
+        .butler-chart-bar-label {
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .butler-chart-bar-value {
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        .butler-summary {
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            border-radius: var(--radius-xl);
+            padding: var(--spacing-xl);
+            border: 1px solid var(--border-light);
+        }
+
+        .butler-summary-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: var(--spacing-md);
+            text-align: center;
+        }
+
+        .butler-summary-text {
+            font-size: 1rem;
+            color: var(--text-secondary);
+            line-height: 1.6;
+            text-align: center;
+        }
     </style>
 </head>
 <body>
@@ -2141,13 +2505,24 @@
     <div id="butlerEffectivenessModal" class="modal">
         <div class="modal-content">
             <span class="close-button" id="closeButlerEffectivenessModal">&times;</span>
-            <h3>Efectividad de Mayordomos (Promedio de Servicio)</h3>
+            <h3>🏆 Efectividad de Mayordomos - NPS Score</h3>
+            <p class="description">Análisis de satisfacción basado en Net Promoter Score (Promotores - Detractores)</p>
             <div class="butler-effectiveness-legend">
-                <span><span class="butler-effectiveness-dot" style="background:#eafaf1;"></span> Alta (&ge; 4.0)</span>
-                <span><span class="butler-effectiveness-dot" style="background:#fffbe6;"></span> Media (2.5 - 3.99)</span>
-                <span><span class="butler-effectiveness-dot" style="background:#fdeaea;"></span> Baja (&lt; 2.5)</span>
+                <span><span class="butler-effectiveness-dot" style="background:#10b981;"></span> Alta (≥ 50)</span>
+                <span><span class="butler-effectiveness-dot" style="background:#f59e0b;"></span> Media (0 - 49)</span>
+                <span><span class="butler-effectiveness-dot" style="background:#ef4444;"></span> Baja (< 0)</span>
             </div>
             <ul id="butlerEffectivenessList" class="butler-effectiveness-list" style="list-style:none; padding:0; margin:0;"></ul>
+        </div>
+    </div>
+
+    <!-- Modal de Detalle del Mayordomo -->
+    <div id="butlerDetailModal" class="modal">
+        <div class="modal-content butler-detail-content">
+            <span class="close-button" id="closeButlerDetailModal">&times;</span>
+            <div id="butlerDetailContent">
+                <!-- El contenido se generará dinámicamente -->
+            </div>
         </div>
     </div>
 
@@ -3568,45 +3943,89 @@
             const butlerEffectivenessList = document.getElementById('butlerEffectivenessList');
 
             function showButlerEffectiveness() {
-                // Agrupa por mayordomo y calcula promedio de servicio
-                const map = { "Bad": 1, "Poor": 2, "Regular": 3, "Good": 4, "Excellent": 5 };
+                // Calcula NPS (Net Promoter Score) para el servicio del mayordomo
                 const butlerStats = {};
+                
+                // Recolectar datos de calificaciones del servicio del mayordomo
                 filteredSurveysData.forEach(s => {
-                    if (s.butler && s.butler_service_rating && map[s.butler_service_rating]) {
+                    if (s.butler && s.butler_service_rating) {
                         const name = s.butler.trim();
-                        if (!butlerStats[name]) butlerStats[name] = { sum: 0, count: 0 };
-                        butlerStats[name].sum += map[s.butler_service_rating];
-                        butlerStats[name].count++;
+                        if (!butlerStats[name]) {
+                            butlerStats[name] = { 
+                                totalSurveys: 0,
+                                promoters: 0,    // Good, Excellent
+                                passives: 0,     // Regular
+                                detractors: 0    // Bad, Poor
+                            };
+                        }
+                        
+                        butlerStats[name].totalSurveys++;
+                        
+                        // Clasificar según la calificación de texto
+                        const rating = s.butler_service_rating;
+                        if (rating === "Good" || rating === "Excellent") {
+                            butlerStats[name].promoters++;
+                        } else if (rating === "Regular") {
+                            butlerStats[name].passives++;
+                        } else if (rating === "Bad" || rating === "Poor") {
+                            butlerStats[name].detractors++;
+                        }
                     }
                 });
-                // Calcula promedios y ordena
+                
+                // Calcular NPS para cada mayordomo
                 const effectiveness = Object.entries(butlerStats)
-                    .map(([name, stat]) => ({
-                        name,
-                        avg: stat.count ? (stat.sum/stat.count) : 0,
-                        count: stat.count
-                    }))
-                    .filter(b => b.count > 0)
-                    .sort((a, b) => b.avg - a.avg);
+                    .map(([name, stat]) => {
+                        // Calcular porcentajes
+                        const promoterPercentage = stat.totalSurveys > 0 ? (stat.promoters / stat.totalSurveys) * 100 : 0;
+                        const detractorPercentage = stat.totalSurveys > 0 ? (stat.detractors / stat.totalSurveys) * 100 : 0;
+                        
+                        // NPS = % Promotores - % Detractores
+                        const npsScore = promoterPercentage - detractorPercentage;
+                        
+                        return {
+                            name,
+                            npsScore: npsScore,
+                            promoterPercentage: promoterPercentage,
+                            detractorPercentage: detractorPercentage,
+                            totalSurveys: stat.totalSurveys,
+                            promoters: stat.promoters,
+                            passives: stat.passives,
+                            detractors: stat.detractors
+                        };
+                    })
+                    .filter(b => b.totalSurveys > 0)
+                    .sort((a, b) => b.npsScore - a.npsScore);
+                
                 // Renderiza lista
                 butlerEffectivenessList.innerHTML = '';
                 effectiveness.forEach((b, idx) => {
                     let nivel = 'media', badge = 'Media';
-                    if (b.avg >= 4.0) { nivel = 'alta'; badge = 'Alta'; }
-                    else if (b.avg < 2.5) { nivel = 'baja'; badge = 'Baja'; }
+                    if (b.npsScore >= 50) { nivel = 'alta'; badge = 'Alta'; }
+                    else if (b.npsScore < 0) { nivel = 'baja'; badge = 'Baja'; }
+                    
                     const li = document.createElement('li');
                     li.className = nivel;
-                    // Barra de progreso: 1-5 mapeado a 0-100%
-                    const barWidth = ((b.avg-1)/4*100).toFixed(0);
+                    
+                    // Barra de progreso: NPS -100 a +100 mapeado a 0-100%
+                    const barWidth = ((b.npsScore + 100) / 200 * 100).toFixed(0);
+                    
                     li.innerHTML = `
                         <span class="butler-effectiveness-rank">${idx+1}</span>
                         <span class="butler-effectiveness-avatar">${b.name[0] ? b.name[0].toUpperCase() : '?'}</span>
                         <span class="butler-effectiveness-name">${b.name}</span>
-                        <span class="butler-effectiveness-avg">${b.avg.toFixed(2)}</span>
+                        <span class="butler-effectiveness-avg">${b.npsScore.toFixed(1)}</span>
                         <div class="butler-effectiveness-bar"><div class="butler-effectiveness-bar-inner" style="width:${barWidth}%"></div></div>
                         <span class="butler-effectiveness-badge ${nivel}">${badge}</span>
-                        <span style="color:#888; font-size:0.95em; margin-left:8px;">(${b.count} respuestas)</span>
+                        <span style="color:#888; font-size:0.9rem; margin-left:8px;">
+                            📊 ${b.totalSurveys} encuestas | 👍 ${b.promoters}P | 😐 ${b.passives}Pas | 👎 ${b.detractors}D
+                        </span>
                     `;
+                    
+                    // Agregar evento click para mostrar detalle
+                    li.style.cursor = 'pointer';
+                    li.addEventListener('click', () => showButlerDetail(b));
+                    
                     butlerEffectivenessList.appendChild(li);
                 });
                 butlerEffectivenessModal.style.display = 'flex';
@@ -5159,6 +5578,113 @@
 
         // Llama a esta función cuando el usuario abre el dashboard
         markCommentsAsSeen();
+
+        // Función para mostrar el detalle de un mayordomo específico
+        function showButlerDetail(butlerData) {
+            const modal = document.getElementById('butlerDetailModal');
+            const content = document.getElementById('butlerDetailContent');
+            
+            let nivel = 'media', badge = 'Media';
+            if (butlerData.npsScore >= 50) { nivel = 'alta'; badge = 'Alta'; }
+            else if (butlerData.npsScore < 0) { nivel = 'baja'; badge = 'Baja'; }
+            
+            // Calcular porcentajes
+            const promoterPercentage = butlerData.totalSurveys > 0 ? (butlerData.promoters / butlerData.totalSurveys) * 100 : 0;
+            const passivePercentage = butlerData.totalSurveys > 0 ? (butlerData.passives / butlerData.totalSurveys) * 100 : 0;
+            const detractorPercentage = butlerData.totalSurveys > 0 ? (butlerData.detractors / butlerData.totalSurveys) * 100 : 0;
+            
+            // Alturas de las barras del gráfico (máximo 100px)
+            const maxHeight = 100;
+            const promoterHeight = (promoterPercentage / 100) * maxHeight;
+            const passiveHeight = (passivePercentage / 100) * maxHeight;
+            const detractorHeight = (detractorPercentage / 100) * maxHeight;
+            
+            // Generar resumen
+            let summaryText = '';
+            if (butlerData.npsScore >= 50) {
+                summaryText = `Excelente rendimiento! ${butlerData.name} tiene un NPS muy alto, indicando que la mayoría de los huéspedes están muy satisfechos con su servicio.`;
+            } else if (butlerData.npsScore >= 0) {
+                summaryText = `Buen rendimiento. ${butlerData.name} mantiene un NPS positivo, pero hay oportunidades para mejorar la satisfacción de los huéspedes.`;
+            } else {
+                summaryText = `Necesita atención. ${butlerData.name} tiene un NPS negativo, indicando que hay más detractores que promotores. Se recomienda revisar el servicio.`;
+            }
+            
+            content.innerHTML = `
+                <div class="butler-detail-header">
+                    <div class="butler-detail-avatar">${butlerData.name[0] ? butlerData.name[0].toUpperCase() : '?'}</div>
+                    <div class="butler-detail-name">${butlerData.name}</div>
+                    <div class="butler-detail-nps">${butlerData.npsScore.toFixed(1)}</div>
+                    <div class="butler-detail-level ${nivel}">${badge} Efectividad</div>
+                </div>
+                
+                <div class="butler-stats-grid">
+                    <div class="butler-stat-card">
+                        <div class="butler-stat-icon">📊</div>
+                        <div class="butler-stat-number">${butlerData.totalSurveys}</div>
+                        <div class="butler-stat-label">Total Encuestas</div>
+                    </div>
+                    <div class="butler-stat-card">
+                        <div class="butler-stat-icon">🎯</div>
+                        <div class="butler-stat-number">${butlerData.npsScore.toFixed(1)}</div>
+                        <div class="butler-stat-label">NPS Score</div>
+                    </div>
+                    <div class="butler-stat-card">
+                        <div class="butler-stat-icon">👍</div>
+                        <div class="butler-stat-number">${butlerData.promoters}</div>
+                        <div class="butler-stat-label">Promotores</div>
+                        <div class="butler-stat-percentage">${promoterPercentage.toFixed(1)}%</div>
+                    </div>
+                    <div class="butler-stat-card">
+                        <div class="butler-stat-icon">😐</div>
+                        <div class="butler-stat-number">${butlerData.passives}</div>
+                        <div class="butler-stat-label">Pasivos</div>
+                        <div class="butler-stat-percentage">${passivePercentage.toFixed(1)}%</div>
+                    </div>
+                </div>
+                
+                <div class="butler-chart-container">
+                    <div class="butler-chart-title">Distribución de Calificaciones</div>
+                    <div class="butler-chart-bars">
+                        <div class="butler-chart-bar">
+                            <div class="butler-chart-bar-fill promoters" style="height: ${promoterHeight}px;"></div>
+                            <div class="butler-chart-bar-value">${butlerData.promoters}</div>
+                            <div class="butler-chart-bar-label">Promotores</div>
+                        </div>
+                        <div class="butler-chart-bar">
+                            <div class="butler-chart-bar-fill passives" style="height: ${passiveHeight}px;"></div>
+                            <div class="butler-chart-bar-value">${butlerData.passives}</div>
+                            <div class="butler-chart-bar-label">Pasivos</div>
+                        </div>
+                        <div class="butler-chart-bar">
+                            <div class="butler-chart-bar-fill detractors" style="height: ${detractorHeight}px;"></div>
+                            <div class="butler-chart-bar-value">${butlerData.detractors}</div>
+                            <div class="butler-chart-bar-label">Detractores</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="butler-summary">
+                    <div class="butler-summary-title">📋 Resumen de Análisis</div>
+                    <div class="butler-summary-text">${summaryText}</div>
+                </div>
+            `;
+            
+            modal.style.display = 'flex';
+        }
+
+        // Event listeners para el modal de detalle
+        const butlerDetailModal = document.getElementById('butlerDetailModal');
+        const closeButlerDetailModal = document.getElementById('closeButlerDetailModal');
+
+        closeButlerDetailModal.addEventListener('click', () => {
+            butlerDetailModal.style.display = 'none';
+        });
+
+        window.addEventListener('click', function(event) {
+            if (event.target == butlerDetailModal) {
+                butlerDetailModal.style.display = 'none';
+            }
+        });
     </script>
 </body>
 </html>
