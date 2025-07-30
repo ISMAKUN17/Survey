@@ -6166,10 +6166,22 @@
                         </div>
                     </div>
                     <div class="butler-actions">
-                        <button class="btn-edit" onclick="editButlerName('${butler.name}')">✏️ Editar</button>
-                        <button class="btn-merge" onclick="mergeButler('${butler.name}')" ${isDuplicate ? '' : 'disabled'}>🔄 Fusionar</button>
+                        <button class="btn-edit" data-butler-name="${butler.name}">✏️ Editar</button>
+                        <button class="btn-merge" data-butler-name="${butler.name}" ${isDuplicate ? '' : 'disabled'}>🔄 Fusionar</button>
                     </div>
                 `;
+                
+                // Agregar event listeners a los botones
+                const editBtn = item.querySelector('.btn-edit');
+                const mergeBtn = item.querySelector('.btn-merge');
+                
+                editBtn.addEventListener('click', () => {
+                    editButlerName(butler.name);
+                });
+                
+                mergeBtn.addEventListener('click', () => {
+                    mergeButler(butler.name);
+                });
                 
                 butlerVerificationList.appendChild(item);
             });
