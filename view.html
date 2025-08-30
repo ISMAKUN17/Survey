@@ -3827,6 +3827,7 @@
                 const whatsappMsg =
                     `📋 *Encuesta #${dataToDisplay.length - index}*%0A` +
                     `🏨 *Habitación:* ${survey.room_number || 'N/A'}%0A` +
+                    `📧 *Correo:* ${survey.email || 'N/A'}%0A` +
                     `🧑‍💼 *Mayordomo:* ${survey.butler || 'N/A'}%0A` +
                     `🕒 *Enviado:* ${formattedTimestamp}%0A%0A` +
                     `⭐ *Servicio General del Personal:* ${survey.overall_staff_service || 'N/A'}%0A` +
@@ -3835,7 +3836,7 @@
                     `🏷️ *Servicio Preferred Club:* ${survey.preferred_club_service || 'N/A'}%0A` +
                     `🤵 *Calificación del Mayordomo:* ${survey.butler_service_rating || 'N/A'}%0A%0A` +
                     `💬 *Comentario:*%0A${survey.comments || 'No hay comentarios.'}`;
-
+                
                 surveyCard.innerHTML = `
                     <h4>Encuesta #${dataToDisplay.length - index} (Enviada: ${formattedTimestamp})</h4>
                     <p><strong>Número de Habitación:</strong> ${survey.room_number || 'N/A'}</p>
