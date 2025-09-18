@@ -2642,6 +2642,1247 @@
             font-size: 0.8rem;
             opacity: 0.8;
         }
+
+        /* Estilos para el Modal de Análisis IA */
+        .ai-analysis-modal {
+            max-width: 1200px;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .ai-analysis-content {
+            padding: var(--spacing-lg);
+        }
+
+        .analysis-loading {
+            text-align: center;
+            padding: var(--spacing-2xl);
+        }
+
+        .analysis-loading .loading-spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid var(--border-light);
+            border-top: 4px solid var(--primary-color);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto var(--spacing-md);
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .analysis-results {
+            display: grid;
+            gap: var(--spacing-xl);
+        }
+
+        .analysis-summary {
+            background: linear-gradient(135deg, var(--primary-light) 0%, var(--primary-color) 100%);
+            border-radius: var(--radius-lg);
+            padding: var(--spacing-lg);
+            color: white;
+        }
+
+        .analysis-summary h4 {
+            color: white;
+            margin-top: 0;
+            margin-bottom: var(--spacing-md);
+            font-size: 1.25rem;
+            font-weight: 600;
+        }
+
+        .summary-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: var(--spacing-md);
+        }
+
+        .stat-item {
+            text-align: center;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: var(--radius-md);
+            padding: var(--spacing-md);
+        }
+
+        .stat-item .stat-number {
+            display: block;
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: var(--spacing-xs);
+            color: white;
+        }
+
+        .stat-item .stat-label {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
+        .problems-section, .keywords-section, .insights-section {
+            background: var(--card-background);
+            border-radius: var(--radius-lg);
+            padding: var(--spacing-lg);
+            border: 1px solid var(--border-light);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .problems-section h4, .keywords-section h4, .insights-section h4 {
+            color: var(--text-primary);
+            margin-top: 0;
+            margin-bottom: var(--spacing-md);
+            font-size: 1.125rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+        }
+
+        .problems-list {
+            display: grid;
+            gap: var(--spacing-md);
+        }
+
+        .problem-item {
+            background: linear-gradient(135deg, #fef2f2 0%, #fee2e2 100%);
+            border-left: 4px solid var(--error-color);
+            border-radius: var(--radius-md);
+            padding: var(--spacing-md);
+            transition: all 0.3s ease;
+        }
+
+        .problem-item:hover {
+            transform: translateX(4px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .problem-header {
+            display: flex;
+            justify-content: between;
+            align-items: center;
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .problem-title {
+            font-weight: 600;
+            color: var(--text-primary);
+            font-size: 1rem;
+        }
+
+        .problem-count {
+            background: var(--error-color);
+            color: white;
+            padding: var(--spacing-xs) var(--spacing-sm);
+            border-radius: var(--radius-sm);
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .problem-examples {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            margin-top: var(--spacing-sm);
+        }
+
+        .problem-examples strong {
+            color: var(--text-primary);
+        }
+
+        .problem-severity {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .problem-severity strong {
+            color: var(--text-primary);
+        }
+
+        .problem-rating-info {
+            font-size: 0.85rem;
+            color: var(--warning-color);
+            background: rgba(245, 158, 11, 0.1);
+            padding: var(--spacing-xs) var(--spacing-sm);
+            border-radius: var(--radius-sm);
+            margin-bottom: var(--spacing-sm);
+            border-left: 3px solid var(--warning-color);
+        }
+
+        .keywords-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: var(--spacing-md);
+        }
+
+        .keyword-item {
+            background: linear-gradient(135deg, var(--surface-color) 0%, var(--card-background) 100%);
+            border: 1px solid var(--border-light);
+            border-radius: var(--radius-md);
+            padding: var(--spacing-md);
+            text-align: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .keyword-item:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+            border-color: var(--primary-color);
+        }
+
+        .keyword-name {
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: var(--spacing-xs);
+        }
+
+        .keyword-count {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: var(--spacing-xs);
+        }
+
+        .keyword-category {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            background: var(--surface-color);
+            padding: var(--spacing-xs) var(--spacing-sm);
+            border-radius: var(--radius-sm);
+            display: inline-block;
+        }
+
+        .insights-list {
+            display: grid;
+            gap: var(--spacing-md);
+        }
+
+        .insight-item {
+            background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+            border-left: 4px solid var(--primary-color);
+            border-radius: var(--radius-md);
+            padding: var(--spacing-md);
+            transition: all 0.3s ease;
+        }
+
+        .insight-item:hover {
+            transform: translateX(4px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .insight-title {
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .insight-description {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            line-height: 1.5;
+        }
+
+        .analysis-actions {
+            display: flex;
+            gap: var(--spacing-md);
+            justify-content: center;
+            margin-top: var(--spacing-xl);
+            padding-top: var(--spacing-lg);
+            border-top: 1px solid var(--border-light);
+        }
+
+        .analysis-actions button {
+            padding: var(--spacing-md) var(--spacing-xl);
+            font-size: 1rem;
+            font-weight: 600;
+            border-radius: var(--radius-lg);
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .analysis-actions .btn-primary {
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+            color: white;
+            box-shadow: var(--shadow-md);
+        }
+
+        .analysis-actions .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .analysis-actions .btn-secondary {
+            background: var(--surface-color);
+            color: var(--text-primary);
+            border: 2px solid var(--border-light);
+        }
+
+        .analysis-actions .btn-secondary:hover {
+            background: var(--border-light);
+            transform: translateY(-2px);
+        }
+
+        /* Responsive para el modal de análisis */
+        @media (max-width: 768px) {
+            .ai-analysis-modal {
+                max-width: 95vw;
+                margin: var(--spacing-md);
+            }
+            
+            .summary-stats {
+                grid-template-columns: 1fr;
+            }
+            
+            .keywords-grid {
+                grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            }
+            
+            .analysis-actions {
+                flex-direction: column;
+            }
+        }
+
+        /* Estilos para el Modal de Detalles de Palabras Clave */
+        .keyword-details-modal {
+            max-width: 1400px;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .keyword-details-content {
+            padding: var(--spacing-lg);
+        }
+
+        .keyword-summary {
+            background: linear-gradient(135deg, var(--primary-light) 0%, var(--primary-color) 100%);
+            border-radius: var(--radius-lg);
+            padding: var(--spacing-lg);
+            color: white;
+            margin-bottom: var(--spacing-xl);
+        }
+
+        .keyword-info {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-md);
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .keyword-icon {
+            font-size: 3rem;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            width: 80px;
+            height: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .keyword-text h4 {
+            color: white;
+            margin: 0 0 var(--spacing-xs) 0;
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        .keyword-text p {
+            color: rgba(255, 255, 255, 0.9);
+            margin: 0;
+            font-size: 0.9rem;
+        }
+
+        .keyword-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: var(--spacing-md);
+        }
+
+        .keyword-stats .stat-item {
+            text-align: center;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: var(--radius-md);
+            padding: var(--spacing-md);
+        }
+
+        .keyword-stats .stat-item .stat-number {
+            display: block;
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: var(--spacing-xs);
+        }
+
+        .keyword-stats .stat-item .stat-label {
+            font-size: 0.8rem;
+            opacity: 0.9;
+        }
+
+        .comments-table-section {
+            background: var(--card-background);
+            border-radius: var(--radius-lg);
+            padding: var(--spacing-lg);
+            border: 1px solid var(--border-light);
+            box-shadow: var(--shadow-sm);
+            margin-bottom: var(--spacing-xl);
+        }
+
+        .comments-table-section h4 {
+            color: var(--text-primary);
+            margin-top: 0;
+            margin-bottom: var(--spacing-md);
+            font-size: 1.125rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+        }
+
+        .table-controls {
+            display: flex;
+            gap: var(--spacing-md);
+            align-items: center;
+            margin-bottom: var(--spacing-lg);
+            flex-wrap: wrap;
+        }
+
+        .table-controls input[type="search"] {
+            flex: 1;
+            min-width: 200px;
+            padding: var(--spacing-sm) var(--spacing-md);
+            border: 2px solid var(--border-color);
+            border-radius: var(--radius-md);
+            font-family: inherit;
+            font-size: 0.9rem;
+            color: var(--text-primary);
+            background: var(--card-background);
+            transition: all 0.2s ease;
+        }
+
+        .table-controls input[type="search"]:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+            outline: none;
+        }
+
+        .pagination-controls {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+        }
+
+        .pagination-controls button {
+            padding: var(--spacing-xs) var(--spacing-sm);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-sm);
+            background: var(--card-background);
+            color: var(--text-primary);
+            cursor: pointer;
+            font-size: 0.8rem;
+            transition: all 0.2s ease;
+        }
+
+        .pagination-controls button:hover:not(:disabled) {
+            background: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+        }
+
+        .pagination-controls button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .pagination-controls span {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+
+        .table-controls select {
+            padding: var(--spacing-sm) var(--spacing-md);
+            border: 2px solid var(--border-color);
+            border-radius: var(--radius-md);
+            font-family: inherit;
+            font-size: 0.9rem;
+            color: var(--text-primary);
+            background: var(--card-background);
+            cursor: pointer;
+        }
+
+        .keyword-comments-table-container {
+            overflow-x: auto;
+            border-radius: var(--radius-md);
+            border: 1px solid var(--border-light);
+        }
+
+        .keyword-comments-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: var(--card-background);
+        }
+
+        .keyword-comments-table th {
+            background: var(--surface-color);
+            color: var(--text-primary);
+            font-weight: 600;
+            padding: var(--spacing-md);
+            text-align: left;
+            border-bottom: 2px solid var(--border-color);
+            font-size: 0.9rem;
+        }
+
+        .keyword-comments-table td {
+            padding: var(--spacing-md);
+            border-bottom: 1px solid var(--border-light);
+            font-size: 0.85rem;
+            vertical-align: top;
+        }
+
+        .keyword-comments-table tbody tr:hover {
+            background: var(--surface-color);
+        }
+
+        .keyword-comments-table .comment-cell {
+            max-width: 300px;
+            word-wrap: break-word;
+            line-height: 1.4;
+        }
+
+        .keyword-comments-table .rating-cell {
+            text-align: center;
+        }
+
+        .keyword-comments-table .rating-badge {
+            padding: var(--spacing-xs) var(--spacing-sm);
+            border-radius: var(--radius-sm);
+            font-size: 0.8rem;
+            font-weight: 600;
+            display: inline-block;
+        }
+
+        .rating-badge.bad, .rating-badge.poor {
+            background: #fdeaea;
+            color: #dc2626;
+        }
+
+        .rating-badge.regular {
+            background: #fffbe6;
+            color: #d97706;
+        }
+
+        .rating-badge.good, .rating-badge.excellent {
+            background: #eafaf1;
+            color: #059669;
+        }
+
+        .keyword-comments-table .found-keywords {
+            font-size: 0.8rem;
+            color: var(--primary-color);
+            font-weight: 500;
+        }
+
+        .keyword-comments-table .found-keywords span {
+            background: var(--primary-light);
+            padding: 2px 6px;
+            border-radius: var(--radius-sm);
+            margin-right: var(--spacing-xs);
+            display: inline-block;
+            margin-bottom: var(--spacing-xs);
+        }
+
+        .keyword-actions {
+            display: flex;
+            gap: var(--spacing-md);
+            justify-content: center;
+            padding-top: var(--spacing-lg);
+            border-top: 1px solid var(--border-light);
+        }
+
+        .keyword-actions button {
+            padding: var(--spacing-md) var(--spacing-xl);
+            font-size: 1rem;
+            font-weight: 600;
+            border-radius: var(--radius-lg);
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .keyword-actions .btn-primary {
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+            color: white;
+            box-shadow: var(--shadow-md);
+        }
+
+        .keyword-actions .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .keyword-actions .btn-secondary {
+            background: var(--surface-color);
+            color: var(--text-primary);
+            border: 2px solid var(--border-light);
+        }
+
+        .keyword-actions .btn-secondary:hover {
+            background: var(--border-light);
+            transform: translateY(-2px);
+        }
+
+        /* Responsive para el modal de detalles de palabras clave */
+        @media (max-width: 768px) {
+            .keyword-details-modal {
+                max-width: 95vw;
+                margin: var(--spacing-md);
+            }
+            
+            .keyword-info {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .keyword-stats {
+                grid-template-columns: 1fr;
+            }
+            
+            .table-controls {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            
+            .keyword-comments-table {
+                font-size: 0.8rem;
+            }
+            
+            .keyword-comments-table th,
+            .keyword-comments-table td {
+                padding: var(--spacing-sm);
+            }
+            
+            .keyword-comments-table .comment-cell {
+                max-width: 200px;
+            }
+            
+            .keyword-actions {
+                flex-direction: column;
+            }
+        }
+
+        /* Estilos para el Modal de Detalles de Problemas */
+        .problems-details-modal {
+            max-width: 1600px;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .problems-details-content {
+            padding: var(--spacing-lg);
+        }
+
+        .problems-summary {
+            background: linear-gradient(135deg, #fef2f2 0%, #fee2e2 100%);
+            border-radius: var(--radius-lg);
+            padding: var(--spacing-lg);
+            margin-bottom: var(--spacing-xl);
+            border-left: 4px solid var(--error-color);
+        }
+
+        .problems-summary .summary-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: var(--spacing-md);
+        }
+
+        .problems-summary .stat-item {
+            text-align: center;
+            background: rgba(239, 68, 68, 0.1);
+            border-radius: var(--radius-md);
+            padding: var(--spacing-md);
+        }
+
+        .problems-summary .stat-item .stat-number {
+            display: block;
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--error-color);
+            margin-bottom: var(--spacing-xs);
+        }
+
+        .problems-summary .stat-item .stat-label {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+
+        .problems-categories-section {
+            background: var(--card-background);
+            border-radius: var(--radius-lg);
+            padding: var(--spacing-lg);
+            border: 1px solid var(--border-light);
+            box-shadow: var(--shadow-sm);
+            margin-bottom: var(--spacing-xl);
+        }
+
+        .problems-categories-section h4 {
+            color: var(--text-primary);
+            margin-top: 0;
+            margin-bottom: var(--spacing-md);
+            font-size: 1.125rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+        }
+
+        .problems-categories-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: var(--spacing-md);
+        }
+
+        .problem-category-card {
+            background: linear-gradient(135deg, var(--surface-color) 0%, var(--card-background) 100%);
+            border: 1px solid var(--border-light);
+            border-radius: var(--radius-md);
+            padding: var(--spacing-md);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .problem-category-card:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+            border-color: var(--error-color);
+        }
+
+        .problem-category-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .problem-category-name {
+            font-weight: 600;
+            color: var(--text-primary);
+            font-size: 1rem;
+        }
+
+        .problem-category-count {
+            background: var(--error-color);
+            color: white;
+            padding: var(--spacing-xs) var(--spacing-sm);
+            border-radius: var(--radius-sm);
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .problem-category-severity {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .problem-category-examples {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            font-style: italic;
+        }
+
+        .problems-table-section {
+            background: var(--card-background);
+            border-radius: var(--radius-lg);
+            padding: var(--spacing-lg);
+            border: 1px solid var(--border-light);
+            box-shadow: var(--shadow-sm);
+            margin-bottom: var(--spacing-xl);
+        }
+
+        .problems-table-section h4 {
+            color: var(--text-primary);
+            margin-top: 0;
+            margin-bottom: var(--spacing-md);
+            font-size: 1.125rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+        }
+
+        .filter-controls {
+            display: flex;
+            gap: var(--spacing-md);
+        }
+
+        .filter-controls select {
+            padding: var(--spacing-sm) var(--spacing-md);
+            border: 2px solid var(--border-color);
+            border-radius: var(--radius-md);
+            font-family: inherit;
+            font-size: 0.9rem;
+            color: var(--text-primary);
+            background: var(--card-background);
+            cursor: pointer;
+        }
+
+        .problems-table-container {
+            overflow-x: auto;
+            border-radius: var(--radius-md);
+            border: 1px solid var(--border-light);
+        }
+
+        .problems-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: var(--card-background);
+        }
+
+        .problems-table th {
+            background: var(--surface-color);
+            color: var(--text-primary);
+            font-weight: 600;
+            padding: var(--spacing-md);
+            text-align: left;
+            border-bottom: 2px solid var(--border-color);
+            font-size: 0.9rem;
+        }
+
+        .problems-table td {
+            padding: var(--spacing-md);
+            border-bottom: 1px solid var(--border-light);
+            font-size: 0.85rem;
+            vertical-align: top;
+        }
+
+        .problems-table tbody tr:hover {
+            background: var(--surface-color);
+        }
+
+        .problems-table .problem-cell {
+            max-width: 300px;
+            word-wrap: break-word;
+            line-height: 1.4;
+        }
+
+        .problems-table .severity-cell {
+            text-align: center;
+        }
+
+        .problems-table .severity-badge {
+            padding: var(--spacing-xs) var(--spacing-sm);
+            border-radius: var(--radius-sm);
+            font-size: 0.8rem;
+            font-weight: 600;
+            display: inline-block;
+        }
+
+        .severity-badge.high {
+            background: #fdeaea;
+            color: #dc2626;
+        }
+
+        .severity-badge.medium {
+            background: #fffbe6;
+            color: #d97706;
+        }
+
+        .severity-badge.low {
+            background: #eafaf1;
+            color: #059669;
+        }
+
+        .problems-table .detected-keywords {
+            font-size: 0.8rem;
+            color: var(--primary-color);
+            font-weight: 500;
+        }
+
+        .problems-table .detected-keywords span {
+            background: var(--primary-light);
+            padding: 2px 6px;
+            border-radius: var(--radius-sm);
+            margin-right: var(--spacing-xs);
+            display: inline-block;
+            margin-bottom: var(--spacing-xs);
+        }
+
+        .problems-actions {
+            display: flex;
+            gap: var(--spacing-md);
+            justify-content: center;
+            padding-top: var(--spacing-lg);
+            border-top: 1px solid var(--border-light);
+        }
+
+        .problems-actions button {
+            padding: var(--spacing-md) var(--spacing-xl);
+            font-size: 1rem;
+            font-weight: 600;
+            border-radius: var(--radius-lg);
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .problems-actions .btn-primary {
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+            color: white;
+            box-shadow: var(--shadow-md);
+        }
+
+        .problems-actions .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .problems-actions .btn-secondary {
+            background: var(--surface-color);
+            color: var(--text-primary);
+            border: 2px solid var(--border-light);
+        }
+
+        .problems-actions .btn-secondary:hover {
+            background: var(--border-light);
+            transform: translateY(-2px);
+        }
+
+        /* Responsive para el modal de problemas */
+        @media (max-width: 768px) {
+            .problems-details-modal {
+                max-width: 95vw;
+                margin: var(--spacing-md);
+            }
+            
+            .problems-summary .summary-stats {
+                grid-template-columns: 1fr;
+            }
+            
+            .problems-categories-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .table-controls {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            
+            .filter-controls {
+                flex-direction: column;
+            }
+            
+            .problems-table {
+                font-size: 0.8rem;
+            }
+            
+            .problems-table th,
+            .problems-table td {
+                padding: var(--spacing-sm);
+            }
+            
+            .problems-table .problem-cell {
+                max-width: 200px;
+            }
+            
+            .problems-actions {
+                flex-direction: column;
+            }
+        }
+
+        /* Estilos para el Modal de Detalles de Insights */
+        .insights-details-modal {
+            max-width: 1400px;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .insights-details-content {
+            padding: var(--spacing-lg);
+        }
+
+        .insights-summary {
+            background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+            border-radius: var(--radius-lg);
+            padding: var(--spacing-lg);
+            margin-bottom: var(--spacing-xl);
+            border-left: 4px solid var(--primary-color);
+        }
+
+        .insights-summary .summary-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: var(--spacing-md);
+        }
+
+        .insights-summary .stat-item {
+            text-align: center;
+            background: rgba(99, 102, 241, 0.1);
+            border-radius: var(--radius-md);
+            padding: var(--spacing-md);
+        }
+
+        .insights-summary .stat-item .stat-number {
+            display: block;
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: var(--spacing-xs);
+        }
+
+        .insights-summary .stat-item .stat-label {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+
+        .insights-list-section, .recommendations-section, .action-plan-section {
+            background: var(--card-background);
+            border-radius: var(--radius-lg);
+            padding: var(--spacing-lg);
+            border: 1px solid var(--border-light);
+            box-shadow: var(--shadow-sm);
+            margin-bottom: var(--spacing-xl);
+        }
+
+        .insights-list-section h4, .recommendations-section h4, .action-plan-section h4 {
+            color: var(--text-primary);
+            margin-top: 0;
+            margin-bottom: var(--spacing-md);
+            font-size: 1.125rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+        }
+
+        .insights-list {
+            display: grid;
+            gap: var(--spacing-md);
+        }
+
+        .detailed-insight-item {
+            background: linear-gradient(135deg, var(--surface-color) 0%, var(--card-background) 100%);
+            border-left: 4px solid var(--primary-color);
+            border-radius: var(--radius-md);
+            padding: var(--spacing-lg);
+            transition: all 0.3s ease;
+        }
+
+        .detailed-insight-item:hover {
+            transform: translateX(4px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .detailed-insight-item.high-priority {
+            border-left-color: var(--error-color);
+            background: linear-gradient(135deg, #fef2f2 0%, #fee2e2 100%);
+        }
+
+        .detailed-insight-item.medium-priority {
+            border-left-color: var(--warning-color);
+            background: linear-gradient(135deg, #fffbe6 0%, #fef3c7 100%);
+        }
+
+        .detailed-insight-item.low-priority {
+            border-left-color: var(--success-color);
+            background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+        }
+
+        .insight-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: var(--spacing-md);
+        }
+
+        .insight-title {
+            font-weight: 600;
+            color: var(--text-primary);
+            font-size: 1.1rem;
+        }
+
+        .insight-priority {
+            padding: var(--spacing-xs) var(--spacing-sm);
+            border-radius: var(--radius-sm);
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .insight-priority.high {
+            background: var(--error-color);
+            color: white;
+        }
+
+        .insight-priority.medium {
+            background: var(--warning-color);
+            color: white;
+        }
+
+        .insight-priority.low {
+            background: var(--success-color);
+            color: white;
+        }
+
+        .insight-description {
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            line-height: 1.6;
+            margin-bottom: var(--spacing-md);
+        }
+
+        .insight-details {
+            background: rgba(99, 102, 241, 0.05);
+            border-radius: var(--radius-md);
+            padding: var(--spacing-md);
+            margin-top: var(--spacing-md);
+        }
+
+        .insight-details h5 {
+            color: var(--text-primary);
+            margin: 0 0 var(--spacing-sm) 0;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+        .insight-details ul {
+            margin: 0;
+            padding-left: var(--spacing-lg);
+        }
+
+        .insight-details li {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            margin-bottom: var(--spacing-xs);
+        }
+
+        .recommendations-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: var(--spacing-md);
+        }
+
+        .recommendation-card {
+            background: linear-gradient(135deg, var(--surface-color) 0%, var(--card-background) 100%);
+            border: 1px solid var(--border-light);
+            border-radius: var(--radius-md);
+            padding: var(--spacing-md);
+            transition: all 0.3s ease;
+        }
+
+        .recommendation-card:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+            border-color: var(--primary-color);
+        }
+
+        .recommendation-title {
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: var(--spacing-sm);
+            font-size: 1rem;
+        }
+
+        .recommendation-description {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            line-height: 1.5;
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .recommendation-actions {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            font-style: italic;
+        }
+
+        .action-plan {
+            background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+            border-radius: var(--radius-md);
+            padding: var(--spacing-lg);
+            border-left: 4px solid var(--primary-color);
+        }
+
+        .action-plan h5 {
+            color: var(--text-primary);
+            margin: 0 0 var(--spacing-md) 0;
+            font-size: 1rem;
+            font-weight: 600;
+        }
+
+        .action-plan ol {
+            margin: 0;
+            padding-left: var(--spacing-lg);
+        }
+
+        .action-plan li {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            margin-bottom: var(--spacing-sm);
+            line-height: 1.5;
+        }
+
+        .insights-actions {
+            display: flex;
+            gap: var(--spacing-md);
+            justify-content: center;
+            padding-top: var(--spacing-lg);
+            border-top: 1px solid var(--border-light);
+        }
+
+        .insights-actions button {
+            padding: var(--spacing-md) var(--spacing-xl);
+            font-size: 1rem;
+            font-weight: 600;
+            border-radius: var(--radius-lg);
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .insights-actions .btn-primary {
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+            color: white;
+            box-shadow: var(--shadow-md);
+        }
+
+        .insights-actions .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .insights-actions .btn-secondary {
+            background: var(--surface-color);
+            color: var(--text-primary);
+            border: 2px solid var(--border-light);
+        }
+
+        .insights-actions .btn-secondary:hover {
+            background: var(--border-light);
+            transform: translateY(-2px);
+        }
+
+        /* Responsive para el modal de insights */
+        @media (max-width: 768px) {
+            .insights-details-modal {
+                max-width: 95vw;
+                margin: var(--spacing-md);
+            }
+            
+            .insights-summary .summary-stats {
+                grid-template-columns: 1fr;
+            }
+            
+            .recommendations-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .insights-actions {
+                flex-direction: column;
+            }
+        }
     </style>
 </head>
 <body>
@@ -2673,6 +3914,7 @@
                 <button id="viewTableBtn">Ver en Tabla</button> <button id="printReportBtn">Imprimir Reporte</button>
                 <button id="topButlersBtn">Top 10 Mayordomos</button>
                 <button id="butlerEffectivenessBtn">Efectividad de Mayordomos</button>
+                <button id="analyzeCommentsBtn">🤖 Análisis IA de Comentarios</button>
             </div>
 
             <h2>Resumen General</h2>
@@ -3018,6 +4260,284 @@
                         <button id="exportEmailsBtn" class="btn-primary">📥 Exportar Correos (CSV)</button>
                         <button id="copyEmailsBtn" class="btn-secondary">📋 Copiar Lista</button>
                     </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de Análisis IA de Comentarios -->
+    <div id="aiAnalysisModal" class="modal">
+        <div class="modal-content ai-analysis-modal">
+            <span class="close-button" id="closeAiAnalysisModal">&times;</span>
+            <h3>🤖 Análisis IA de Comentarios</h3>
+            
+            <div class="ai-analysis-content">
+                <div class="analysis-loading" id="analysisLoading" style="display: none;">
+                    <div class="loading-spinner"></div>
+                    <p>Analizando comentarios con IA...</p>
+                    <p class="loading-subtitle">Detectando problemas frecuentes</p>
+                </div>
+                
+                <div class="analysis-results" id="analysisResults" style="display: none;">
+                    <div class="analysis-summary">
+                        <h4>📊 Resumen del Análisis</h4>
+                        <div class="summary-stats">
+                            <div class="stat-item">
+                                <span class="stat-number" id="totalCommentsAnalyzed">0</span>
+                                <span class="stat-label">Comentarios Analizados</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-number" id="problemsDetected">0</span>
+                                <span class="stat-label">Problemas Detectados</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-number" id="positiveMentions">0</span>
+                                <span class="stat-label">Menciones Positivas</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="problems-section">
+                        <h4>🚨 Problemas Más Frecuentes</h4>
+                        <div class="problems-list" id="problemsList">
+                            <!-- Los problemas se cargarán aquí -->
+                        </div>
+                    </div>
+                    
+                    <div class="keywords-section">
+                        <h4>🔍 Palabras Clave Detectadas</h4>
+                        <div class="keywords-grid" id="keywordsGrid">
+                            <!-- Las palabras clave se cargarán aquí -->
+                        </div>
+                    </div>
+                    
+                    <div class="insights-section">
+                        <h4>💡 Insights y Recomendaciones</h4>
+                        <div class="insights-list" id="insightsList">
+                            <!-- Los insights se cargarán aquí -->
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="analysis-actions">
+                    <button id="exportAnalysisBtn" class="btn-primary">📥 Exportar Análisis</button>
+                    <button id="refreshAnalysisBtn" class="btn-secondary">🔄 Actualizar Análisis</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de Detalles de Palabras Clave -->
+    <div id="keywordDetailsModal" class="modal">
+        <div class="modal-content keyword-details-modal">
+            <span class="close-button" id="closeKeywordDetailsModal">&times;</span>
+            <h3 id="keywordDetailsTitle">🔍 Detalles de Palabra Clave</h3>
+            
+            <div class="keyword-details-content">
+                <div class="keyword-summary">
+                    <div class="keyword-info">
+                        <span id="keywordIcon" class="keyword-icon">🍺</span>
+                        <div class="keyword-text">
+                            <h4 id="keywordName">Servicios de Habitación</h4>
+                            <p id="keywordDescription">Palabras relacionadas: minibar, refrigerador, bebidas, drinks</p>
+                        </div>
+                    </div>
+                    <div class="keyword-stats">
+                        <div class="stat-item">
+                            <span class="stat-number" id="totalMentions">0</span>
+                            <span class="stat-label">Total Menciones</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number" id="positiveMentions">0</span>
+                            <span class="stat-label">Positivas</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number" id="negativeMentions">0</span>
+                            <span class="stat-label">Negativas</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="comments-table-section">
+                    <h4>📋 Comentarios que Contienen esta Palabra Clave</h4>
+                    <div class="table-controls">
+                        <input type="search" id="keywordTableSearch" placeholder="Buscar en comentarios...">
+                        <div class="pagination-controls">
+                            <button id="keywordPrevPage">Anterior</button>
+                            <span id="keywordCurrentPage">1</span> / <span id="keywordTotalPages">1</span>
+                            <button id="keywordNextPage">Siguiente</button>
+                        </div>
+                        <select id="keywordRowsPerPage">
+                            <option value="5">5 por página</option>
+                            <option value="10" selected>10 por página</option>
+                            <option value="20">20 por página</option>
+                        </select>
+                    </div>
+                    <div class="keyword-comments-table-container">
+                        <table class="keyword-comments-table">
+                            <thead>
+                                <tr>
+                                    <th>Fecha</th>
+                                    <th>Habitación</th>
+                                    <th>Mayordomo</th>
+                                    <th>Calificación</th>
+                                    <th>Comentario</th>
+                                    <th>Palabras Encontradas</th>
+                                </tr>
+                            </thead>
+                            <tbody id="keywordCommentsTableBody">
+                                <!-- Los comentarios se cargarán aquí -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                
+                <div class="keyword-actions">
+                    <button id="exportKeywordDetailsBtn" class="btn-primary">📥 Exportar Detalles</button>
+                    <button id="closeKeywordDetailsBtn" class="btn-secondary">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de Detalles de Problemas Más Frecuentes -->
+    <div id="problemsDetailsModal" class="modal">
+        <div class="modal-content problems-details-modal">
+            <span class="close-button" id="closeProblemsDetailsModal">&times;</span>
+            <h3>🚨 Detalles de Problemas Más Frecuentes</h3>
+            
+            <div class="problems-details-content">
+                <div class="problems-summary">
+                    <div class="summary-stats">
+                        <div class="stat-item">
+                            <span class="stat-number" id="totalProblemsFound">0</span>
+                            <span class="stat-label">Total Problemas</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number" id="criticalProblemsCount">0</span>
+                            <span class="stat-label">Críticos</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number" id="problemsWithGoodRatings">0</span>
+                            <span class="stat-label">En Calificaciones Buenas</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="problems-categories-section">
+                    <h4>📊 Problemas por Categoría</h4>
+                    <div class="problems-categories-grid" id="problemsCategoriesGrid">
+                        <!-- Las categorías de problemas se cargarán aquí -->
+                    </div>
+                </div>
+                
+                <div class="problems-table-section">
+                    <h4>📋 Lista Detallada de Problemas</h4>
+                    <div class="table-controls">
+                        <input type="search" id="problemsTableSearch" placeholder="Buscar en problemas...">
+                        <div class="filter-controls">
+                            <select id="severityFilter">
+                                <option value="">Todas las severidades</option>
+                                <option value="high">🔴 Críticos</option>
+                                <option value="medium">🟡 Moderados</option>
+                                <option value="low">🟢 Menores</option>
+                            </select>
+                            <select id="ratingFilter">
+                                <option value="">Todas las calificaciones</option>
+                                <option value="Bad">Bad</option>
+                                <option value="Poor">Poor</option>
+                                <option value="Regular">Regular</option>
+                                <option value="Good">Good</option>
+                                <option value="Excellent">Excellent</option>
+                            </select>
+                        </div>
+                        <div class="pagination-controls">
+                            <button id="problemsPrevPage">Anterior</button>
+                            <span id="problemsCurrentPage">1</span> / <span id="problemsTotalPages">1</span>
+                            <button id="problemsNextPage">Siguiente</button>
+                        </div>
+                        <select id="problemsRowsPerPage">
+                            <option value="10" selected>10 por página</option>
+                            <option value="20">20 por página</option>
+                            <option value="50">50 por página</option>
+                        </select>
+                    </div>
+                    <div class="problems-table-container">
+                        <table class="problems-table">
+                            <thead>
+                                <tr>
+                                    <th>Fecha</th>
+                                    <th>Habitación</th>
+                                    <th>Mayordomo</th>
+                                    <th>Calificación</th>
+                                    <th>Severidad</th>
+                                    <th>Problema</th>
+                                    <th>Palabras Detectadas</th>
+                                </tr>
+                            </thead>
+                            <tbody id="problemsTableBody">
+                                <!-- Los problemas se cargarán aquí -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                
+                <div class="problems-actions">
+                    <button id="exportProblemsDetailsBtn" class="btn-primary">📥 Exportar Problemas</button>
+                    <button id="closeProblemsDetailsBtn" class="btn-secondary">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de Detalles de Insights y Recomendaciones -->
+    <div id="insightsDetailsModal" class="modal">
+        <div class="modal-content insights-details-modal">
+            <span class="close-button" id="closeInsightsDetailsModal">&times;</span>
+            <h3>💡 Detalles de Insights y Recomendaciones</h3>
+            
+            <div class="insights-details-content">
+                <div class="insights-summary">
+                    <div class="summary-stats">
+                        <div class="stat-item">
+                            <span class="stat-number" id="totalInsightsFound">0</span>
+                            <span class="stat-label">Total Insights</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number" id="highPriorityInsights">0</span>
+                            <span class="stat-label">Alta Prioridad</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number" id="actionableInsights">0</span>
+                            <span class="stat-label">Accionables</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="insights-list-section">
+                    <h4>📋 Lista Detallada de Insights</h4>
+                    <div class="insights-list" id="detailedInsightsList">
+                        <!-- Los insights detallados se cargarán aquí -->
+                    </div>
+                </div>
+                
+                <div class="recommendations-section">
+                    <h4>🎯 Recomendaciones Específicas</h4>
+                    <div class="recommendations-grid" id="recommendationsGrid">
+                        <!-- Las recomendaciones se cargarán aquí -->
+                    </div>
+                </div>
+                
+                <div class="action-plan-section">
+                    <h4>📅 Plan de Acción Sugerido</h4>
+                    <div class="action-plan" id="actionPlan">
+                        <!-- El plan de acción se cargará aquí -->
+                    </div>
+                </div>
+                
+                <div class="insights-actions">
+                    <button id="exportInsightsDetailsBtn" class="btn-primary">📥 Exportar Insights</button>
+                    <button id="closeInsightsDetailsBtn" class="btn-secondary">Cerrar</button>
                 </div>
             </div>
         </div>
@@ -6320,6 +7840,1561 @@
             document.body.removeChild(a);
             URL.revokeObjectURL(url);
         });
+
+        // === FUNCIONALIDAD DE ANÁLISIS IA DE COMENTARIOS ===
+        
+        // Palabras clave predefinidas para análisis
+        const KEYWORD_CATEGORIES = {
+            'minibar': {
+                keywords: ['minibar', 'minibar', 'refrigerador', 'fridge', 'bebidas', 'drinks', 'snacks', 'botanas'],
+                category: 'Servicios de Habitación',
+                icon: '🍺'
+            },
+            'cleaning': {
+                keywords: ['limpieza', 'cleaning', 'limpio', 'clean', 'sucio', 'dirty', 'basura', 'trash', 'orden', 'tidy'],
+                category: 'Limpieza',
+                icon: '🧹'
+            },
+            'room': {
+                keywords: ['habitación', 'room', 'cuarto', 'bedroom', 'baño', 'bathroom', 'cama', 'bed', 'aire', 'air conditioning'],
+                category: 'Habitación',
+                icon: '🏨'
+            },
+            'food': {
+                keywords: ['comida', 'food', 'restaurante', 'restaurant', 'desayuno', 'breakfast', 'cena', 'dinner', 'almuerzo', 'lunch'],
+                category: 'Alimentación',
+                icon: '🍽️'
+            },
+            'service': {
+                keywords: ['servicio', 'service', 'atencion', 'attention', 'personal', 'staff', 'empleados', 'employees'],
+                category: 'Servicio',
+                icon: '👥'
+            },
+            'pool': {
+                keywords: ['piscina', 'pool', 'playa', 'beach', 'mar', 'sea', 'agua', 'water'],
+                category: 'Recreación',
+                icon: '🏊'
+            },
+            'spa': {
+                keywords: ['spa', 'masaje', 'massage', 'relajación', 'relaxation', 'bienestar', 'wellness'],
+                category: 'Spa y Bienestar',
+                icon: '🧘'
+            },
+            'wifi': {
+                keywords: ['wifi', 'internet', 'conexión', 'connection', 'red', 'network', 'señal', 'signal'],
+                category: 'Tecnología',
+                icon: '📶'
+            },
+            'noise': {
+                keywords: ['ruido', 'noise', 'sonido', 'sound', 'música', 'music', 'fiesta', 'party', 'tranquilo', 'quiet'],
+                category: 'Ambiente',
+                icon: '🔇'
+            },
+            'maintenance': {
+                keywords: ['mantenimiento', 'maintenance', 'reparación', 'repair', 'arreglo', 'fix', 'daño', 'damage'],
+                category: 'Mantenimiento',
+                icon: '🔧'
+            },
+            'negative_words': {
+                keywords: [
+                    // Palabras negativas generales
+                    'no', 'not', 'bad', 'poor', 'terrible', 'awful', 'horrible', 'worst', 'disappointed', 'disappointing',
+                    'unhappy', 'unsatisfied', 'frustrated', 'angry', 'upset', 'annoyed', 'bothered', 'irritated',
+                    
+                    // Problemas específicos mencionados
+                    'stuck', 'stucked', 'stuck', 'broken', 'not working', 'doesn\'t work', 'won\'t work', 'malfunction',
+                    'defective', 'faulty', 'damaged', 'torn', 'ripped', 'cracked', 'leaking', 'leak', 'dripping',
+                    
+                    // Problemas de temperatura y clima
+                    'cold', 'hot', 'freezing', 'boiling', 'thermostat', 'temperature', 'air conditioning', 'ac',
+                    'heating', 'heat', 'cooling', 'fan', 'ventilation', 'vent', 'airflow',
+                    
+                    // Problemas de agua
+                    'water', 'pressure', 'low pressure', 'no water', 'dirty water', 'brown water', 'smelly water',
+                    'shower', 'bathtub', 'sink', 'faucet', 'toilet', 'flush', 'drain', 'clogged', 'blocked',
+                    
+                    // Problemas de limpieza específicos
+                    'dirty', 'filthy', 'stained', 'stains', 'spots', 'marks', 'dusty', 'dust', 'hair', 'hairs',
+                    'cobwebs', 'spider webs', 'mold', 'mildew', 'smell', 'odor', 'stinky', 'smelly', 'foul',
+                    
+                    // Problemas de ruido específicos
+                    'loud', 'noisy', 'disturbing', 'bothering', 'keeping awake', 'can\'t sleep', 'sleeping',
+                    'construction', 'drilling', 'hammering', 'music', 'tv', 'television', 'neighbors', 'next door',
+                    
+                    // Problemas de servicio específicos
+                    'slow', 'slowly', 'delay', 'delayed', 'late', 'waiting', 'wait', 'waited', 'rude', 'impolite',
+                    'unhelpful', 'unfriendly', 'ignored', 'ignoring', 'forgot', 'forgotten', 'missing', 'lost',
+                    
+                    // Problemas de comida específicos
+                    'cold food', 'hot food', 'burnt', 'raw', 'undercooked', 'overcooked', 'tasteless', 'bland',
+                    'spicy', 'too spicy', 'salty', 'too salty', 'sweet', 'too sweet', 'sour', 'bitter',
+                    
+                    // Problemas de mobiliario y equipos
+                    'chair', 'table', 'desk', 'bed', 'mattress', 'pillow', 'sheets', 'blanket', 'towel', 'towels',
+                    'tv', 'television', 'remote', 'control', 'safe', 'refrigerator', 'fridge', 'microwave',
+                    'coffee maker', 'iron', 'hairdryer', 'dryer', 'not functioning', 'not functional',
+                    
+                    // Problemas de ubicación y acceso
+                    'far', 'too far', 'distance', 'walking', 'stairs', 'elevator', 'lift', 'floor', 'level',
+                    'view', 'no view', 'blocked view', 'obstructed', 'noise from', 'traffic', 'street',
+                    
+                    // Palabras de insatisfacción específicas
+                    'expecting', 'expected', 'disappointed', 'let down', 'not as advertised', 'misleading',
+                    'false advertising', 'not worth', 'waste of money', 'overpriced', 'expensive', 'costly',
+                    'should be', 'could be better', 'needs improvement', 'room for improvement'
+                ],
+                category: 'Problemas Detectados',
+                icon: '⚠️'
+            }
+        };
+
+        // Función principal de análisis IA
+        async function analyzeCommentsWithAI() {
+            const modal = document.getElementById('aiAnalysisModal');
+            const loadingDiv = document.getElementById('analysisLoading');
+            const resultsDiv = document.getElementById('analysisResults');
+            
+            // Mostrar modal y loading
+            modal.style.display = 'flex';
+            loadingDiv.style.display = 'block';
+            resultsDiv.style.display = 'none';
+            
+            try {
+                // Simular delay para mostrar loading (en producción esto sería una llamada real a IA)
+                await new Promise(resolve => setTimeout(resolve, 2000));
+                
+                // Obtener todos los comentarios de las encuestas filtradas
+                const comments = filteredSurveysData
+                    .filter(survey => survey.comments && survey.comments.trim() !== '')
+                    .map(survey => ({
+                        comment: survey.comments.toLowerCase(),
+                        rating: survey.overall_staff_service,
+                        room: survey.room_number,
+                        butler: survey.butler,
+                        timestamp: survey.timestamp
+                    }));
+                
+                // Realizar análisis
+                const analysis = performCommentAnalysis(comments);
+                
+                // Mostrar resultados
+                displayAnalysisResults(analysis);
+                
+                loadingDiv.style.display = 'none';
+                resultsDiv.style.display = 'block';
+                
+            } catch (error) {
+                console.error('Error en análisis de comentarios:', error);
+                loadingDiv.style.display = 'none';
+                alert('Error al analizar los comentarios. Por favor, inténtalo de nuevo.');
+            }
+        }
+
+        // Función para realizar el análisis de comentarios
+        function performCommentAnalysis(comments) {
+            const keywordCounts = {};
+            const problemPatterns = {};
+            const positiveMentions = [];
+            const negativeMentions = [];
+            const detectedProblems = []; // Nuevo: problemas detectados independientemente de calificación
+            
+            // Inicializar contadores
+            Object.keys(KEYWORD_CATEGORIES).forEach(category => {
+                keywordCounts[category] = 0;
+                problemPatterns[category] = [];
+            });
+            
+            // Analizar cada comentario
+            comments.forEach(({ comment, rating, room, butler }) => {
+                const sentiment = getSentimentFromRating(rating);
+                
+                // Buscar palabras clave en cada categoría
+                Object.entries(KEYWORD_CATEGORIES).forEach(([category, data]) => {
+                    const foundKeywords = data.keywords.filter(keyword => 
+                        comment.includes(keyword.toLowerCase())
+                    );
+                    
+                    if (foundKeywords.length > 0) {
+                        keywordCounts[category]++;
+                        
+                        // NUEVA LÓGICA: Detectar problemas independientemente de calificación
+                        if (category === 'negative_words') {
+                            // Las palabras negativas siempre indican problemas, sin importar la calificación
+                            detectedProblems.push({
+                                category: 'Problemas Detectados',
+                                keywords: foundKeywords,
+                                comment: comment.substring(0, 150) + '...',
+                                room,
+                                butler,
+                                rating, // Incluir calificación para contexto
+                                severity: getProblemSeverity(foundKeywords, comment)
+                            });
+                            problemPatterns[category].push({
+                                keywords: foundKeywords,
+                                comment: comment.substring(0, 150) + '...',
+                                room,
+                                butler,
+                                rating,
+                                severity: getProblemSeverity(foundKeywords, comment)
+                            });
+                        } else {
+                            // Para otras categorías, mantener lógica original pero también detectar problemas
+                            if (sentiment === 'negative') {
+                                negativeMentions.push({
+                                    category,
+                                    keywords: foundKeywords,
+                                    comment: comment.substring(0, 100) + '...',
+                                    room,
+                                    butler
+                                });
+                                problemPatterns[category].push({
+                                    keywords: foundKeywords,
+                                    comment: comment.substring(0, 100) + '...',
+                                    room,
+                                    butler
+                                });
+                            } else if (sentiment === 'positive') {
+                                positiveMentions.push({
+                                    category,
+                                    keywords: foundKeywords,
+                                    comment: comment.substring(0, 100) + '...',
+                                    room,
+                                    butler
+                                });
+                            }
+                        }
+                    }
+                });
+            });
+            
+            // Generar insights mejorados
+            const insights = generateInsights(keywordCounts, problemPatterns, positiveMentions, negativeMentions, detectedProblems);
+            
+            return {
+                totalComments: comments.length,
+                keywordCounts,
+                problemPatterns,
+                positiveMentions,
+                negativeMentions,
+                detectedProblems, // Nuevo campo
+                insights,
+                problemsDetected: Object.values(problemPatterns).reduce((sum, problems) => sum + problems.length, 0)
+            };
+        }
+
+        // Función para determinar la severidad del problema basada en palabras clave
+        function getProblemSeverity(foundKeywords, comment) {
+            const highSeverityWords = ['terrible', 'awful', 'horrible', 'worst', 'broken', 'not working', 'defective', 'faulty'];
+            const mediumSeverityWords = ['bad', 'poor', 'disappointed', 'frustrated', 'angry', 'upset', 'annoyed'];
+            const lowSeverityWords = ['no', 'not', 'cold', 'hot', 'slow', 'late', 'missing'];
+            
+            const commentLower = comment.toLowerCase();
+            
+            // Verificar palabras de alta severidad
+            if (foundKeywords.some(keyword => highSeverityWords.includes(keyword.toLowerCase())) ||
+                highSeverityWords.some(word => commentLower.includes(word))) {
+                return 'high';
+            }
+            
+            // Verificar palabras de severidad media
+            if (foundKeywords.some(keyword => mediumSeverityWords.includes(keyword.toLowerCase())) ||
+                mediumSeverityWords.some(word => commentLower.includes(word))) {
+                return 'medium';
+            }
+            
+            // Verificar palabras de baja severidad
+            if (foundKeywords.some(keyword => lowSeverityWords.includes(keyword.toLowerCase())) ||
+                lowSeverityWords.some(word => commentLower.includes(word))) {
+                return 'low';
+            }
+            
+            return 'medium'; // Default
+        }
+
+        // Función para determinar el sentimiento basado en la calificación
+        function getSentimentFromRating(rating) {
+            if (rating === 'Bad' || rating === 'Poor') return 'negative';
+            if (rating === 'Good' || rating === 'Excellent') return 'positive';
+            return 'neutral';
+        }
+
+        // Función para generar insights automáticos mejorados
+        function generateInsights(keywordCounts, problemPatterns, positiveMentions, negativeMentions, detectedProblems) {
+            const insights = [];
+            
+            // NUEVO: Insight sobre problemas detectados independientemente de calificación
+            if (detectedProblems.length > 0) {
+                const highSeverityProblems = detectedProblems.filter(p => p.severity === 'high').length;
+                const mediumSeverityProblems = detectedProblems.filter(p => p.severity === 'medium').length;
+                const lowSeverityProblems = detectedProblems.filter(p => p.severity === 'low').length;
+                
+                if (highSeverityProblems > 0) {
+                    insights.push({
+                        title: '🚨 Problemas Críticos Detectados en Comentarios',
+                        description: `Se detectaron ${highSeverityProblems} problemas críticos en comentarios (incluso con calificaciones buenas). Palabras como "terrible", "broken", "not working" indican problemas serios que requieren atención inmediata.`,
+                        priority: 'high'
+                    });
+                }
+                
+                if (mediumSeverityProblems > 0) {
+                    insights.push({
+                        title: '⚠️ Problemas Moderados Identificados',
+                        description: `Se encontraron ${mediumSeverityProblems} problemas moderados en comentarios. Palabras como "bad", "poor", "disappointed" sugieren áreas de mejora importantes.`,
+                        priority: 'medium'
+                    });
+                }
+                
+                if (lowSeverityProblems > 0) {
+                    insights.push({
+                        title: '📝 Observaciones Menores',
+                        description: `Se identificaron ${lowSeverityProblems} observaciones menores. Palabras como "no", "not", "cold", "hot" pueden indicar ajustes menores necesarios.`,
+                        priority: 'low'
+                    });
+                }
+                
+                // Insight sobre problemas con calificaciones buenas
+                const problemsWithGoodRatings = detectedProblems.filter(p => 
+                    p.rating === 'Good' || p.rating === 'Excellent'
+                ).length;
+                
+                if (problemsWithGoodRatings > 0) {
+                    insights.push({
+                        title: '🔍 Problemas Ocultos Detectados',
+                        description: `Se encontraron ${problemsWithGoodRatings} problemas en comentarios de huéspedes que calificaron bien. Esto indica que algunos problemas pueden estar siendo pasados por alto en las calificaciones generales.`,
+                        priority: 'high'
+                    });
+                }
+            }
+            
+            // Insight sobre problemas más frecuentes (lógica original mejorada)
+            const topProblems = Object.entries(problemPatterns)
+                .filter(([_, problems]) => problems.length > 0)
+                .sort(([_, a], [__, b]) => b.length - a.length)
+                .slice(0, 3);
+            
+            if (topProblems.length > 0) {
+                insights.push({
+                    title: '📊 Categorías con Más Problemas',
+                    description: `Las categorías con más problemas reportados son: ${topProblems.map(([category, _]) => KEYWORD_CATEGORIES[category].category).join(', ')}. Se recomienda revisar estos aspectos prioritariamente.`,
+                    priority: 'high'
+                });
+            }
+            
+            // Insight sobre aspectos positivos
+            const topPositive = Object.entries(positiveMentions.reduce((acc, mention) => {
+                acc[mention.category] = (acc[mention.category] || 0) + 1;
+                return acc;
+            }, {}))
+                .sort(([_, a], [__, b]) => b - a)
+                .slice(0, 3);
+            
+            if (topPositive.length > 0) {
+                insights.push({
+                    title: '✅ Fortalezas Identificadas',
+                    description: `Los huéspedes destacan positivamente: ${topPositive.map(([category, _]) => KEYWORD_CATEGORIES[category].category).join(', ')}. Continúen manteniendo estos estándares.`,
+                    priority: 'medium'
+                });
+            }
+            
+            // Insight sobre distribución de comentarios mejorado
+            const totalMentions = positiveMentions.length + negativeMentions.length;
+            const totalProblems = detectedProblems.length;
+            
+            if (totalMentions > 0) {
+                const positiveRatio = (positiveMentions.length / totalMentions) * 100;
+                if (positiveRatio > 70) {
+                    insights.push({
+                        title: '🎉 Excelente Satisfacción General',
+                        description: `El ${positiveRatio.toFixed(1)}% de las menciones son positivas, indicando un alto nivel de satisfacción del cliente. Sin embargo, se detectaron ${totalProblems} problemas adicionales que requieren atención.`,
+                        priority: 'medium'
+                    });
+                } else if (positiveRatio < 30) {
+                    insights.push({
+                        title: '🚨 Atención Requerida',
+                        description: `Solo el ${positiveRatio.toFixed(1)}% de las menciones son positivas. Se recomienda una revisión integral de los servicios. Además, se detectaron ${totalProblems} problemas adicionales.`,
+                        priority: 'high'
+                    });
+                }
+            }
+            
+            // NUEVO: Insight sobre palabras negativas más frecuentes
+            if (detectedProblems.length > 0) {
+                const allNegativeWords = detectedProblems.flatMap(p => p.keywords);
+                const wordFrequency = {};
+                allNegativeWords.forEach(word => {
+                    wordFrequency[word] = (wordFrequency[word] || 0) + 1;
+                });
+                
+                const topNegativeWords = Object.entries(wordFrequency)
+                    .sort(([_, a], [__, b]) => b - a)
+                    .slice(0, 5);
+                
+                if (topNegativeWords.length > 0) {
+                    insights.push({
+                        title: '🔤 Palabras Negativas Más Frecuentes',
+                        description: `Las palabras negativas más mencionadas son: ${topNegativeWords.map(([word, count]) => `"${word}" (${count} veces)`).join(', ')}. Estas palabras indican problemas específicos que requieren atención.`,
+                        priority: 'medium'
+                    });
+                }
+            }
+            
+            return insights;
+        }
+
+        // Función para mostrar los resultados del análisis
+        function displayAnalysisResults(analysis) {
+            // Guardar análisis actual para uso posterior
+            window.currentAnalysis = analysis;
+            
+            // Actualizar estadísticas generales
+            document.getElementById('totalCommentsAnalyzed').textContent = analysis.totalComments;
+            document.getElementById('problemsDetected').textContent = analysis.problemsDetected;
+            document.getElementById('positiveMentions').textContent = analysis.positiveMentions.length;
+            
+            // Mostrar problemas más frecuentes
+            displayProblems(analysis.problemPatterns);
+            
+            // Mostrar palabras clave detectadas
+            displayKeywords(analysis.keywordCounts);
+            
+            // Mostrar insights
+            displayInsights(analysis.insights);
+        }
+
+        // Función para mostrar problemas detectados mejorada
+        function displayProblems(problemPatterns) {
+            const problemsList = document.getElementById('problemsList');
+            problemsList.innerHTML = '';
+            
+            const problemsWithCounts = Object.entries(problemPatterns)
+                .filter(([_, problems]) => problems.length > 0)
+                .sort(([_, a], [__, b]) => b.length - a.length);
+            
+            problemsWithCounts.forEach(([category, problems]) => {
+                const categoryData = KEYWORD_CATEGORIES[category];
+                const problemDiv = document.createElement('div');
+                problemDiv.className = 'problem-item';
+                problemDiv.style.cursor = 'pointer';
+                problemDiv.title = 'Haz clic para ver todos los detalles de problemas';
+                
+                // Calcular estadísticas de severidad para esta categoría
+                const severityStats = problems.reduce((acc, p) => {
+                    if (p.severity) {
+                        acc[p.severity] = (acc[p.severity] || 0) + 1;
+                    }
+                    return acc;
+                }, {});
+                
+                // Calcular problemas con calificaciones buenas
+                const problemsWithGoodRatings = problems.filter(p => 
+                    p.rating === 'Good' || p.rating === 'Excellent'
+                ).length;
+                
+                // Crear ejemplos con información de severidad y calificación
+                const examples = problems.slice(0, 3).map(p => {
+                    const severityIcon = p.severity === 'high' ? '🔴' : 
+                                       p.severity === 'medium' ? '🟡' : '🟢';
+                    const ratingInfo = p.rating ? ` (Calificación: ${p.rating})` : '';
+                    return `${severityIcon} ${p.comment}${ratingInfo}`;
+                }).join(' | ');
+                
+                // Crear información de severidad
+                let severityInfo = '';
+                if (severityStats.high) severityInfo += `🔴 ${severityStats.high} críticos `;
+                if (severityStats.medium) severityInfo += `🟡 ${severityStats.medium} moderados `;
+                if (severityStats.low) severityInfo += `🟢 ${severityStats.low} menores `;
+                
+                // Información adicional sobre calificaciones
+                let ratingInfo = '';
+                if (problemsWithGoodRatings > 0) {
+                    ratingInfo = `<div class="problem-rating-info">⚠️ ${problemsWithGoodRatings} problemas detectados en calificaciones buenas</div>`;
+                }
+                
+                problemDiv.innerHTML = `
+                    <div class="problem-header">
+                        <span class="problem-title">${categoryData.icon} ${categoryData.category}</span>
+                        <span class="problem-count">${problems.length} menciones</span>
+                    </div>
+                    <div class="problem-severity">
+                        <strong>Severidad:</strong> ${severityInfo}
+                    </div>
+                    ${ratingInfo}
+                    <div class="problem-examples">
+                        <strong>Ejemplos:</strong> ${examples}
+                    </div>
+                `;
+                
+                // Agregar evento de clic para mostrar detalles
+                problemDiv.addEventListener('click', () => {
+                    showProblemsDetails();
+                });
+                
+                problemsList.appendChild(problemDiv);
+            });
+            
+            if (problemsWithCounts.length === 0) {
+                problemsList.innerHTML = '<p style="text-align: center; color: var(--text-secondary);">No se detectaron problemas frecuentes en los comentarios.</p>';
+            }
+        }
+
+        // Función para mostrar palabras clave detectadas
+        function displayKeywords(keywordCounts) {
+            const keywordsGrid = document.getElementById('keywordsGrid');
+            keywordsGrid.innerHTML = '';
+            
+            const sortedKeywords = Object.entries(keywordCounts)
+                .filter(([_, count]) => count > 0)
+                .sort(([_, a], [__, b]) => b - a);
+            
+            sortedKeywords.forEach(([category, count]) => {
+                const categoryData = KEYWORD_CATEGORIES[category];
+                const keywordDiv = document.createElement('div');
+                keywordDiv.className = 'keyword-item';
+                keywordDiv.style.cursor = 'pointer';
+                keywordDiv.title = 'Haz clic para ver detalles de esta palabra clave';
+                
+                keywordDiv.innerHTML = `
+                    <div class="keyword-name">${categoryData.icon} ${categoryData.category}</div>
+                    <div class="keyword-count">${count}</div>
+                    <div class="keyword-category">${categoryData.keywords.slice(0, 3).join(', ')}</div>
+                `;
+                
+                // Agregar evento de clic para mostrar detalles
+                keywordDiv.addEventListener('click', () => {
+                    showKeywordDetails(category);
+                });
+                
+                keywordsGrid.appendChild(keywordDiv);
+            });
+            
+            if (sortedKeywords.length === 0) {
+                keywordsGrid.innerHTML = '<p style="text-align: center; color: var(--text-secondary);">No se detectaron palabras clave en los comentarios.</p>';
+            }
+        }
+
+        // Función para mostrar insights
+        function displayInsights(insights) {
+            const insightsList = document.getElementById('insightsList');
+            insightsList.innerHTML = '';
+            
+            insights.forEach(insight => {
+                const insightDiv = document.createElement('div');
+                insightDiv.className = 'insight-item';
+                insightDiv.style.cursor = 'pointer';
+                insightDiv.title = 'Haz clic para ver detalles completos de insights y recomendaciones';
+                
+                const priorityIcon = insight.priority === 'high' ? '🔴' : 
+                                   insight.priority === 'medium' ? '🟡' : '🟢';
+                
+                insightDiv.innerHTML = `
+                    <div class="insight-title">${priorityIcon} ${insight.title}</div>
+                    <div class="insight-description">${insight.description}</div>
+                `;
+                
+                // Agregar evento de clic para mostrar detalles
+                insightDiv.addEventListener('click', () => {
+                    showInsightsDetails();
+                });
+                
+                insightsList.appendChild(insightDiv);
+            });
+            
+            if (insights.length === 0) {
+                insightsList.innerHTML = '<p style="text-align: center; color: var(--text-secondary);">No se generaron insights específicos para estos comentarios.</p>';
+            }
+        }
+
+        // Event listeners para el modal de análisis IA
+        const analyzeCommentsBtn = document.getElementById('analyzeCommentsBtn');
+        const aiAnalysisModal = document.getElementById('aiAnalysisModal');
+        const closeAiAnalysisModal = document.getElementById('closeAiAnalysisModal');
+        const exportAnalysisBtn = document.getElementById('exportAnalysisBtn');
+        const refreshAnalysisBtn = document.getElementById('refreshAnalysisBtn');
+
+        analyzeCommentsBtn.addEventListener('click', analyzeCommentsWithAI);
+
+        closeAiAnalysisModal.addEventListener('click', () => {
+            aiAnalysisModal.style.display = 'none';
+        });
+
+        window.addEventListener('click', function(event) {
+            if (event.target == aiAnalysisModal) {
+                aiAnalysisModal.style.display = 'none';
+            }
+        });
+
+        exportAnalysisBtn.addEventListener('click', () => {
+            // Implementar exportación del análisis
+            const analysisData = {
+                timestamp: new Date().toISOString(),
+                totalComments: document.getElementById('totalCommentsAnalyzed').textContent,
+                problemsDetected: document.getElementById('problemsDetected').textContent,
+                positiveMentions: document.getElementById('positiveMentions').textContent
+            };
+            
+            const csvContent = [
+                ['Análisis IA de Comentarios', ''],
+                ['Fecha de Análisis', analysisData.timestamp],
+                ['Total Comentarios Analizados', analysisData.totalComments],
+                ['Problemas Detectados', analysisData.problemsDetected],
+                ['Menciones Positivas', analysisData.positiveMentions]
+            ].map(row => row.map(cell => `"${cell}"`).join(',')).join('\n');
+            
+            const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `analisis_comentarios_${new Date().toISOString().split('T')[0]}.csv`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        });
+
+        refreshAnalysisBtn.addEventListener('click', analyzeCommentsWithAI);
+
+        // === FUNCIONALIDAD DE DETALLES DE PALABRAS CLAVE ===
+        
+        // Variables para paginación de la tabla de comentarios
+        let keywordCurrentPage = 1;
+        let keywordRowsPerPage = 10;
+        let keywordTotalPages = 1;
+        let keywordFilteredComments = [];
+        let keywordCurrentCategory = '';
+
+        // Función para mostrar detalles de una palabra clave específica
+        function showKeywordDetails(category) {
+            keywordCurrentCategory = category;
+            const modal = document.getElementById('keywordDetailsModal');
+            const categoryData = KEYWORD_CATEGORIES[category];
+            
+            // Actualizar información del modal
+            document.getElementById('keywordDetailsTitle').textContent = `🔍 Detalles de ${categoryData.category}`;
+            document.getElementById('keywordIcon').textContent = categoryData.icon;
+            document.getElementById('keywordName').textContent = categoryData.category;
+            document.getElementById('keywordDescription').textContent = `Palabras relacionadas: ${categoryData.keywords.join(', ')}`;
+            
+            // Obtener comentarios que contienen esta palabra clave
+            const comments = getCommentsForKeyword(category);
+            keywordFilteredComments = comments;
+            
+            // Calcular estadísticas
+            const stats = calculateKeywordStats(comments);
+            document.getElementById('totalMentions').textContent = stats.total;
+            document.getElementById('positiveMentions').textContent = stats.positive;
+            document.getElementById('negativeMentions').textContent = stats.negative;
+            
+            // Configurar paginación
+            keywordTotalPages = Math.ceil(comments.length / keywordRowsPerPage);
+            keywordCurrentPage = 1;
+            
+            // Renderizar tabla
+            renderKeywordCommentsTable();
+            
+            // Mostrar modal
+            modal.style.display = 'flex';
+        }
+
+        // Función para obtener comentarios que contienen una palabra clave específica
+        function getCommentsForKeyword(category) {
+            const categoryData = KEYWORD_CATEGORIES[category];
+            const comments = [];
+            
+            filteredSurveysData.forEach(survey => {
+                if (survey.comments && survey.comments.trim() !== '') {
+                    const commentLower = survey.comments.toLowerCase();
+                    const foundKeywords = categoryData.keywords.filter(keyword => 
+                        commentLower.includes(keyword.toLowerCase())
+                    );
+                    
+                    if (foundKeywords.length > 0) {
+                        comments.push({
+                            timestamp: survey.timestamp,
+                            room: survey.room_number,
+                            butler: survey.butler,
+                            rating: survey.overall_staff_service,
+                            comment: survey.comments,
+                            foundKeywords: foundKeywords,
+                            sentiment: getSentimentFromRating(survey.overall_staff_service)
+                        });
+                    }
+                }
+            });
+            
+            // Ordenar por fecha (más recientes primero)
+            return comments.sort((a, b) => {
+                const dateA = a.timestamp && a.timestamp.toDate ? a.timestamp.toDate() : new Date(a.timestamp);
+                const dateB = b.timestamp && b.timestamp.toDate ? b.timestamp.toDate() : new Date(b.timestamp);
+                return dateB - dateA;
+            });
+        }
+
+        // Función para calcular estadísticas de una palabra clave
+        function calculateKeywordStats(comments) {
+            let positive = 0;
+            let negative = 0;
+            
+            comments.forEach(comment => {
+                if (comment.sentiment === 'positive') positive++;
+                else if (comment.sentiment === 'negative') negative++;
+            });
+            
+            return {
+                total: comments.length,
+                positive: positive,
+                negative: negative
+            };
+        }
+
+        // Función para renderizar la tabla de comentarios
+        function renderKeywordCommentsTable() {
+            const tbody = document.getElementById('keywordCommentsTableBody');
+            tbody.innerHTML = '';
+            
+            const startIndex = (keywordCurrentPage - 1) * keywordRowsPerPage;
+            const endIndex = startIndex + keywordRowsPerPage;
+            const pageComments = keywordFilteredComments.slice(startIndex, endIndex);
+            
+            pageComments.forEach(comment => {
+                const row = document.createElement('tr');
+                
+                // Formatear fecha
+                const dateStr = comment.timestamp && comment.timestamp.toDate ? 
+                    comment.timestamp.toDate().toLocaleDateString() : 
+                    new Date(comment.timestamp).toLocaleDateString();
+                
+                // Crear badge de calificación
+                const ratingClass = comment.rating ? comment.rating.toLowerCase() : 'regular';
+                const ratingBadge = `<span class="rating-badge ${ratingClass}">${comment.rating || 'N/A'}</span>`;
+                
+                // Crear badges de palabras encontradas
+                const keywordBadges = comment.foundKeywords.map(keyword => 
+                    `<span>${keyword}</span>`
+                ).join('');
+                
+                row.innerHTML = `
+                    <td>${dateStr}</td>
+                    <td>${comment.room || 'N/A'}</td>
+                    <td>${comment.butler || 'N/A'}</td>
+                    <td class="rating-cell">${ratingBadge}</td>
+                    <td class="comment-cell">${comment.comment}</td>
+                    <td class="found-keywords">${keywordBadges}</td>
+                `;
+                
+                tbody.appendChild(row);
+            });
+            
+            // Actualizar controles de paginación
+            updateKeywordPaginationControls();
+        }
+
+        // Función para actualizar controles de paginación
+        function updateKeywordPaginationControls() {
+            document.getElementById('keywordCurrentPage').textContent = keywordCurrentPage;
+            document.getElementById('keywordTotalPages').textContent = keywordTotalPages;
+            
+            const prevBtn = document.getElementById('keywordPrevPage');
+            const nextBtn = document.getElementById('keywordNextPage');
+            
+            prevBtn.disabled = keywordCurrentPage === 1;
+            nextBtn.disabled = keywordCurrentPage === keywordTotalPages;
+        }
+
+        // Función para aplicar búsqueda en la tabla de comentarios
+        function applyKeywordTableSearch() {
+            const searchTerm = document.getElementById('keywordTableSearch').value.toLowerCase().trim();
+            
+            if (searchTerm === '') {
+                keywordFilteredComments = getCommentsForKeyword(keywordCurrentCategory);
+            } else {
+                const allComments = getCommentsForKeyword(keywordCurrentCategory);
+                keywordFilteredComments = allComments.filter(comment => 
+                    comment.comment.toLowerCase().includes(searchTerm) ||
+                    (comment.room && comment.room.toString().toLowerCase().includes(searchTerm)) ||
+                    (comment.butler && comment.butler.toLowerCase().includes(searchTerm)) ||
+                    (comment.rating && comment.rating.toLowerCase().includes(searchTerm))
+                );
+            }
+            
+            keywordTotalPages = Math.ceil(keywordFilteredComments.length / keywordRowsPerPage);
+            keywordCurrentPage = 1;
+            renderKeywordCommentsTable();
+        }
+
+        // Función para exportar detalles de la palabra clave
+        function exportKeywordDetails() {
+            const categoryData = KEYWORD_CATEGORIES[keywordCurrentCategory];
+            const csvContent = [
+                [`Detalles de ${categoryData.category}`, ''],
+                ['Fecha de Exportación', new Date().toISOString()],
+                ['Total Menciones', keywordFilteredComments.length],
+                ['Menciones Positivas', document.getElementById('positiveMentions').textContent],
+                ['Menciones Negativas', document.getElementById('negativeMentions').textContent],
+                [''],
+                ['Fecha', 'Habitación', 'Mayordomo', 'Calificación', 'Comentario', 'Palabras Encontradas'],
+                ...keywordFilteredComments.map(comment => [
+                    comment.timestamp && comment.timestamp.toDate ? 
+                        comment.timestamp.toDate().toLocaleDateString() : 
+                        new Date(comment.timestamp).toLocaleDateString(),
+                    comment.room || 'N/A',
+                    comment.butler || 'N/A',
+                    comment.rating || 'N/A',
+                    `"${comment.comment.replace(/"/g, '""')}"`,
+                    comment.foundKeywords.join(', ')
+                ])
+            ].map(row => row.map(cell => `"${cell}"`).join(',')).join('\n');
+            
+            const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `detalles_${keywordCurrentCategory}_${new Date().toISOString().split('T')[0]}.csv`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+
+        // Event listeners para el modal de detalles de palabras clave
+        const keywordDetailsModal = document.getElementById('keywordDetailsModal');
+        const closeKeywordDetailsModal = document.getElementById('closeKeywordDetailsModal');
+        const closeKeywordDetailsBtn = document.getElementById('closeKeywordDetailsBtn');
+        const exportKeywordDetailsBtn = document.getElementById('exportKeywordDetailsBtn');
+        const keywordTableSearch = document.getElementById('keywordTableSearch');
+        const keywordPrevPage = document.getElementById('keywordPrevPage');
+        const keywordNextPage = document.getElementById('keywordNextPage');
+        const keywordRowsPerPageSelect = document.getElementById('keywordRowsPerPage');
+
+        closeKeywordDetailsModal.addEventListener('click', () => {
+            keywordDetailsModal.style.display = 'none';
+        });
+
+        closeKeywordDetailsBtn.addEventListener('click', () => {
+            keywordDetailsModal.style.display = 'none';
+        });
+
+        window.addEventListener('click', function(event) {
+            if (event.target == keywordDetailsModal) {
+                keywordDetailsModal.style.display = 'none';
+            }
+        });
+
+        exportKeywordDetailsBtn.addEventListener('click', exportKeywordDetails);
+
+        keywordTableSearch.addEventListener('input', applyKeywordTableSearch);
+
+        keywordPrevPage.addEventListener('click', () => {
+            if (keywordCurrentPage > 1) {
+                keywordCurrentPage--;
+                renderKeywordCommentsTable();
+            }
+        });
+
+        keywordNextPage.addEventListener('click', () => {
+            if (keywordCurrentPage < keywordTotalPages) {
+                keywordCurrentPage++;
+                renderKeywordCommentsTable();
+            }
+        });
+
+        keywordRowsPerPageSelect.addEventListener('change', (event) => {
+            keywordRowsPerPage = parseInt(event.target.value);
+            keywordTotalPages = Math.ceil(keywordFilteredComments.length / keywordRowsPerPage);
+            keywordCurrentPage = 1;
+            renderKeywordCommentsTable();
+        });
+
+        // === FUNCIONALIDAD DE DETALLES DE PROBLEMAS MÁS FRECUENTES ===
+        
+        // Variables para paginación de la tabla de problemas
+        let problemsCurrentPage = 1;
+        let problemsRowsPerPage = 10;
+        let problemsTotalPages = 1;
+        let problemsFilteredData = [];
+        let allProblemsData = [];
+
+        // Función para mostrar detalles de problemas más frecuentes
+        function showProblemsDetails() {
+            const modal = document.getElementById('problemsDetailsModal');
+            
+            // Recopilar todos los problemas detectados
+            allProblemsData = collectAllProblems();
+            problemsFilteredData = [...allProblemsData];
+            
+            // Actualizar estadísticas generales
+            updateProblemsSummary(allProblemsData);
+            
+            // Mostrar categorías de problemas
+            displayProblemsCategories(allProblemsData);
+            
+            // Configurar paginación
+            problemsTotalPages = Math.ceil(problemsFilteredData.length / problemsRowsPerPage);
+            problemsCurrentPage = 1;
+            
+            // Renderizar tabla
+            renderProblemsTable();
+            
+            // Mostrar modal
+            modal.style.display = 'flex';
+        }
+
+        // Función para recopilar todos los problemas detectados
+        function collectAllProblems() {
+            const allProblems = [];
+            
+            // Obtener problemas de la categoría negative_words
+            if (window.currentAnalysis && window.currentAnalysis.detectedProblems) {
+                window.currentAnalysis.detectedProblems.forEach(problem => {
+                    allProblems.push({
+                        timestamp: problem.timestamp || new Date(),
+                        room: problem.room,
+                        butler: problem.butler,
+                        rating: problem.rating,
+                        severity: problem.severity,
+                        comment: problem.comment,
+                        keywords: problem.keywords,
+                        category: 'Problemas Detectados',
+                        categoryIcon: '⚠️'
+                    });
+                });
+            }
+            
+            // Obtener problemas de otras categorías (basados en calificaciones negativas)
+            if (window.currentAnalysis && window.currentAnalysis.problemPatterns) {
+                Object.entries(window.currentAnalysis.problemPatterns).forEach(([category, problems]) => {
+                    if (category !== 'negative_words' && problems.length > 0) {
+                        problems.forEach(problem => {
+                            allProblems.push({
+                                timestamp: problem.timestamp || new Date(),
+                                room: problem.room,
+                                butler: problem.butler,
+                                rating: problem.rating,
+                                severity: problem.severity || 'medium',
+                                comment: problem.comment,
+                                keywords: problem.keywords,
+                                category: KEYWORD_CATEGORIES[category].category,
+                                categoryIcon: KEYWORD_CATEGORIES[category].icon
+                            });
+                        });
+                    }
+                });
+            }
+            
+            // Ordenar por fecha (más recientes primero)
+            return allProblems.sort((a, b) => {
+                const dateA = a.timestamp && a.timestamp.toDate ? a.timestamp.toDate() : new Date(a.timestamp);
+                const dateB = b.timestamp && b.timestamp.toDate ? b.timestamp.toDate() : new Date(b.timestamp);
+                return dateB - dateA;
+            });
+        }
+
+        // Función para actualizar el resumen de problemas
+        function updateProblemsSummary(problems) {
+            const totalProblems = problems.length;
+            const criticalProblems = problems.filter(p => p.severity === 'high').length;
+            const problemsWithGoodRatings = problems.filter(p => 
+                p.rating === 'Good' || p.rating === 'Excellent'
+            ).length;
+            
+            document.getElementById('totalProblemsFound').textContent = totalProblems;
+            document.getElementById('criticalProblemsCount').textContent = criticalProblems;
+            document.getElementById('problemsWithGoodRatings').textContent = problemsWithGoodRatings;
+        }
+
+        // Función para mostrar categorías de problemas
+        function displayProblemsCategories(problems) {
+            const categoriesGrid = document.getElementById('problemsCategoriesGrid');
+            categoriesGrid.innerHTML = '';
+            
+            // Agrupar problemas por categoría
+            const categoryGroups = {};
+            problems.forEach(problem => {
+                if (!categoryGroups[problem.category]) {
+                    categoryGroups[problem.category] = {
+                        problems: [],
+                        icon: problem.categoryIcon
+                    };
+                }
+                categoryGroups[problem.category].problems.push(problem);
+            });
+            
+            // Crear tarjetas para cada categoría
+            Object.entries(categoryGroups).forEach(([category, data]) => {
+                const cardDiv = document.createElement('div');
+                cardDiv.className = 'problem-category-card';
+                
+                const severityStats = data.problems.reduce((acc, p) => {
+                    acc[p.severity] = (acc[p.severity] || 0) + 1;
+                    return acc;
+                }, {});
+                
+                const severityInfo = [];
+                if (severityStats.high) severityInfo.push(`🔴 ${severityStats.high}`);
+                if (severityStats.medium) severityInfo.push(`🟡 ${severityStats.medium}`);
+                if (severityStats.low) severityInfo.push(`🟢 ${severityStats.low}`);
+                
+                const examples = data.problems.slice(0, 2).map(p => 
+                    p.comment.substring(0, 50) + '...'
+                ).join(' | ');
+                
+                cardDiv.innerHTML = `
+                    <div class="problem-category-header">
+                        <span class="problem-category-name">${data.icon} ${category}</span>
+                        <span class="problem-category-count">${data.problems.length}</span>
+                    </div>
+                    <div class="problem-category-severity">
+                        <strong>Severidad:</strong> ${severityInfo.join(' ')}
+                    </div>
+                    <div class="problem-category-examples">
+                        ${examples}
+                    </div>
+                `;
+                
+                categoriesGrid.appendChild(cardDiv);
+            });
+            
+            if (Object.keys(categoryGroups).length === 0) {
+                categoriesGrid.innerHTML = '<p style="text-align: center; color: var(--text-secondary);">No se detectaron problemas en los comentarios.</p>';
+            }
+        }
+
+        // Función para renderizar la tabla de problemas
+        function renderProblemsTable() {
+            const tbody = document.getElementById('problemsTableBody');
+            tbody.innerHTML = '';
+            
+            const startIndex = (problemsCurrentPage - 1) * problemsRowsPerPage;
+            const endIndex = startIndex + problemsRowsPerPage;
+            const pageProblems = problemsFilteredData.slice(startIndex, endIndex);
+            
+            pageProblems.forEach(problem => {
+                const row = document.createElement('tr');
+                
+                // Formatear fecha
+                const dateStr = problem.timestamp && problem.timestamp.toDate ? 
+                    problem.timestamp.toDate().toLocaleDateString() : 
+                    new Date(problem.timestamp).toLocaleDateString();
+                
+                // Crear badge de calificación
+                const ratingClass = problem.rating ? problem.rating.toLowerCase() : 'regular';
+                const ratingBadge = `<span class="rating-badge ${ratingClass}">${problem.rating || 'N/A'}</span>`;
+                
+                // Crear badge de severidad
+                const severityBadge = `<span class="severity-badge ${problem.severity}">${problem.severity.toUpperCase()}</span>`;
+                
+                // Crear badges de palabras detectadas
+                const keywordBadges = problem.keywords.map(keyword => 
+                    `<span>${keyword}</span>`
+                ).join('');
+                
+                row.innerHTML = `
+                    <td>${dateStr}</td>
+                    <td>${problem.room || 'N/A'}</td>
+                    <td>${problem.butler || 'N/A'}</td>
+                    <td class="rating-cell">${ratingBadge}</td>
+                    <td class="severity-cell">${severityBadge}</td>
+                    <td class="problem-cell">${problem.comment}</td>
+                    <td class="detected-keywords">${keywordBadges}</td>
+                `;
+                
+                tbody.appendChild(row);
+            });
+            
+            // Actualizar controles de paginación
+            updateProblemsPaginationControls();
+        }
+
+        // Función para actualizar controles de paginación
+        function updateProblemsPaginationControls() {
+            document.getElementById('problemsCurrentPage').textContent = problemsCurrentPage;
+            document.getElementById('problemsTotalPages').textContent = problemsTotalPages;
+            
+            const prevBtn = document.getElementById('problemsPrevPage');
+            const nextBtn = document.getElementById('problemsNextPage');
+            
+            prevBtn.disabled = problemsCurrentPage === 1;
+            nextBtn.disabled = problemsCurrentPage === problemsTotalPages;
+        }
+
+        // Función para aplicar filtros a la tabla de problemas
+        function applyProblemsFilters() {
+            const searchTerm = document.getElementById('problemsTableSearch').value.toLowerCase().trim();
+            const severityFilter = document.getElementById('severityFilter').value;
+            const ratingFilter = document.getElementById('ratingFilter').value;
+            
+            problemsFilteredData = allProblemsData.filter(problem => {
+                // Filtro de búsqueda
+                if (searchTerm && !problem.comment.toLowerCase().includes(searchTerm) &&
+                    !(problem.room && problem.room.toString().toLowerCase().includes(searchTerm)) &&
+                    !(problem.butler && problem.butler.toLowerCase().includes(searchTerm))) {
+                    return false;
+                }
+                
+                // Filtro de severidad
+                if (severityFilter && problem.severity !== severityFilter) {
+                    return false;
+                }
+                
+                // Filtro de calificación
+                if (ratingFilter && problem.rating !== ratingFilter) {
+                    return false;
+                }
+                
+                return true;
+            });
+            
+            problemsTotalPages = Math.ceil(problemsFilteredData.length / problemsRowsPerPage);
+            problemsCurrentPage = 1;
+            renderProblemsTable();
+        }
+
+        // Función para exportar detalles de problemas
+        function exportProblemsDetails() {
+            const csvContent = [
+                ['Detalles de Problemas Detectados', ''],
+                ['Fecha de Exportación', new Date().toISOString()],
+                ['Total Problemas', problemsFilteredData.length],
+                ['Problemas Críticos', problemsFilteredData.filter(p => p.severity === 'high').length],
+                ['Problemas en Calificaciones Buenas', problemsFilteredData.filter(p => p.rating === 'Good' || p.rating === 'Excellent').length],
+                [''],
+                ['Fecha', 'Habitación', 'Mayordomo', 'Calificación', 'Severidad', 'Categoría', 'Problema', 'Palabras Detectadas'],
+                ...problemsFilteredData.map(problem => [
+                    problem.timestamp && problem.timestamp.toDate ? 
+                        problem.timestamp.toDate().toLocaleDateString() : 
+                        new Date(problem.timestamp).toLocaleDateString(),
+                    problem.room || 'N/A',
+                    problem.butler || 'N/A',
+                    problem.rating || 'N/A',
+                    problem.severity.toUpperCase(),
+                    problem.category,
+                    `"${problem.comment.replace(/"/g, '""')}"`,
+                    problem.keywords.join(', ')
+                ])
+            ].map(row => row.map(cell => `"${cell}"`).join(',')).join('\n');
+            
+            const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `problemas_detectados_${new Date().toISOString().split('T')[0]}.csv`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+
+        // Event listeners para el modal de detalles de problemas
+        const problemsDetailsModal = document.getElementById('problemsDetailsModal');
+        const closeProblemsDetailsModal = document.getElementById('closeProblemsDetailsModal');
+        const closeProblemsDetailsBtn = document.getElementById('closeProblemsDetailsBtn');
+        const exportProblemsDetailsBtn = document.getElementById('exportProblemsDetailsBtn');
+        const problemsTableSearch = document.getElementById('problemsTableSearch');
+        const severityFilter = document.getElementById('severityFilter');
+        const ratingFilter = document.getElementById('ratingFilter');
+        const problemsPrevPage = document.getElementById('problemsPrevPage');
+        const problemsNextPage = document.getElementById('problemsNextPage');
+        const problemsRowsPerPageSelect = document.getElementById('problemsRowsPerPage');
+
+        closeProblemsDetailsModal.addEventListener('click', () => {
+            problemsDetailsModal.style.display = 'none';
+        });
+
+        closeProblemsDetailsBtn.addEventListener('click', () => {
+            problemsDetailsModal.style.display = 'none';
+        });
+
+        window.addEventListener('click', function(event) {
+            if (event.target == problemsDetailsModal) {
+                problemsDetailsModal.style.display = 'none';
+            }
+        });
+
+        exportProblemsDetailsBtn.addEventListener('click', exportProblemsDetails);
+
+        problemsTableSearch.addEventListener('input', applyProblemsFilters);
+        severityFilter.addEventListener('change', applyProblemsFilters);
+        ratingFilter.addEventListener('change', applyProblemsFilters);
+
+        problemsPrevPage.addEventListener('click', () => {
+            if (problemsCurrentPage > 1) {
+                problemsCurrentPage--;
+                renderProblemsTable();
+            }
+        });
+
+        problemsNextPage.addEventListener('click', () => {
+            if (problemsCurrentPage < problemsTotalPages) {
+                problemsCurrentPage++;
+                renderProblemsTable();
+            }
+        });
+
+        problemsRowsPerPageSelect.addEventListener('change', (event) => {
+            problemsRowsPerPage = parseInt(event.target.value);
+            problemsTotalPages = Math.ceil(problemsFilteredData.length / problemsRowsPerPage);
+            problemsCurrentPage = 1;
+            renderProblemsTable();
+        });
+
+        // ====== FUNCIONES PARA INSIGHTS Y RECOMENDACIONES ======
+
+        // Función principal para mostrar detalles de insights
+        function showInsightsDetails() {
+            const insightsDetailsModal = document.getElementById('insightsDetailsModal');
+            const totalInsightsFound = document.getElementById('totalInsightsFound');
+            const highPriorityInsights = document.getElementById('highPriorityInsights');
+            const actionableInsights = document.getElementById('actionableInsights');
+            const detailedInsightsList = document.getElementById('detailedInsightsList');
+            const recommendationsGrid = document.getElementById('recommendationsGrid');
+            const actionPlan = document.getElementById('actionPlan');
+            
+            if (!window.currentAnalysis || !window.currentAnalysis.insights) {
+                alert('No hay datos de análisis disponibles. Por favor, ejecuta el análisis IA primero.');
+                return;
+            }
+            
+            const insights = window.currentAnalysis.insights;
+            
+            // Actualizar estadísticas de resumen
+            const highPriorityCount = insights.filter(i => i.priority === 'high').length;
+            const actionableCount = insights.filter(i => i.text.includes('Recomendación:') || i.text.includes('Acción:')).length;
+            
+            totalInsightsFound.textContent = insights.length;
+            highPriorityInsights.textContent = highPriorityCount;
+            actionableInsights.textContent = actionableCount;
+            
+            // Mostrar insights detallados
+            displayDetailedInsights(insights);
+            
+            // Generar y mostrar recomendaciones específicas
+            const recommendations = generateSpecificRecommendations(window.currentAnalysis);
+            displayRecommendations(recommendations);
+            
+            // Generar y mostrar plan de acción
+            const actionPlanData = generateActionPlan(window.currentAnalysis, recommendations);
+            displayActionPlan(actionPlanData);
+            
+            insightsDetailsModal.style.display = 'flex';
+        }
+        
+        // Función para mostrar insights detallados
+        function displayDetailedInsights(insights) {
+            const detailedInsightsList = document.getElementById('detailedInsightsList');
+            detailedInsightsList.innerHTML = '';
+            
+            insights.forEach((insight, index) => {
+                const insightDiv = document.createElement('div');
+                insightDiv.className = `detailed-insight-item ${insight.priority}-priority`;
+                
+                const priorityText = insight.priority === 'high' ? 'Alta' : 
+                                  insight.priority === 'medium' ? 'Media' : 'Baja';
+                
+                // Crear detalles adicionales basados en el tipo de insight
+                const details = generateInsightDetails(insight, window.currentAnalysis);
+                
+                insightDiv.innerHTML = `
+                    <div class="insight-header">
+                        <span class="insight-title">💡 Insight ${index + 1}</span>
+                        <span class="insight-priority ${insight.priority}">${priorityText}</span>
+                    </div>
+                    <div class="insight-description">
+                        ${insight.text}
+                    </div>
+                    ${details ? `
+                        <div class="insight-details">
+                            <h5>📊 Detalles Específicos:</h5>
+                            ${details}
+                        </div>
+                    ` : ''}
+                `;
+                
+                detailedInsightsList.appendChild(insightDiv);
+            });
+        }
+        
+        // Función para generar detalles específicos de cada insight
+        function generateInsightDetails(insight, analysis) {
+            const text = insight.text.toLowerCase();
+            
+            // Detalles para problemas críticos
+            if (text.includes('problemas críticos')) {
+                const criticalProblems = analysis.detectedProblems.filter(p => p.severity === 'high');
+                if (criticalProblems.length > 0) {
+                    const topKeywords = [...new Set(criticalProblems.flatMap(p => p.keywords))].slice(0, 5);
+                    return `
+                        <ul>
+                            <li><strong>Problemas críticos encontrados:</strong> ${criticalProblems.length}</li>
+                            <li><strong>Palabras más frecuentes:</strong> ${topKeywords.join(', ')}</li>
+                            <li><strong>Habitaciones más afectadas:</strong> ${[...new Set(criticalProblems.map(p => p.room).filter(r => r))].slice(0, 3).join(', ')}</li>
+                        </ul>
+                    `;
+                }
+            }
+            
+            // Detalles para problemas ocultos
+            if (text.includes('problemas ocultos')) {
+                const hiddenProblems = analysis.detectedProblems.filter(p => 
+                    p.rating && (p.rating === 'Good' || p.rating === 'Excellent')
+                );
+                if (hiddenProblems.length > 0) {
+                    return `
+                        <ul>
+                            <li><strong>Comentarios con buenas calificaciones pero problemas:</strong> ${hiddenProblems.length}</li>
+                            <li><strong>Porcentaje del total:</strong> ${((hiddenProblems.length / analysis.detectedProblems.length) * 100).toFixed(1)}%</li>
+                            <li><strong>Esto indica:</strong> Los huéspedes pueden estar siendo corteses a pesar de tener problemas</li>
+                        </ul>
+                    `;
+                }
+            }
+            
+            // Detalles para categorías específicas
+            if (text.includes('minibar') || text.includes('limpieza') || text.includes('habitación')) {
+                const categoryStats = {};
+                Object.entries(analysis.keywordCounts).forEach(([category, count]) => {
+                    if (count > 0) categoryStats[category] = count;
+                });
+                
+                const topCategories = Object.entries(categoryStats)
+                    .sort((a, b) => b[1] - a[1])
+                    .slice(0, 5);
+                
+                if (topCategories.length > 0) {
+                    return `
+                        <ul>
+                            <li><strong>Categorías más mencionadas:</strong></li>
+                            ${topCategories.map(([cat, count]) => 
+                                `<li style="margin-left: 20px;">• ${KEYWORD_CATEGORIES[cat]?.category || cat}: ${count} menciones</li>`
+                            ).join('')}
+                        </ul>
+                    `;
+                }
+            }
+            
+            return null;
+        }
+        
+        // Función para generar recomendaciones específicas
+        function generateSpecificRecommendations(analysis) {
+            const recommendations = [];
+            
+            // Recomendaciones basadas en problemas críticos
+            const criticalProblems = analysis.detectedProblems.filter(p => p.severity === 'high');
+            if (criticalProblems.length > 0) {
+                recommendations.push({
+                    title: '🚨 Atención Inmediata a Problemas Críticos',
+                    description: `Se detectaron ${criticalProblems.length} problemas críticos que requieren acción inmediata. Estos pueden estar afectando significativamente la experiencia del huésped.`,
+                    actions: 'Revisar inmediatamente las habitaciones y servicios mencionados, implementar protocolos de resolución rápida.'
+                });
+            }
+            
+            // Recomendaciones basadas en categorías más problemáticas
+            const topProblematicCategories = Object.entries(analysis.problemPatterns)
+                .filter(([cat, problems]) => problems.length > 2)
+                .sort((a, b) => b[1].length - a[1].length)
+                .slice(0, 3);
+            
+            topProblematicCategories.forEach(([category, problems]) => {
+                const categoryData = KEYWORD_CATEGORIES[category];
+                if (categoryData) {
+                    recommendations.push({
+                        title: `${categoryData.icon} Mejoras en ${categoryData.category}`,
+                        description: `Se detectaron ${problems.length} menciones de problemas relacionados con ${categoryData.category.toLowerCase()}. Esta área necesita atención especial.`,
+                        actions: 'Capacitar al personal, revisar procesos, implementar controles de calidad adicionales.'
+                    });
+                }
+            });
+            
+            // Recomendaciones para problemas ocultos
+            const hiddenProblems = analysis.detectedProblems.filter(p => 
+                p.rating && (p.rating === 'Good' || p.rating === 'Excellent')
+            );
+            if (hiddenProblems.length > 5) {
+                recommendations.push({
+                    title: '🔍 Detección Proactiva de Problemas',
+                    description: `${hiddenProblems.length} huéspedes reportaron problemas a pesar de dar buenas calificaciones. Esto sugiere la necesidad de ser más proactivos en la detección de issues.`,
+                    actions: 'Implementar seguimientos post-check-in, entrenar al personal para detectar señales sutiles de insatisfacción.'
+                });
+            }
+            
+            // Recomendaciones de capacitación
+            const serviceProblems = analysis.problemPatterns['negative_words']?.filter(p => 
+                p.keywords.some(k => ['rude', 'slow', 'unfriendly', 'ignored'].includes(k))
+            ) || [];
+            
+            if (serviceProblems.length > 0) {
+                recommendations.push({
+                    title: '👥 Capacitación en Servicio al Cliente',
+                    description: `Se detectaron ${serviceProblems.length} menciones de problemas de servicio. Es fundamental mejorar la atención al huésped.`,
+                    actions: 'Programa de capacitación intensiva, establecer estándares de servicio claros, implementar sistema de feedback interno.'
+                });
+            }
+            
+            // Recomendación de mantenimiento
+            const maintenanceProblems = analysis.detectedProblems.filter(p => 
+                p.keywords.some(k => ['broken', 'not working', 'stuck', 'leak'].includes(k))
+            );
+            
+            if (maintenanceProblems.length > 0) {
+                recommendations.push({
+                    title: '🔧 Programa de Mantenimiento Preventivo',
+                    description: `${maintenanceProblems.length} reportes indican problemas de mantenimiento. Un programa preventivo puede evitar estos issues.`,
+                    actions: 'Implementar inspecciones regulares, crear checklist de mantenimiento, establecer protocolos de reporte rápido.'
+                });
+            }
+            
+            return recommendations;
+        }
+        
+        // Función para mostrar recomendaciones
+        function displayRecommendations(recommendations) {
+            const recommendationsGrid = document.getElementById('recommendationsGrid');
+            recommendationsGrid.innerHTML = '';
+            
+            recommendations.forEach(rec => {
+                const recDiv = document.createElement('div');
+                recDiv.className = 'recommendation-card';
+                
+                recDiv.innerHTML = `
+                    <div class="recommendation-title">${rec.title}</div>
+                    <div class="recommendation-description">${rec.description}</div>
+                    <div class="recommendation-actions"><strong>Acciones sugeridas:</strong> ${rec.actions}</div>
+                `;
+                
+                recommendationsGrid.appendChild(recDiv);
+            });
+            
+            if (recommendations.length === 0) {
+                recommendationsGrid.innerHTML = '<p style="text-align: center; color: var(--text-secondary);">No se generaron recomendaciones específicas.</p>';
+            }
+        }
+        
+        // Función para generar plan de acción
+        function generateActionPlan(analysis, recommendations) {
+            const plan = {
+                title: 'Plan de Acción Prioritizado',
+                steps: []
+            };
+            
+            // Paso 1: Problemas críticos inmediatos
+            const criticalProblems = analysis.detectedProblems.filter(p => p.severity === 'high');
+            if (criticalProblems.length > 0) {
+                plan.steps.push('Atender inmediatamente los problemas críticos identificados (próximas 24 horas)');
+            }
+            
+            // Paso 2: Categorías más problemáticas
+            const topCategories = Object.entries(analysis.problemPatterns)
+                .filter(([cat, problems]) => problems.length > 2)
+                .sort((a, b) => b[1].length - a[1].length)
+                .slice(0, 2);
+            
+            if (topCategories.length > 0) {
+                plan.steps.push(`Enfocar esfuerzos en las áreas más problemáticas: ${topCategories.map(([cat]) => KEYWORD_CATEGORIES[cat]?.category || cat).join(' y ')} (próxima semana)`);
+            }
+            
+            // Paso 3: Capacitación
+            if (recommendations.some(r => r.title.includes('Capacitación'))) {
+                plan.steps.push('Implementar programa de capacitación para el personal de servicio (próximas 2 semanas)');
+            }
+            
+            // Paso 4: Mantenimiento preventivo
+            if (recommendations.some(r => r.title.includes('Mantenimiento'))) {
+                plan.steps.push('Establecer programa de mantenimiento preventivo (próximo mes)');
+            }
+            
+            // Paso 5: Seguimiento
+            plan.steps.push('Implementar sistema de monitoreo continuo de satisfacción del huésped (continuo)');
+            plan.steps.push('Revisar y analizar resultados mensualmente para ajustar estrategias');
+            
+            return plan;
+        }
+        
+        // Función para mostrar plan de acción
+        function displayActionPlan(planData) {
+            const actionPlan = document.getElementById('actionPlan');
+            
+            const stepsHTML = planData.steps.map((step, index) => 
+                `<li><strong>Paso ${index + 1}:</strong> ${step}</li>`
+            ).join('');
+            
+            actionPlan.innerHTML = `
+                <h5>${planData.title}</h5>
+                <ol>
+                    ${stepsHTML}
+                </ol>
+            `;
+        }
+        
+        // Función para exportar detalles de insights
+        function exportInsightsDetails() {
+            if (!window.currentAnalysis) {
+                alert('No hay datos de análisis disponibles.');
+                return;
+            }
+            
+            const insights = window.currentAnalysis.insights;
+            const recommendations = generateSpecificRecommendations(window.currentAnalysis);
+            const actionPlan = generateActionPlan(window.currentAnalysis, recommendations);
+            
+            // Crear contenido CSV
+            let csvContent = "data:text/csv;charset=utf-8,";
+            
+            // Sección de Insights
+            csvContent += "INSIGHTS Y RECOMENDACIONES\\n\\n";
+            csvContent += "Tipo,Prioridad,Descripción\\n";
+            
+            insights.forEach(insight => {
+                const priorityText = insight.priority === 'high' ? 'Alta' : 
+                                  insight.priority === 'medium' ? 'Media' : 'Baja';
+                csvContent += `"Insight","${priorityText}","${insight.text.replace(/"/g, '""')}"\\n`;
+            });
+            
+            // Sección de Recomendaciones
+            csvContent += "\\nRECOMENDACIONES ESPECÍFICAS\\n";
+            csvContent += "Título,Descripción,Acciones Sugeridas\\n";
+            
+            recommendations.forEach(rec => {
+                csvContent += `"${rec.title.replace(/"/g, '""')}","${rec.description.replace(/"/g, '""')}","${rec.actions.replace(/"/g, '""')}"\\n`;
+            });
+            
+            // Sección de Plan de Acción
+            csvContent += "\\nPLAN DE ACCIÓN\\n";
+            csvContent += "Paso,Descripción\\n";
+            
+            actionPlan.steps.forEach((step, index) => {
+                csvContent += `"Paso ${index + 1}","${step.replace(/"/g, '""')}"\\n`;
+            });
+            
+            // Descargar archivo
+            const encodedUri = encodeURI(csvContent);
+            const link = document.createElement("a");
+            link.setAttribute("href", encodedUri);
+            link.setAttribute("download", `insights_recomendaciones_${new Date().toISOString().split('T')[0]}.csv`);
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+
+        // Event Listeners para el modal de insights
+        const insightsDetailsModal = document.getElementById('insightsDetailsModal');
+        const closeInsightsDetailsModal = document.getElementById('closeInsightsDetailsModal');
+        const closeInsightsDetailsBtn = document.getElementById('closeInsightsDetailsBtn');
+        const exportInsightsDetailsBtn = document.getElementById('exportInsightsDetailsBtn');
+
+        closeInsightsDetailsModal.addEventListener('click', () => {
+            insightsDetailsModal.style.display = 'none';
+        });
+
+        closeInsightsDetailsBtn.addEventListener('click', () => {
+            insightsDetailsModal.style.display = 'none';
+        });
+
+        window.addEventListener('click', function(event) {
+            if (event.target == insightsDetailsModal) {
+                insightsDetailsModal.style.display = 'none';
+            }
+        });
+
+        exportInsightsDetailsBtn.addEventListener('click', exportInsightsDetails);
     </script>
 </body>
 </html>
